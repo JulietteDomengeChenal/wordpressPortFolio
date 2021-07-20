@@ -112,7 +112,7 @@
 					window.wp.a11y.speak( wp.i18n.__( 'Term selected.' ), 'assertive' );
 					event.preventDefault();
 				} else if ( $.ui.keyCode.ENTER === event.keyCode ) {
-					// If we're in the edit post Tags meta box, add the tag.
+					// If we're in the edit post Tags metaboxes box, add the tag.
 					if ( window.tagBox ) {
 						window.tagBox.userAction = 'add';
 						window.tagBox.flushTags( $( this ).closest( '.tagsdiv' ) );

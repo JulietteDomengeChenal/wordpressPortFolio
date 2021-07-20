@@ -28,7 +28,7 @@ class WP_Comment_Query {
 	 * Metadata query container
 	 *
 	 * @since 3.5.0
-	 * @var WP_Meta_Query A meta query instance.
+	 * @var WP_Meta_Query A metaboxes query instance.
 	 */
 	public $meta_query = false;
 
@@ -163,9 +163,9 @@ class WP_Comment_Query {
 	 *                                                   `$status`. Default empty.
 	 *     @type int          $karma                     Karma score to retrieve matching comments for.
 	 *                                                   Default empty.
-	 *     @type string       $meta_key                  Include comments with a matching comment meta key.
+	 *     @type string       $meta_key                  Include comments with a matching comment metaboxes key.
 	 *                                                   Default empty.
-	 *     @type string       $meta_value                Include comments with a matching comment meta value.
+	 *     @type string       $meta_value                Include comments with a matching comment metaboxes value.
 	 *                                                   Requires `$meta_key` to be set. Default empty.
 	 *     @type array        $meta_query                Meta query clauses to limit retrieved comments by.
 	 *                                                   See WP_Meta_Query. Default empty.
@@ -361,7 +361,7 @@ class WP_Comment_Query {
 
 		$this->parse_query();
 
-		// Parse meta query.
+		// Parse metaboxes query.
 		$this->meta_query = new WP_Meta_Query();
 		$this->meta_query->parse_query_vars( $this->query_vars );
 

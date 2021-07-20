@@ -375,11 +375,11 @@ function is_taxonomy_hierarchical( $taxonomy ) {
  *                                                the default is inherited from `$show_ui` (default true).
  *     @type bool          $show_admin_column     Whether to display a column for the taxonomy on its post type listing
  *                                                screens. Default false.
- *     @type bool|callable $meta_box_cb           Provide a callback function for the meta box display. If not set,
+ *     @type bool|callable $meta_box_cb           Provide a callback function for the metaboxes box display. If not set,
  *                                                post_categories_meta_box() is used for hierarchical taxonomies, and
- *                                                post_tags_meta_box() is used for non-hierarchical. If false, no meta
+ *                                                post_tags_meta_box() is used for non-hierarchical. If false, no metaboxes
  *                                                box is shown.
- *     @type callable      $meta_box_sanitize_cb  Callback function for sanitizing taxonomy data saved from a meta
+ *     @type callable      $meta_box_sanitize_cb  Callback function for sanitizing taxonomy data saved from a metaboxes
  *                                                box. If no callback is defined, an appropriate one is determined
  *                                                based on the value of `$meta_box_cb`.
  *     @type string[]      $capabilities {
@@ -560,14 +560,14 @@ function unregister_taxonomy( $taxonomy ) {
  *     @type string $add_new_item               Default 'Add New Tag'/'Add New Category'.
  *     @type string $new_item_name              Default 'New Tag Name'/'New Category Name'.
  *     @type string $separate_items_with_commas This label is only used for non-hierarchical taxonomies. Default
- *                                              'Separate tags with commas', used in the meta box.
+ *                                              'Separate tags with commas', used in the metaboxes box.
  *     @type string $add_or_remove_items        This label is only used for non-hierarchical taxonomies. Default
- *                                              'Add or remove tags', used in the meta box when JavaScript
+ *                                              'Add or remove tags', used in the metaboxes box when JavaScript
  *                                              is disabled.
  *     @type string $choose_from_most_used      This label is only used on non-hierarchical taxonomies. Default
- *                                              'Choose from the most used tags', used in the meta box.
+ *                                              'Choose from the most used tags', used in the metaboxes box.
  *     @type string $not_found                  Default 'No tags found'/'No categories found', used in
- *                                              the meta box and taxonomy list table.
+ *                                              the metaboxes box and taxonomy list table.
  *     @type string $no_terms                   Default 'No tags'/'No categories', used in the posts and media
  *                                              list tables.
  *     @type string $filter_by_item             This label is only used for hierarchical taxonomies. Default
@@ -1274,7 +1274,7 @@ function get_terms( $args = array(), $deprecated = '' ) {
  */
 function add_term_meta( $term_id, $meta_key, $meta_value, $unique = false ) {
 	if ( wp_term_is_shared( $term_id ) ) {
-		return new WP_Error( 'ambiguous_term_id', __( 'Term meta cannot be added to terms that are shared between taxonomies.' ), $term_id );
+		return new WP_Error( 'ambiguous_term_id', __( 'Term metaboxes cannot be added to terms that are shared between taxonomies.' ), $term_id );
 	}
 
 	return add_metadata( 'term', $term_id, $meta_key, $meta_value, $unique );
@@ -1302,12 +1302,12 @@ function delete_term_meta( $term_id, $meta_key, $meta_value = '' ) {
  * @since 4.4.0
  *
  * @param int    $term_id Term ID.
- * @param string $key     Optional. The meta key to retrieve. By default,
+ * @param string $key     Optional. The metaboxes key to retrieve. By default,
  *                        returns data for all keys. Default empty.
  * @param bool   $single  Optional. Whether to return a single value.
  *                        This parameter has no effect if $key is not specified.
  *                        Default false.
- * @return mixed An array if $single is false. The value of the meta field
+ * @return mixed An array if $single is false. The value of the metaboxes field
  *               if $single is true. False for an invalid $term_id.
  */
 function get_term_meta( $term_id, $key = '', $single = false ) {
@@ -1317,9 +1317,9 @@ function get_term_meta( $term_id, $key = '', $single = false ) {
 /**
  * Updates term metadata.
  *
- * Use the `$prev_value` parameter to differentiate between meta fields with the same key and term ID.
+ * Use the `$prev_value` parameter to differentiate between metaboxes fields with the same key and term ID.
  *
- * If the meta field for the term does not exist, it will be added.
+ * If the metaboxes field for the term does not exist, it will be added.
  *
  * @since 4.4.0
  *
@@ -1336,7 +1336,7 @@ function get_term_meta( $term_id, $key = '', $single = false ) {
  */
 function update_term_meta( $term_id, $meta_key, $meta_value, $prev_value = '' ) {
 	if ( wp_term_is_shared( $term_id ) ) {
-		return new WP_Error( 'ambiguous_term_id', __( 'Term meta cannot be added to terms that are shared between taxonomies.' ), $term_id );
+		return new WP_Error( 'ambiguous_term_id', __( 'Term metaboxes cannot be added to terms that are shared between taxonomies.' ), $term_id );
 	}
 
 	return update_metadata( 'term', $term_id, $meta_key, $meta_value, $prev_value );
@@ -1358,14 +1358,14 @@ function update_termmeta_cache( $term_ids ) {
 }
 
 /**
- * Get all meta data, including meta IDs, for the given term ID.
+ * Get all metaboxes data, including metaboxes IDs, for the given term ID.
  *
  * @since 4.9.0
  *
  * @global wpdb $wpdb WordPress database abstraction object.
  *
  * @param int $term_id Term ID.
- * @return array|false Array with meta data, or false when the meta table is not installed.
+ * @return array|false Array with metaboxes data, or false when the metaboxes table is not installed.
  */
 function has_term_meta( $term_id ) {
 	$check = wp_check_term_meta_support_prefilter( null );
@@ -1379,16 +1379,16 @@ function has_term_meta( $term_id ) {
 }
 
 /**
- * Registers a meta key for terms.
+ * Registers a metaboxes key for terms.
  *
  * @since 4.9.8
  *
- * @param string $taxonomy Taxonomy to register a meta key for. Pass an empty string
- *                         to register the meta key across all existing taxonomies.
- * @param string $meta_key The meta key to register.
- * @param array  $args     Data used to describe the meta key when registered. See
+ * @param string $taxonomy Taxonomy to register a metaboxes key for. Pass an empty string
+ *                         to register the metaboxes key across all existing taxonomies.
+ * @param string $meta_key The metaboxes key to register.
+ * @param array  $args     Data used to describe the metaboxes key when registered. See
  *                         {@see register_meta()} for a list of supported arguments.
- * @return bool True if the meta key was successfully registered, false if not.
+ * @return bool True if the metaboxes key was successfully registered, false if not.
  */
 function register_term_meta( $taxonomy, $meta_key, array $args ) {
 	$args['object_subtype'] = $taxonomy;
@@ -1397,15 +1397,15 @@ function register_term_meta( $taxonomy, $meta_key, array $args ) {
 }
 
 /**
- * Unregisters a meta key for terms.
+ * Unregisters a metaboxes key for terms.
  *
  * @since 4.9.8
  *
- * @param string $taxonomy Taxonomy the meta key is currently registered for. Pass
- *                         an empty string if the meta key is registered across all
+ * @param string $taxonomy Taxonomy the metaboxes key is currently registered for. Pass
+ *                         an empty string if the metaboxes key is registered across all
  *                         existing taxonomies.
- * @param string $meta_key The meta key to unregister.
- * @return bool True on success, false if the meta key was not previously registered.
+ * @param string $meta_key The metaboxes key to unregister.
+ * @return bool True on success, false if the metaboxes key was not previously registered.
  */
 function unregister_term_meta( $taxonomy, $meta_key ) {
 	return unregister_meta_key( 'term', $meta_key, $taxonomy );
@@ -3842,7 +3842,7 @@ function _pad_term_counts( &$terms, $taxonomy ) {
  * @global wpdb $wpdb WordPress database abstraction object.
  *
  * @param array $term_ids          Array of term IDs.
- * @param bool  $update_meta_cache Optional. Whether to update the meta cache. Default true.
+ * @param bool  $update_meta_cache Optional. Whether to update the metaboxes cache. Default true.
  */
 function _prime_term_caches( $term_ids, $update_meta_cache = true ) {
 	global $wpdb;
@@ -4834,12 +4834,12 @@ function wp_cache_set_terms_last_changed() {
 }
 
 /**
- * Aborts calls to term meta if it is not supported.
+ * Aborts calls to term metaboxes if it is not supported.
  *
  * @since 5.0.0
  *
- * @param mixed $check Skip-value for whether to proceed term meta function execution.
- * @return mixed Original value of $check, or false if term meta is not supported.
+ * @param mixed $check Skip-value for whether to proceed term metaboxes function execution.
+ * @return mixed Original value of $check, or false if term metaboxes is not supported.
  */
 function wp_check_term_meta_support_prefilter( $check ) {
 	if ( get_option( 'db_version' ) < 34370 ) {

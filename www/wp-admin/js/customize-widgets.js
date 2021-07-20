@@ -89,7 +89,7 @@
 		search: function( term ) {
 			var match, haystack;
 
-			// Escape the term string for RegExp meta characters.
+			// Escape the term string for RegExp metaboxes characters.
 			term = term.replace( /[-\/\\^$*+?.()|[\]{}]/g, '\\$&' );
 
 			// Consider spaces as word delimiters and match the whole string
@@ -1619,7 +1619,7 @@
 
 			panel.deferred.embedded.done(function() {
 				var panelMetaContainer, noticeContainer, updateNotice, getActiveSectionCount, shouldShowNotice;
-				panelMetaContainer = panel.container.find( '.panel-meta' );
+				panelMetaContainer = panel.container.find( '.panel-metaboxes' );
 
 				// @todo This should use the Notifications API introduced to panels. See <https://core.trac.wordpress.org/ticket/38794>.
 				noticeContainer = $( '<div></div>', {

@@ -85,7 +85,7 @@ function get_hidden_columns( $screen ) {
 }
 
 /**
- * Prints the meta box preferences for screen meta.
+ * Prints the metaboxes box preferences for screen metaboxes.
  *
  * @since 2.7.0
  *
@@ -140,12 +140,12 @@ function meta_box_prefs( $screen ) {
 }
 
 /**
- * Gets an array of IDs of hidden meta boxes.
+ * Gets an array of IDs of hidden metaboxes boxes.
  *
  * @since 2.7.0
  *
  * @param string|WP_Screen $screen Screen identifier
- * @return string[] IDs of hidden meta boxes.
+ * @return string[] IDs of hidden metaboxes boxes.
  */
 function get_hidden_meta_boxes( $screen ) {
 	if ( is_string( $screen ) ) {
@@ -168,24 +168,24 @@ function get_hidden_meta_boxes( $screen ) {
 		}
 
 		/**
-		 * Filters the default list of hidden meta boxes.
+		 * Filters the default list of hidden metaboxes boxes.
 		 *
 		 * @since 3.1.0
 		 *
-		 * @param string[]  $hidden An array of IDs of meta boxes hidden by default.
+		 * @param string[]  $hidden An array of IDs of metaboxes boxes hidden by default.
 		 * @param WP_Screen $screen WP_Screen object of the current screen.
 		 */
 		$hidden = apply_filters( 'default_hidden_meta_boxes', $hidden, $screen );
 	}
 
 	/**
-	 * Filters the list of hidden meta boxes.
+	 * Filters the list of hidden metaboxes boxes.
 	 *
 	 * @since 3.3.0
 	 *
-	 * @param string[]  $hidden       An array of IDs of hidden meta boxes.
+	 * @param string[]  $hidden       An array of IDs of hidden metaboxes boxes.
 	 * @param WP_Screen $screen       WP_Screen object of the current screen.
-	 * @param bool      $use_defaults Whether to show the default meta boxes.
+	 * @param bool      $use_defaults Whether to show the default metaboxes boxes.
 	 *                                Default true.
 	 */
 	return apply_filters( 'hidden_meta_boxes', $hidden, $screen, $use_defaults );

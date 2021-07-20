@@ -809,7 +809,7 @@ class wp_xmlrpc_server extends IXR_Server {
 		// Count we are happy to return as an integer because people really shouldn't use terms that much.
 		$_term['count'] = (int) $_term['count'];
 
-		// Get term meta.
+		// Get term metaboxes.
 		$_term['custom_fields'] = $this->get_term_custom_fields( $_term['term_id'] );
 
 		/**
@@ -1247,13 +1247,13 @@ class wp_xmlrpc_server extends IXR_Server {
 	 *         @type bool   $sticky         Whether the post should be sticky. Automatically false if
 	 *                                      `$post_status` is 'private'.
 	 *         @type int    $post_thumbnail ID of an image to use as the post thumbnail/featured image.
-	 *         @type array  $custom_fields  Array of meta key/value pairs to add to the post.
+	 *         @type array  $custom_fields  Array of metaboxes key/value pairs to add to the post.
 	 *         @type array  $terms          Associative array with taxonomy names as keys and arrays
 	 *                                      of term IDs as values.
 	 *         @type array  $terms_names    Associative array with taxonomy names as keys and arrays
 	 *                                      of term names as values.
 	 *         @type array  $enclosure      {
-	 *             Array of feed enclosure data to add to post meta.
+	 *             Array of feed enclosure data to add to post metaboxes.
 	 *
 	 *             @type string $url    URL for the feed enclosure.
 	 *             @type int    $length Size in bytes of the enclosure.
@@ -2092,7 +2092,7 @@ class wp_xmlrpc_server extends IXR_Server {
 			return new IXR_Error( 500, __( 'Sorry, the term could not be created.' ) );
 		}
 
-		// Add term meta.
+		// Add term metaboxes.
 		if ( isset( $content_struct['custom_fields'] ) ) {
 			$this->set_term_custom_fields( $term['term_id'], $content_struct['custom_fields'] );
 		}
@@ -2210,7 +2210,7 @@ class wp_xmlrpc_server extends IXR_Server {
 			return new IXR_Error( 500, __( 'Sorry, editing the term failed.' ) );
 		}
 
-		// Update term meta.
+		// Update term metaboxes.
 		if ( isset( $content_struct['custom_fields'] ) ) {
 			$this->set_term_custom_fields( $term_id, $content_struct['custom_fields'] );
 		}

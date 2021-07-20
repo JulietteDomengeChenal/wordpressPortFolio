@@ -587,7 +587,7 @@ window.wp = window.wp || {};
 	 *
 	 * The controls view.
 	 *
-	 * Contains the revision slider, previous/next buttons, the meta info and the compare checkbox.
+	 * Contains the revision slider, previous/next buttons, the metaboxes info and the compare checkbox.
 	 */
 	revisions.view.Controls = wp.Backbone.View.extend({
 		className: 'revisions-controls',
@@ -723,13 +723,13 @@ window.wp = window.wp || {};
 
 	// The metabox view.
 	revisions.view.Metabox = wp.Backbone.View.extend({
-		className: 'revisions-meta',
+		className: 'revisions-metaboxes',
 
 		initialize: function() {
 			// Add the 'from' view.
 			this.views.add( new revisions.view.MetaFrom({
 				model: this.model,
-				className: 'diff-meta diff-meta-from'
+				className: 'diff-metaboxes diff-metaboxes-from'
 			}) );
 
 			// Add the 'to' view.
@@ -739,9 +739,9 @@ window.wp = window.wp || {};
 		}
 	});
 
-	// The revision meta view (to be extended).
+	// The revision metaboxes view (to be extended).
 	revisions.view.Meta = wp.Backbone.View.extend({
-		template: wp.template('revisions-meta'),
+		template: wp.template('revisions-metaboxes'),
 
 		events: {
 			'click .restore-revision': 'restoreRevision'
@@ -762,15 +762,15 @@ window.wp = window.wp || {};
 		}
 	});
 
-	// The revision meta 'from' view.
+	// The revision metaboxes 'from' view.
 	revisions.view.MetaFrom = revisions.view.Meta.extend({
-		className: 'diff-meta diff-meta-from',
+		className: 'diff-metaboxes diff-metaboxes-from',
 		type: 'from'
 	});
 
-	// The revision meta 'to' view.
+	// The revision metaboxes 'to' view.
 	revisions.view.MetaTo = revisions.view.Meta.extend({
-		className: 'diff-meta diff-meta-to',
+		className: 'diff-metaboxes diff-metaboxes-to',
 		type: 'to'
 	});
 
@@ -808,7 +808,7 @@ window.wp = window.wp || {};
 	// Encapsulates the tooltip.
 	revisions.view.Tooltip = wp.Backbone.View.extend({
 		className: 'revisions-tooltip',
-		template: wp.template('revisions-meta'),
+		template: wp.template('revisions-metaboxes'),
 
 		initialize: function() {
 			this.listenTo( this.model, 'change:offset', this.render );

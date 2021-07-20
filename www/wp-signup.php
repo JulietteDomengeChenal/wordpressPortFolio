@@ -448,24 +448,24 @@ function validate_another_blog_signup() {
 	}
 
 	/**
-	 * Filters the new site meta variables.
+	 * Filters the new site metaboxes variables.
 	 *
 	 * Use the {@see 'add_signup_meta'} filter instead.
 	 *
 	 * @since MU (3.0.0)
 	 * @deprecated 3.0.0 Use the {@see 'add_signup_meta'} filter instead.
 	 *
-	 * @param array $blog_meta_defaults An array of default blog meta variables.
+	 * @param array $blog_meta_defaults An array of default blog metaboxes variables.
 	 */
 	$meta_defaults = apply_filters_deprecated( 'signup_create_blog_meta', array( $blog_meta_defaults ), '3.0.0', 'add_signup_meta' );
 
 	/**
-	 * Filters the new default site meta variables.
+	 * Filters the new default site metaboxes variables.
 	 *
 	 * @since 3.0.0
 	 *
 	 * @param array $meta {
-	 *     An array of default site meta variables.
+	 *     An array of default site metaboxes variables.
 	 *
 	 *     @type int $lang_id     The language ID.
 	 *     @type int $blog_public Whether search engines should be discouraged from indexing the site. 1 for true, 0 for false.
@@ -494,7 +494,7 @@ function validate_another_blog_signup() {
  * @param string $blog_title The site title.
  * @param string $user_name  The username.
  * @param string $user_email The user's email address.
- * @param array  $meta       Any additional meta from the {@see 'add_signup_meta'} filter in validate_blog_signup().
+ * @param array  $meta       Any additional metaboxes from the {@see 'add_signup_meta'} filter in validate_blog_signup().
  * @param int    $blog_id    The site ID.
  */
 function confirm_another_blog_signup( $domain, $path, $blog_title, $user_name, $user_email = '', $meta = array(), $blog_id = 0 ) {
@@ -816,7 +816,7 @@ function validate_blog_signup() {
  * @param string $blog_title The title of the new site.
  * @param string $user_name  The user's username.
  * @param string $user_email The user's email address.
- * @param array  $meta       Any additional meta from the {@see 'add_signup_meta'} filter in validate_blog_signup().
+ * @param array  $meta       Any additional metaboxes from the {@see 'add_signup_meta'} filter in validate_blog_signup().
  */
 function confirm_blog_signup( $domain, $path, $blog_title, $user_name = '', $user_email = '', $meta = array() ) {
 	?>

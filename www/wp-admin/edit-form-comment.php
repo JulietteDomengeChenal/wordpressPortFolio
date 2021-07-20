@@ -216,11 +216,11 @@ endif;
 
 <div id="postbox-container-2" class="postbox-container">
 <?php
-/** This action is documented in wp-admin/includes/meta-boxes.php */
+/** This action is documented in wp-admin/includes/metaboxes-boxes.php */
 do_action( 'add_meta_boxes', 'comment', $comment );
 
 /**
- * Fires when comment-specific meta boxes are added.
+ * Fires when comment-specific metaboxes boxes are added.
  *
  * @since 3.0.0
  *

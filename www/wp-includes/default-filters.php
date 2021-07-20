@@ -98,12 +98,12 @@ add_filter( 'post_mime_type', 'sanitize_mime_type' );
 // Meta.
 add_filter( 'register_meta_args', '_wp_register_meta_args_allowed_list', 10, 2 );
 
-// Post meta.
+// Post metaboxes.
 add_action( 'added_post_meta', 'wp_cache_set_posts_last_changed' );
 add_action( 'updated_post_meta', 'wp_cache_set_posts_last_changed' );
 add_action( 'deleted_post_meta', 'wp_cache_set_posts_last_changed' );
 
-// Term meta.
+// Term metaboxes.
 add_action( 'added_term_meta', 'wp_cache_set_terms_last_changed' );
 add_action( 'updated_term_meta', 'wp_cache_set_terms_last_changed' );
 add_action( 'deleted_term_meta', 'wp_cache_set_terms_last_changed' );
@@ -116,7 +116,7 @@ add_filter( 'update_term_metadata_by_mid', 'wp_check_term_meta_support_prefilter
 add_filter( 'delete_term_metadata_by_mid', 'wp_check_term_meta_support_prefilter' );
 add_filter( 'update_term_metadata_cache', 'wp_check_term_meta_support_prefilter' );
 
-// Comment meta.
+// Comment metaboxes.
 add_action( 'added_comment_meta', 'wp_cache_set_comments_last_changed' );
 add_action( 'updated_comment_meta', 'wp_cache_set_comments_last_changed' );
 add_action( 'deleted_comment_meta', 'wp_cache_set_comments_last_changed' );

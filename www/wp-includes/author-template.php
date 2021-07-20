@@ -224,7 +224,7 @@ function the_author_meta( $field = '', $user_id = false ) {
  *
  * @since 3.0.0
  *
- * @return string|null An HTML link if the author's url exist in user meta,
+ * @return string|null An HTML link if the author's url exist in user metaboxes,
  *                     else the result of get_the_author().
  */
 function get_the_author_link() {

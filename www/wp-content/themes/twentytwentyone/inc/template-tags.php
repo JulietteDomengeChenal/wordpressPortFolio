@@ -9,7 +9,7 @@
 
 if ( ! function_exists( 'twenty_twenty_one_posted_on' ) ) {
 	/**
-	 * Prints HTML with meta information for the current post-date/time.
+	 * Prints HTML with metaboxes information for the current post-date/time.
 	 *
 	 * @since Twenty Twenty-One 1.0
 	 *
@@ -35,7 +35,7 @@ if ( ! function_exists( 'twenty_twenty_one_posted_on' ) ) {
 
 if ( ! function_exists( 'twenty_twenty_one_posted_by' ) ) {
 	/**
-	 * Prints HTML with meta information about theme author.
+	 * Prints HTML with metaboxes information about theme author.
 	 *
 	 * @since Twenty Twenty-One 1.0
 	 *
@@ -56,8 +56,8 @@ if ( ! function_exists( 'twenty_twenty_one_posted_by' ) ) {
 
 if ( ! function_exists( 'twenty_twenty_one_entry_meta_footer' ) ) {
 	/**
-	 * Prints HTML with meta information for the categories, tags and comments.
-	 * Footer entry meta is displayed differently in archives and single posts.
+	 * Prints HTML with metaboxes information for the categories, tags and comments.
+	 * Footer entry metaboxes is displayed differently in archives and single posts.
 	 *
 	 * @since Twenty Twenty-One 1.0
 	 *
@@ -70,7 +70,7 @@ if ( ! function_exists( 'twenty_twenty_one_entry_meta_footer' ) ) {
 			return;
 		}
 
-		// Hide meta information on pages.
+		// Hide metaboxes information on pages.
 		if ( ! is_single() ) {
 
 			if ( is_sticky() ) {

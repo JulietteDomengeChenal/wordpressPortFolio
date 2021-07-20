@@ -29,7 +29,7 @@ class WP_Widget_Meta extends WP_Widget {
 			'description'                 => __( 'Login, RSS, &amp; WordPress.org links.' ),
 			'customize_selective_refresh' => true,
 		);
-		parent::__construct( 'meta', __( 'Meta' ), $widget_ops );
+		parent::__construct( 'metaboxes', __( 'Meta' ), $widget_ops );
 	}
 
 	/**

@@ -8,14 +8,14 @@
  */
 
 /**
- * Core class to manage meta values for an object via the REST API.
+ * Core class to manage metaboxes values for an object via the REST API.
  *
  * @since 4.7.0
  */
 abstract class WP_REST_Meta_Fields {
 
 	/**
-	 * Retrieves the object meta type.
+	 * Retrieves the object metaboxes type.
 	 *
 	 * @since 4.7.0
 	 *
@@ -25,11 +25,11 @@ abstract class WP_REST_Meta_Fields {
 	abstract protected function get_meta_type();
 
 	/**
-	 * Retrieves the object meta subtype.
+	 * Retrieves the object metaboxes subtype.
 	 *
 	 * @since 4.9.8
 	 *
-	 * @return string Subtype for the meta type, or empty string if no specific subtype.
+	 * @return string Subtype for the metaboxes type, or empty string if no specific subtype.
 	 */
 	protected function get_meta_subtype() {
 		return '';
@@ -45,7 +45,7 @@ abstract class WP_REST_Meta_Fields {
 	abstract protected function get_rest_field_type();
 
 	/**
-	 * Registers the meta field.
+	 * Registers the metaboxes field.
 	 *
 	 * @since 4.7.0
 	 * @deprecated 5.6.0
@@ -57,7 +57,7 @@ abstract class WP_REST_Meta_Fields {
 
 		register_rest_field(
 			$this->get_rest_field_type(),
-			'meta',
+			'metaboxes',
 			array(
 				'get_callback'    => array( $this, 'get_value' ),
 				'update_callback' => array( $this, 'update_value' ),
@@ -67,13 +67,13 @@ abstract class WP_REST_Meta_Fields {
 	}
 
 	/**
-	 * Retrieves the meta field value.
+	 * Retrieves the metaboxes field value.
 	 *
 	 * @since 4.7.0
 	 *
-	 * @param int             $object_id Object ID to fetch meta for.
+	 * @param int             $object_id Object ID to fetch metaboxes for.
 	 * @param WP_REST_Request $request   Full details about the request.
-	 * @return array Array containing the meta values keyed by name.
+	 * @return array Array containing the metaboxes values keyed by name.
 	 */
 	public function get_value( $object_id, $request ) {
 		$fields   = $this->get_registered_fields();
@@ -106,7 +106,7 @@ abstract class WP_REST_Meta_Fields {
 	}
 
 	/**
-	 * Prepares a meta value for a response.
+	 * Prepares a metaboxes value for a response.
 	 *
 	 * This is required because some native types cannot be stored correctly
 	 * in the database, such as booleans. We need to cast back to the relevant
@@ -128,12 +128,12 @@ abstract class WP_REST_Meta_Fields {
 	}
 
 	/**
-	 * Updates meta values.
+	 * Updates metaboxes values.
 	 *
 	 * @since 4.7.0
 	 *
-	 * @param array $meta      Array of meta parsed from the request.
-	 * @param int   $object_id Object ID to fetch meta for.
+	 * @param array $meta      Array of metaboxes parsed from the request.
+	 * @param int   $object_id Object ID to fetch metaboxes for.
 	 * @return null|WP_Error Null on success, WP_Error object on failure.
 	 */
 	public function update_value( $meta, $object_id ) {
@@ -151,7 +151,7 @@ abstract class WP_REST_Meta_Fields {
 			 * A null value means reset the field, which is essentially deleting it
 			 * from the database and then relying on the default value.
 			 *
-			 * Non-single meta can also be removed by passing an empty array.
+			 * Non-single metaboxes can also be removed by passing an empty array.
 			 */
 			if ( is_null( $value ) || ( array() === $value && ! $args['single'] ) ) {
 				$args = $this->get_registered_fields()[ $meta_key ];
@@ -185,7 +185,7 @@ abstract class WP_REST_Meta_Fields {
 				);
 			}
 
-			$is_valid = rest_validate_value_from_schema( $value, $args['schema'], 'meta.' . $name );
+			$is_valid = rest_validate_value_from_schema( $value, $args['schema'], 'metaboxes.' . $name );
 			if ( is_wp_error( $is_valid ) ) {
 				$is_valid->add_data( array( 'status' => 400 ) );
 				return $is_valid;
@@ -208,14 +208,14 @@ abstract class WP_REST_Meta_Fields {
 	}
 
 	/**
-	 * Deletes a meta value for an object.
+	 * Deletes a metaboxes value for an object.
 	 *
 	 * @since 4.7.0
 	 *
 	 * @param int    $object_id Object ID the field belongs to.
 	 * @param string $meta_key  Key for the field.
 	 * @param string $name      Name for the field that is exposed in the REST API.
-	 * @return true|WP_Error True if meta field is deleted, WP_Error otherwise.
+	 * @return true|WP_Error True if metaboxes field is deleted, WP_Error otherwise.
 	 */
 	protected function delete_meta_value( $object_id, $meta_key, $name ) {
 		$meta_type = $this->get_meta_type();
@@ -239,7 +239,7 @@ abstract class WP_REST_Meta_Fields {
 		if ( ! delete_metadata( $meta_type, $object_id, wp_slash( $meta_key ) ) ) {
 			return new WP_Error(
 				'rest_meta_database_error',
-				__( 'Could not delete meta value from database.' ),
+				__( 'Could not delete metaboxes value from database.' ),
 				array(
 					'key'    => $name,
 					'status' => WP_Http::INTERNAL_SERVER_ERROR,
@@ -251,7 +251,7 @@ abstract class WP_REST_Meta_Fields {
 	}
 
 	/**
-	 * Updates multiple meta values for an object.
+	 * Updates multiple metaboxes values for an object.
 	 *
 	 * Alters the list of values in the database to match the list of provided values.
 	 *
@@ -261,7 +261,7 @@ abstract class WP_REST_Meta_Fields {
 	 * @param string $meta_key  Key for the custom field.
 	 * @param string $name      Name for the field that is exposed in the REST API.
 	 * @param array  $values    List of values to update to.
-	 * @return true|WP_Error True if meta fields are updated, WP_Error otherwise.
+	 * @return true|WP_Error True if metaboxes fields are updated, WP_Error otherwise.
 	 */
 	protected function update_multi_meta_value( $object_id, $meta_key, $name, $values ) {
 		$meta_type = $this->get_meta_type();
@@ -321,7 +321,7 @@ abstract class WP_REST_Meta_Fields {
 				return new WP_Error(
 					'rest_meta_database_error',
 					/* translators: %s: Custom field key. */
-					sprintf( __( 'Could not update the meta value of %s in database.' ), $meta_key ),
+					sprintf( __( 'Could not update the metaboxes value of %s in database.' ), $meta_key ),
 					array(
 						'key'    => $name,
 						'status' => WP_Http::INTERNAL_SERVER_ERROR,
@@ -335,7 +335,7 @@ abstract class WP_REST_Meta_Fields {
 				return new WP_Error(
 					'rest_meta_database_error',
 					/* translators: %s: Custom field key. */
-					sprintf( __( 'Could not update the meta value of %s in database.' ), $meta_key ),
+					sprintf( __( 'Could not update the metaboxes value of %s in database.' ), $meta_key ),
 					array(
 						'key'    => $name,
 						'status' => WP_Http::INTERNAL_SERVER_ERROR,
@@ -348,7 +348,7 @@ abstract class WP_REST_Meta_Fields {
 	}
 
 	/**
-	 * Updates a meta value for an object.
+	 * Updates a metaboxes value for an object.
 	 *
 	 * @since 4.7.0
 	 *
@@ -356,7 +356,7 @@ abstract class WP_REST_Meta_Fields {
 	 * @param string $meta_key  Key for the custom field.
 	 * @param string $name      Name for the field that is exposed in the REST API.
 	 * @param mixed  $value     Updated value.
-	 * @return true|WP_Error True if the meta field was updated, WP_Error otherwise.
+	 * @return true|WP_Error True if the metaboxes field was updated, WP_Error otherwise.
 	 */
 	protected function update_meta_value( $object_id, $meta_key, $name, $value ) {
 		$meta_type = $this->get_meta_type();
@@ -385,7 +385,7 @@ abstract class WP_REST_Meta_Fields {
 			return new WP_Error(
 				'rest_meta_database_error',
 				/* translators: %s: Custom field key. */
-				sprintf( __( 'Could not update the meta value of %s in database.' ), $meta_key ),
+				sprintf( __( 'Could not update the metaboxes value of %s in database.' ), $meta_key ),
 				array(
 					'key'    => $name,
 					'status' => WP_Http::INTERNAL_SERVER_ERROR,
@@ -397,11 +397,11 @@ abstract class WP_REST_Meta_Fields {
 	}
 
 	/**
-	 * Checks if the user provided value is equivalent to a stored value for the given meta key.
+	 * Checks if the user provided value is equivalent to a stored value for the given metaboxes key.
 	 *
 	 * @since 5.5.0
 	 *
-	 * @param string $meta_key     The meta key being checked.
+	 * @param string $meta_key     The metaboxes key being checked.
 	 * @param string $subtype      The object subtype.
 	 * @param mixed  $stored_value The currently stored value retrieved from get_metadata().
 	 * @param mixed  $user_value   The value provided by the user.
@@ -420,7 +420,7 @@ abstract class WP_REST_Meta_Fields {
 	}
 
 	/**
-	 * Retrieves all the registered meta fields.
+	 * Retrieves all the registered metaboxes fields.
 	 *
 	 * @since 4.7.0
 	 *
@@ -492,7 +492,7 @@ abstract class WP_REST_Meta_Fields {
 	}
 
 	/**
-	 * Retrieves the object's meta schema, conforming to JSON Schema.
+	 * Retrieves the object's metaboxes schema, conforming to JSON Schema.
 	 *
 	 * @since 4.7.0
 	 *
@@ -520,16 +520,16 @@ abstract class WP_REST_Meta_Fields {
 	}
 
 	/**
-	 * Prepares a meta value for output.
+	 * Prepares a metaboxes value for output.
 	 *
-	 * Default preparation for meta fields. Override by passing the
+	 * Default preparation for metaboxes fields. Override by passing the
 	 * `prepare_callback` in your `show_in_rest` options.
 	 *
 	 * @since 4.7.0
 	 *
 	 * @param mixed           $value   Meta value from the database.
 	 * @param WP_REST_Request $request Request object.
-	 * @param array           $args    REST-specific options for the meta key.
+	 * @param array           $args    REST-specific options for the metaboxes key.
 	 * @return mixed Value prepared for output. If a non-JsonSerializable object, null.
 	 */
 	public static function prepare_value( $value, $request, $args ) {
@@ -551,14 +551,14 @@ abstract class WP_REST_Meta_Fields {
 	}
 
 	/**
-	 * Check the 'meta' value of a request is an associative array.
+	 * Check the 'metaboxes' value of a request is an associative array.
 	 *
 	 * @since 4.7.0
 	 *
-	 * @param mixed           $value   The meta value submitted in the request.
+	 * @param mixed           $value   The metaboxes value submitted in the request.
 	 * @param WP_REST_Request $request Full details about the request.
 	 * @param string          $param   The parameter name.
-	 * @return array|false The meta array, if valid, false otherwise.
+	 * @return array|false The metaboxes array, if valid, false otherwise.
 	 */
 	public function check_meta_is_array( $value, $request, $param ) {
 		if ( ! is_array( $value ) ) {
@@ -572,7 +572,7 @@ abstract class WP_REST_Meta_Fields {
 	 * Recursively add additionalProperties = false to all objects in a schema if no additionalProperties setting
 	 * is specified.
 	 *
-	 * This is needed to restrict properties of objects in meta values to only
+	 * This is needed to restrict properties of objects in metaboxes values to only
 	 * registered items, as the REST API will allow additional properties by
 	 * default.
 	 *

@@ -29,7 +29,7 @@ class WP_Term_Query {
 	 * Metadata query container.
 	 *
 	 * @since 4.6.0
-	 * @var WP_Meta_Query A meta query instance.
+	 * @var WP_Meta_Query A metaboxes query instance.
 	 */
 	public $meta_query = false;
 
@@ -174,7 +174,7 @@ class WP_Term_Query {
 	 *                                                Default false.
 	 *     @type string       $cache_domain           Unique cache key to be produced when this query is stored in
 	 *                                                an object cache. Default is 'core'.
-	 *     @type bool         $update_term_meta_cache Whether to prime meta caches for matched terms. Default true.
+	 *     @type bool         $update_term_meta_cache Whether to prime metaboxes caches for matched terms. Default true.
 	 *     @type array        $meta_query             Optional. Meta query clauses to limit retrieved terms by.
 	 *                                                See `WP_Meta_Query`. Default empty.
 	 *     @type string       $meta_key               Limit terms to those matching a specific metadata key.
@@ -917,7 +917,7 @@ class WP_Term_Query {
 		} else {
 			$orderby = 't.name';
 
-			// This may be a value of orderby related to meta.
+			// This may be a value of orderby related to metaboxes.
 			$maybe_orderby_meta = true;
 		}
 
@@ -944,7 +944,7 @@ class WP_Term_Query {
 	}
 
 	/**
-	 * Generate the ORDER BY clause for an 'orderby' param that is potentially related to a meta query.
+	 * Generate the ORDER BY clause for an 'orderby' param that is potentially related to a metaboxes query.
 	 *
 	 * @since 4.6.0
 	 *
@@ -954,7 +954,7 @@ class WP_Term_Query {
 	protected function parse_orderby_meta( $orderby_raw ) {
 		$orderby = '';
 
-		// Tell the meta query to generate its SQL, so we have access to table aliases.
+		// Tell the metaboxes query to generate its SQL, so we have access to table aliases.
 		$this->meta_query->get_sql( 'term', 't', 'term_id' );
 		$meta_clauses = $this->meta_query->get_clauses();
 		if ( ! $meta_clauses || ! $orderby_raw ) {

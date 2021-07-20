@@ -484,9 +484,9 @@ function create_initial_post_types() {
  * passing a true to the $unfiltered argument of get_attached_file() will
  * return the file path unfiltered.
  *
- * The function works by getting the single post meta name, named
+ * The function works by getting the single post metaboxes name, named
  * '_wp_attached_file' and returning it. This is a convenience function to
- * prevent looking up the meta name and provide a mechanism for sending the
+ * prevent looking up the metaboxes name and provide a mechanism for sending the
  * attached filename through a filter.
  *
  * @since 2.0.0
@@ -524,7 +524,7 @@ function get_attached_file( $attachment_id, $unfiltered = false ) {
 /**
  * Update attachment file path based on attachment ID.
  *
- * Used to update the file path of the attachment, which uses post meta name
+ * Used to update the file path of the attachment, which uses post metaboxes name
  * '_wp_attached_file' to store the path of the attachment.
  *
  * @since 2.1.0
@@ -1302,7 +1302,7 @@ function get_post_types( $args = array(), $output = 'names', $operator = 'and' )
  * are used.
  *
  * Post types can support any number of built-in core features such
- * as meta boxes, custom fields, post thumbnails, post statuses,
+ * as metaboxes boxes, custom fields, post thumbnails, post statuses,
  * comments, and more. See the `$supports` argument for a complete
  * list of supported features.
  *
@@ -1378,7 +1378,7 @@ function get_post_types( $args = array(), $output = 'names', $operator = 'and' )
  *     @type string[]     $capabilities          Array of capabilities for this post type. $capability_type is used
  *                                               as a base to construct capabilities by default.
  *                                               See get_post_type_capabilities().
- *     @type bool         $map_meta_cap          Whether to use the internal default meta capability handling.
+ *     @type bool         $map_meta_cap          Whether to use the internal default metaboxes capability handling.
  *                                               Default false.
  *     @type array        $supports              Core feature(s) the post type supports. Serves as an alias for calling
  *                                               add_post_type_support() directly. Core features include 'title',
@@ -1391,7 +1391,7 @@ function get_post_types( $args = array(), $output = 'names', $operator = 'and' )
  *                                               about supporting that feature.
  *                                               Example: `array( 'my_feature', array( 'field' => 'value' ) )`.
  *                                               Default is an array containing 'title' and 'editor'.
- *     @type callable     $register_meta_box_cb  Provide a callback function that sets up the meta boxes for the
+ *     @type callable     $register_meta_box_cb  Provide a callback function that sets up the metaboxes boxes for the
  *                                               edit form. Do remove_meta_box() and add_meta_box() calls in the
  *                                               callback. Default null.
  *     @type string[]     $taxonomies            An array of taxonomy identifiers that will be registered for the
@@ -1545,7 +1545,7 @@ function unregister_post_type( $post_type ) {
  *
  * By default, eight keys are accepted as part of the capabilities array:
  *
- * - edit_post, read_post, and delete_post are meta capabilities, which are then
+ * - edit_post, read_post, and delete_post are metaboxes capabilities, which are then
  *   generally mapped to corresponding primitive capabilities depending on the
  *   context, which would be the post being edited/read/deleted and the user or
  *   role being checked. Thus these capabilities would generally not be granted
@@ -1562,7 +1562,7 @@ function unregister_post_type( $post_type ) {
  * These five primitive capabilities are checked in core in various locations.
  * There are also six other primitive capabilities which are not referenced
  * directly in core, except in map_meta_cap(), which takes the three aforementioned
- * meta capabilities and translates them into one or more primitive capabilities
+ * metaboxes capabilities and translates them into one or more primitive capabilities
  * that must then be checked against the user or role, depending on the context.
  *
  * - read - Controls whether objects of this post type can be read.
@@ -1592,7 +1592,7 @@ function get_post_type_capabilities( $args ) {
 		$args->capability_type = array( $args->capability_type, $args->capability_type . 's' );
 	}
 
-	// Singular base for meta capabilities, plural base for primitive capabilities.
+	// Singular base for metaboxes capabilities, plural base for primitive capabilities.
 	list( $singular_base, $plural_base ) = $args->capability_type;
 
 	$default_capabilities = array(
@@ -1628,7 +1628,7 @@ function get_post_type_capabilities( $args ) {
 		$capabilities['create_posts'] = $capabilities['edit_posts'];
 	}
 
-	// Remember meta capabilities for future reference.
+	// Remember metaboxes capabilities for future reference.
 	if ( $args->map_meta_cap ) {
 		_post_type_meta_capabilities( $capabilities );
 	}
@@ -1637,14 +1637,14 @@ function get_post_type_capabilities( $args ) {
 }
 
 /**
- * Store or return a list of post type meta caps for map_meta_cap().
+ * Store or return a list of post type metaboxes caps for map_meta_cap().
  *
  * @since 3.1.0
  * @access private
  *
- * @global array $post_type_meta_caps Used to store meta capabilities.
+ * @global array $post_type_meta_caps Used to store metaboxes capabilities.
  *
- * @param string[] $capabilities Post type meta capabilities.
+ * @param string[] $capabilities Post type metaboxes capabilities.
  */
 function _post_type_meta_capabilities( $capabilities = null ) {
 	global $post_type_meta_caps;
@@ -1680,11 +1680,11 @@ function _post_type_meta_capabilities( $capabilities = null ) {
  *                       post types. Default is 'Parent Page:'.
  * - `all_items` - Label to signify all items in a submenu link. Default is 'All Posts' / 'All Pages'.
  * - `archives` - Label for archives in nav menus. Default is 'Post Archives' / 'Page Archives'.
- * - `attributes` - Label for the attributes meta box. Default is 'Post Attributes' / 'Page Attributes'.
+ * - `attributes` - Label for the attributes metaboxes box. Default is 'Post Attributes' / 'Page Attributes'.
  * - `insert_into_item` - Label for the media frame button. Default is 'Insert into post' / 'Insert into page'.
  * - `uploaded_to_this_item` - Label for the media frame filter. Default is 'Uploaded to this post' /
  *                           'Uploaded to this page'.
- * - `featured_image` - Label for the featured image meta box title. Default is 'Featured image'.
+ * - `featured_image` - Label for the featured image metaboxes box title. Default is 'Featured image'.
  * - `set_featured_image` - Label for setting the featured image. Default is 'Set featured image'.
  * - `remove_featured_image` - Label for removing the featured image. Default is 'Remove featured image'.
  * - `use_featured_image` - Label in the media frame for using a featured image. Default is 'Use as featured image'.
@@ -1855,7 +1855,7 @@ function _add_post_type_submenus() {
  * Registers support of certain features for a post type.
  *
  * All core features are directly associated with a functional area of the edit
- * screen, such as the editor or a meta box. Features include: 'title', 'editor',
+ * screen, such as the editor or a metaboxes box. Features include: 'title', 'editor',
  * 'comments', 'revisions', 'trackbacks', 'author', 'excerpt', 'page-attributes',
  * 'thumbnail', 'custom-fields', and 'post-formats'.
  *
@@ -2155,13 +2155,13 @@ function get_posts( $args = null ) {
 }
 
 //
-// Post meta functions.
+// Post metaboxes functions.
 //
 
 /**
- * Adds a meta field to the given post.
+ * Adds a metaboxes field to the given post.
  *
- * Post meta data is called "Custom Fields" on the Administration Screen.
+ * Post metaboxes data is called "Custom Fields" on the Administration Screen.
  *
  * @since 1.5.0
  *
@@ -2173,7 +2173,7 @@ function get_posts( $args = null ) {
  * @return int|false Meta ID on success, false on failure.
  */
 function add_post_meta( $post_id, $meta_key, $meta_value, $unique = false ) {
-	// Make sure meta is added to the post, not a revision.
+	// Make sure metaboxes is added to the post, not a revision.
 	$the_post = wp_is_post_revision( $post_id );
 	if ( $the_post ) {
 		$post_id = $the_post;
@@ -2183,7 +2183,7 @@ function add_post_meta( $post_id, $meta_key, $meta_value, $unique = false ) {
 }
 
 /**
- * Deletes a post meta field for the given post ID.
+ * Deletes a post metaboxes field for the given post ID.
  *
  * You can match based on the key, or key and value. Removing based on key and
  * value, will keep from removing duplicate metadata with the same key. It also
@@ -2199,7 +2199,7 @@ function add_post_meta( $post_id, $meta_key, $meta_value, $unique = false ) {
  * @return bool True on success, false on failure.
  */
 function delete_post_meta( $post_id, $meta_key, $meta_value = '' ) {
-	// Make sure meta is added to the post, not a revision.
+	// Make sure metaboxes is added to the post, not a revision.
 	$the_post = wp_is_post_revision( $post_id );
 	if ( $the_post ) {
 		$post_id = $the_post;
@@ -2209,17 +2209,17 @@ function delete_post_meta( $post_id, $meta_key, $meta_value = '' ) {
 }
 
 /**
- * Retrieves a post meta field for the given post ID.
+ * Retrieves a post metaboxes field for the given post ID.
  *
  * @since 1.5.0
  *
  * @param int    $post_id Post ID.
- * @param string $key     Optional. The meta key to retrieve. By default,
+ * @param string $key     Optional. The metaboxes key to retrieve. By default,
  *                        returns data for all keys. Default empty.
  * @param bool   $single  Optional. Whether to return a single value.
  *                        This parameter has no effect if $key is not specified.
  *                        Default false.
- * @return mixed An array if $single is false. The value of the meta field
+ * @return mixed An array if $single is false. The value of the metaboxes field
  *               if $single is true. False for an invalid $post_id.
  */
 function get_post_meta( $post_id, $key = '', $single = false ) {
@@ -2227,12 +2227,12 @@ function get_post_meta( $post_id, $key = '', $single = false ) {
 }
 
 /**
- * Updates a post meta field based on the given post ID.
+ * Updates a post metaboxes field based on the given post ID.
  *
- * Use the `$prev_value` parameter to differentiate between meta fields with the
+ * Use the `$prev_value` parameter to differentiate between metaboxes fields with the
  * same key and post ID.
  *
- * If the meta field for the post does not exist, it will be added and its ID returned.
+ * If the metaboxes field for the post does not exist, it will be added and its ID returned.
  *
  * Can be used in place of add_post_meta().
  *
@@ -2249,7 +2249,7 @@ function get_post_meta( $post_id, $key = '', $single = false ) {
  *                  is the same as the one that is already in the database.
  */
 function update_post_meta( $post_id, $meta_key, $meta_value, $prev_value = '' ) {
-	// Make sure meta is added to the post, not a revision.
+	// Make sure metaboxes is added to the post, not a revision.
 	$the_post = wp_is_post_revision( $post_id );
 	if ( $the_post ) {
 		$post_id = $the_post;
@@ -2259,28 +2259,28 @@ function update_post_meta( $post_id, $meta_key, $meta_value, $prev_value = '' ) 
 }
 
 /**
- * Deletes everything from post meta matching the given meta key.
+ * Deletes everything from post metaboxes matching the given metaboxes key.
  *
  * @since 2.3.0
  *
  * @param string $post_meta_key Key to search for when deleting.
- * @return bool Whether the post meta key was deleted from the database.
+ * @return bool Whether the post metaboxes key was deleted from the database.
  */
 function delete_post_meta_by_key( $post_meta_key ) {
 	return delete_metadata( 'post', null, $post_meta_key, '', true );
 }
 
 /**
- * Registers a meta key for posts.
+ * Registers a metaboxes key for posts.
  *
  * @since 4.9.8
  *
- * @param string $post_type Post type to register a meta key for. Pass an empty string
- *                          to register the meta key across all existing post types.
- * @param string $meta_key  The meta key to register.
- * @param array  $args      Data used to describe the meta key when registered. See
+ * @param string $post_type Post type to register a metaboxes key for. Pass an empty string
+ *                          to register the metaboxes key across all existing post types.
+ * @param string $meta_key  The metaboxes key to register.
+ * @param array  $args      Data used to describe the metaboxes key when registered. See
  *                          {@see register_meta()} for a list of supported arguments.
- * @return bool True if the meta key was successfully registered, false if not.
+ * @return bool True if the metaboxes key was successfully registered, false if not.
  */
 function register_post_meta( $post_type, $meta_key, array $args ) {
 	$args['object_subtype'] = $post_type;
@@ -2289,30 +2289,30 @@ function register_post_meta( $post_type, $meta_key, array $args ) {
 }
 
 /**
- * Unregisters a meta key for posts.
+ * Unregisters a metaboxes key for posts.
  *
  * @since 4.9.8
  *
- * @param string $post_type Post type the meta key is currently registered for. Pass
- *                          an empty string if the meta key is registered across all
+ * @param string $post_type Post type the metaboxes key is currently registered for. Pass
+ *                          an empty string if the metaboxes key is registered across all
  *                          existing post types.
- * @param string $meta_key  The meta key to unregister.
- * @return bool True on success, false if the meta key was not previously registered.
+ * @param string $meta_key  The metaboxes key to unregister.
+ * @return bool True on success, false if the metaboxes key was not previously registered.
  */
 function unregister_post_meta( $post_type, $meta_key ) {
 	return unregister_meta_key( 'post', $meta_key, $post_type );
 }
 
 /**
- * Retrieve post meta fields, based on post ID.
+ * Retrieve post metaboxes fields, based on post ID.
  *
- * The post meta fields are retrieved from the cache where possible,
+ * The post metaboxes fields are retrieved from the cache where possible,
  * so the function is optimized to be called more than once.
  *
  * @since 1.2.0
  *
  * @param int $post_id Optional. Post ID. Default is ID of the global $post.
- * @return array Post meta for the given post.
+ * @return array Post metaboxes for the given post.
  */
 function get_post_custom( $post_id = 0 ) {
 	$post_id = absint( $post_id );
@@ -2324,9 +2324,9 @@ function get_post_custom( $post_id = 0 ) {
 }
 
 /**
- * Retrieve meta field names for a post.
+ * Retrieve metaboxes field names for a post.
  *
- * If there are no meta fields, then nothing (null) will be returned.
+ * If there are no metaboxes fields, then nothing (null) will be returned.
  *
  * @since 1.2.0
  *
@@ -2349,8 +2349,8 @@ function get_post_custom_keys( $post_id = 0 ) {
 /**
  * Retrieve values for a custom post field.
  *
- * The parameters must not be considered optional. All of the post meta fields
- * will be retrieved and only the meta field key values returned.
+ * The parameters must not be considered optional. All of the post metaboxes fields
+ * will be retrieved and only the metaboxes field key values returned.
  *
  * @since 1.2.0
  *
@@ -3061,7 +3061,7 @@ function wp_post_mime_type_where( $post_mime_types, $table_alias = '' ) {
  * Trash or delete a post or page.
  *
  * When the post and page is permanently deleted, everything that is tied to
- * it is deleted also. This includes comments, post meta fields, and terms
+ * it is deleted also. This includes comments, post metaboxes fields, and terms
  * associated with the post.
  *
  * The post or page is moved to Trash instead of permanently deleted unless
@@ -3143,7 +3143,7 @@ function wp_delete_post( $postid = 0, $force_delete = false ) {
 
 	// Do raw query. wp_get_post_revisions() is filtered.
 	$revision_ids = $wpdb->get_col( $wpdb->prepare( "SELECT ID FROM $wpdb->posts WHERE post_parent = %d AND post_type = 'revision'", $postid ) );
-	// Use wp_delete_post (via wp_delete_post_revision) again. Ensures any meta/misplaced data gets cleaned up.
+	// Use wp_delete_post (via wp_delete_post_revision) again. Ensures any metaboxes/misplaced data gets cleaned up.
 	foreach ( $revision_ids as $revision_id ) {
 		wp_delete_post_revision( $revision_id );
 	}
@@ -3696,7 +3696,7 @@ function wp_get_recent_posts( $args = array(), $output = ARRAY_A ) {
  * @since 1.0.0
  * @since 2.6.0 Added the `$wp_error` parameter to allow a WP_Error to be returned on failure.
  * @since 4.2.0 Support was added for encoding emoji in the post title, content, and excerpt.
- * @since 4.4.0 A 'meta_input' array can now be passed to `$postarr` to add post meta data.
+ * @since 4.4.0 A 'meta_input' array can now be passed to `$postarr` to add post metaboxes data.
  * @since 5.6.0 Added the `$fire_after_hooks` parameter.
  *
  * @see sanitize_post()
@@ -3741,7 +3741,7 @@ function wp_get_recent_posts( $args = array(), $output = ARRAY_A ) {
  *                                         Defaults to value of the 'default_category' option.
  *     @type array  $tags_input            Array of tag names, slugs, or IDs. Default empty.
  *     @type array  $tax_input             Array of taxonomy terms keyed by their taxonomy name. Default empty.
- *     @type array  $meta_input            Array of post meta values keyed by their post meta key. Default empty.
+ *     @type array  $meta_input            Array of post metaboxes values keyed by their post metaboxes key. Default empty.
  * }
  * @param bool  $wp_error         Optional. Whether to return a WP_Error on failure. Default false.
  * @param bool  $fire_after_hooks Optional. Whether to fire the after insert hooks. Default true.
@@ -3876,7 +3876,7 @@ function wp_insert_post( $postarr, $wp_error = false, $fire_after_hooks = true )
 	/*
 	 * Don't allow contributors to set the post slug for pending review posts.
 	 *
-	 * For new posts check the primitive capability, for updates check the meta capability.
+	 * For new posts check the primitive capability, for updates check the metaboxes capability.
 	 */
 	$post_type_object = get_post_type_object( $post_type );
 
@@ -4012,7 +4012,7 @@ function wp_insert_post( $postarr, $wp_error = false, $fire_after_hooks = true )
 	$post_parent = apply_filters( 'wp_insert_post_parent', $post_parent, $post_ID, $new_postarr, $postarr );
 
 	/*
-	 * If the post is being untrashed and it has a desired slug stored in post meta,
+	 * If the post is being untrashed and it has a desired slug stored in post metaboxes,
 	 * reassign it.
 	 */
 	if ( 'trash' === $previous_status && 'trash' !== $post_status ) {
@@ -5048,7 +5048,7 @@ function wp_transition_post_status( $new_status, $old_status, $post ) {
 }
 
 /**
- * Fires actions after a post, its terms and meta data has been saved.
+ * Fires actions after a post, its terms and metaboxes data has been saved.
  *
  * @since 5.6.0
  *
@@ -5066,7 +5066,7 @@ function wp_after_insert_post( $post, $update, $post_before ) {
 	$post_id = $post->ID;
 
 	/**
-	 * Fires once a post, its terms and meta data has been saved.
+	 * Fires once a post, its terms and metaboxes data has been saved.
 	 *
 	 * @since 5.6.0
 	 *
@@ -5607,8 +5607,8 @@ function get_page_uri( $page = 0 ) {
  *     @type int[]        $include      Array of page IDs to include. Cannot be used with `$child_of`,
  *                                      `$parent`, `$exclude`, `$meta_key`, `$meta_value`, or `$hierarchical`.
  *                                      Default empty array.
- *     @type string       $meta_key     Only include pages with this meta key. Default empty.
- *     @type string       $meta_value   Only include pages with this meta value. Requires `$meta_key`.
+ *     @type string       $meta_key     Only include pages with this metaboxes key. Default empty.
+ *     @type string       $meta_value   Only include pages with this metaboxes value. Requires `$meta_key`.
  *                                      Default empty.
  *     @type string       $authors      A comma-separated list of author IDs. Default empty.
  *     @type int          $parent       Page ID to return direct children of. Default -1, or no restriction.
@@ -5983,7 +5983,7 @@ function wp_insert_attachment( $args, $file = false, $parent = 0, $wp_error = fa
  * Trash or delete an attachment.
  *
  * When an attachment is permanently deleted, the file will also be removed.
- * Deletion removes all post meta fields, taxonomy, comments, etc. associated
+ * Deletion removes all post metaboxes fields, taxonomy, comments, etc. associated
  * with the attachment (except the main post).
  *
  * The attachment is moved to the Trash instead of permanently deleted unless Trash
@@ -6097,8 +6097,8 @@ function wp_delete_attachment( $post_id, $force_delete = false ) {
  * @global wpdb $wpdb WordPress database abstraction object.
  *
  * @param int    $post_id      Attachment ID.
- * @param array  $meta         The attachment's meta data.
- * @param array  $backup_sizes The meta data for the attachment's backup images.
+ * @param array  $meta         The attachment's metaboxes data.
+ * @param array  $backup_sizes The metaboxes data for the attachment's backup images.
  * @param string $file         Absolute path to the attachment's file.
  * @return bool True on success, false on failure.
  */
@@ -6222,11 +6222,11 @@ function wp_get_attachment_metadata( $attachment_id = 0, $unfiltered = false ) {
 	}
 
 	/**
-	 * Filters the attachment meta data.
+	 * Filters the attachment metaboxes data.
 	 *
 	 * @since 2.1.0
 	 *
-	 * @param array $data          Array of meta data for the given attachment.
+	 * @param array $data          Array of metaboxes data for the given attachment.
 	 * @param int   $attachment_id Attachment post ID.
 	 */
 	return apply_filters( 'wp_get_attachment_metadata', $data, $attachment_id );
@@ -6238,7 +6238,7 @@ function wp_get_attachment_metadata( $attachment_id = 0, $unfiltered = false ) {
  * @since 2.1.0
  *
  * @param int   $attachment_id Attachment post ID.
- * @param array $data          Attachment meta data.
+ * @param array $data          Attachment metaboxes data.
  * @return int|false False if $post is invalid.
  */
 function wp_update_attachment_metadata( $attachment_id, $data ) {
@@ -6251,11 +6251,11 @@ function wp_update_attachment_metadata( $attachment_id, $data ) {
 	}
 
 	/**
-	 * Filters the updated attachment meta data.
+	 * Filters the updated attachment metaboxes data.
 	 *
 	 * @since 2.1.0
 	 *
-	 * @param array $data          Array of updated attachment meta data.
+	 * @param array $data          Array of updated attachment metaboxes data.
 	 * @param int   $attachment_id Attachment post ID.
 	 */
 	$data = apply_filters( 'wp_update_attachment_metadata', $data, $post->ID );
@@ -6676,7 +6676,7 @@ function wp_mime_type_icon( $mime = 0 ) {
  * by comparing the current and previous post objects.
  *
  * If the slug was changed and not already part of the old slugs then it will be
- * added to the post meta field ('_wp_old_slug') for storing old slugs for that
+ * added to the post metaboxes field ('_wp_old_slug') for storing old slugs for that
  * post.
  *
  * The most logically usage of this function is redirecting changed post objects, so
@@ -6719,7 +6719,7 @@ function wp_check_for_changed_slugs( $post_id, $post, $post_before ) {
  * by comparing the current and previous post objects.
  *
  * If the date was changed and not already part of the old dates then it will be
- * added to the post meta field ('_wp_old_date') for storing old dates for that
+ * added to the post metaboxes field ('_wp_old_date') for storing old dates for that
  * post.
  *
  * The most logically usage of this function is redirecting changed post objects, so
@@ -7103,7 +7103,7 @@ function clean_post_cache( $post ) {
  * @param WP_Post[] $posts             Array of Post objects
  * @param string    $post_type         Optional. Post type. Default 'post'.
  * @param bool      $update_term_cache Optional. Whether to update the term cache. Default true.
- * @param bool      $update_meta_cache Optional. Whether to update the meta cache. Default true.
+ * @param bool      $update_meta_cache Optional. Whether to update the metaboxes cache. Default true.
  */
 function update_post_caches( &$posts, $post_type = 'post', $update_term_cache = true, $update_meta_cache = true ) {
 	// No point in doing all this work if we didn't match any posts.
@@ -7445,7 +7445,7 @@ function wp_delete_auto_drafts() {
 }
 
 /**
- * Queues posts for lazy-loading of term meta.
+ * Queues posts for lazy-loading of term metaboxes.
  *
  * @since 4.5.0
  *
@@ -7515,7 +7515,7 @@ function _update_term_count_on_transition_post_status( $new_status, $old_status,
  *
  * @param array $ids               ID list.
  * @param bool  $update_term_cache Optional. Whether to update the term cache. Default true.
- * @param bool  $update_meta_cache Optional. Whether to update the meta cache. Default true.
+ * @param bool  $update_meta_cache Optional. Whether to update the metaboxes cache. Default true.
  */
 function _prime_post_caches( $ids, $update_term_cache = true, $update_meta_cache = true ) {
 	global $wpdb;

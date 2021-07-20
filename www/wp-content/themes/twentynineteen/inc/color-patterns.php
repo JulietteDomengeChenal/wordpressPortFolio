@@ -102,7 +102,7 @@ function twentynineteen_custom_colors_css() {
 		 * - all links
 		 * - main navigation links
 		 * - Post navigation links
-		 * - Post entry meta hover
+		 * - Post entry metaboxes hover
 		 * - Post entry header more-link hover
 		 * - main navigation svg
 		 * - comment navigation
@@ -115,7 +115,7 @@ function twentynineteen_custom_colors_css() {
 		.main-navigation .main-menu > li,
 		.main-navigation ul.main-menu > li > a,
 		.post-navigation .post-title,
-		.entry .entry-meta a:hover,
+		.entry .entry-metaboxes a:hover,
 		.entry .entry-footer a:hover,
 		.entry .entry-content .more-link:hover,
 		.main-navigation .main-menu > li > a + svg,

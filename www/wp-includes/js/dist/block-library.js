@@ -19142,7 +19142,7 @@ function LatestPostsEdit(_ref) {
     min: MIN_EXCERPT_LENGTH,
     max: MAX_EXCERPT_LENGTH
   })), Object(external_wp_element_["createElement"])(external_wp_components_["PanelBody"], {
-    title: Object(external_wp_i18n_["__"])('Post meta settings')
+    title: Object(external_wp_i18n_["__"])('Post metaboxes settings')
   }, Object(external_wp_element_["createElement"])(external_wp_components_["ToggleControl"], {
     label: Object(external_wp_i18n_["__"])('Display author name'),
     checked: displayAuthor,

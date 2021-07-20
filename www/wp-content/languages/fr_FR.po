@@ -1353,7 +1353,7 @@ msgid "This type of file cannot be edited."
 msgstr "Ce type de fichier ne peut être modifié."
 
 #: wp-includes/rest-api/endpoints/class-wp-rest-attachments-controller.php:436
-msgid "Unable to get meta information for file."
+msgid "Unable to get metaboxes information for file."
 msgstr "Impossible de récupérer les métadonnées du fichier."
 
 #: wp-includes/rest-api/endpoints/class-wp-rest-block-directory-controller.php:307
@@ -1773,7 +1773,7 @@ msgid "Block name."
 msgstr "Nom du bloc."
 
 #: wp-includes/meta.php:1374
-msgid "When registering a default meta value the data must match the type provided."
+msgid "When registering a default metaboxes value the data must match the type provided."
 msgstr "Lors de l’enregistrement d’une valeur de métadonnée par défaut, les données doivent correspondre au type fourni."
 
 #: wp-includes/widgets/class-wp-widget-rss.php:106
@@ -2333,7 +2333,7 @@ msgid "There has been a critical error on this website, putting it in recovery m
 msgstr "Il y a eu une erreur critique sur ce site, activant ainsi le mode de récupération. Veuillez vérifier les pages des thèmes et des extensions pour plus de détails. Si vous veniez d’installer ou de mettre à jour un thème ou une extension, vérifiez la page correspondante en premier."
 
 #: wp-includes/class-wp-image-editor-imagick.php:643
-msgid "The image cannot be rotated because the embedded meta data cannot be updated."
+msgid "The image cannot be rotated because the embedded metaboxes data cannot be updated."
 msgstr "L’image ne peut pas être tournée car les métadonnées embarquées ne peuvent pas être mises à jour."
 
 #: wp-includes/user.php:3455
@@ -2432,11 +2432,11 @@ msgstr "Désolé, vous n’avez pas l’autorisation de supprimer les révisions
 #: wp-includes/rest-api/fields/class-wp-rest-meta-fields.php:324
 #: wp-includes/rest-api/fields/class-wp-rest-meta-fields.php:338
 #: wp-includes/rest-api/fields/class-wp-rest-meta-fields.php:388
-msgid "Could not update the meta value of %s in database."
+msgid "Could not update the metaboxes value of %s in database."
 msgstr "La mise à jour de la valeur de la méta de %s dans la base de données n’est pas possible."
 
 #: wp-includes/meta.php:1332
-msgid "When registering an \"array\" meta type to show in the REST API, you must specify the schema for each array item in \"show_in_rest.schema.items\"."
+msgid "When registering an \"array\" metaboxes type to show in the REST API, you must specify the schema for each array item in \"show_in_rest.schema.items\"."
 msgstr "Quand vous enregistrez une métadonnée de type « tableau » pour l’afficher dans l’API REST, vous devez spécifier la description de chaque élément du tableau dans « show_in_rest.schema.items »."
 
 #. translators: %s: taxonomy name
@@ -6107,7 +6107,7 @@ msgid "Meta fields."
 msgstr "Champs métas."
 
 #: wp-includes/rest-api/fields/class-wp-rest-meta-fields.php:242
-msgid "Could not delete meta value from database."
+msgid "Could not delete metaboxes value from database."
 msgstr "La suppression de la valeur de la métadonnée en base de données n’est pas possible."
 
 #: wp-includes/rest-api/endpoints/class-wp-rest-users-controller.php:1546
@@ -7492,7 +7492,7 @@ msgstr "Lien sélectionné."
 #. translators: %s: ImageMagick method name.
 #: wp-includes/class-wp-image-editor-imagick.php:814
 #: wp-includes/class-wp-image-editor-imagick.php:825
-msgid "%s is required to strip image meta."
+msgid "%s is required to strip image metaboxes."
 msgstr "%s est nécessaire pour supprimer les métadonnées de l’image."
 
 #: wp-includes/media.php:4412
@@ -7797,7 +7797,7 @@ msgid "Term ID is shared between multiple taxonomies"
 msgstr "L’identifiant du terme est partagé par plusieurs taxonomies"
 
 #: wp-includes/taxonomy.php:1277 wp-includes/taxonomy.php:1339
-msgid "Term meta cannot be added to terms that are shared between taxonomies."
+msgid "Term metaboxes cannot be added to terms that are shared between taxonomies."
 msgstr "Les métadonnées de termes ne peuvent pas être ajoutées à des termes partagés entre plusieurs taxonomies."
 
 #. translators: Month name, genitive.

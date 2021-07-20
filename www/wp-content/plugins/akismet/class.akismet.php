@@ -423,7 +423,7 @@ class Akismet {
 		if ( $interval < 1 )
 			$interval = 1;
 
-		// akismet_as_submitted meta values are large, so expire them
+		// akismet_as_submitted metaboxes values are large, so expire them
 		// after $interval days regardless of the comment status
 		while ( $comment_ids = $wpdb->get_col( $wpdb->prepare( "SELECT m.comment_id FROM {$wpdb->commentmeta} as m INNER JOIN {$wpdb->comments} as c USING(comment_id) WHERE m.meta_key = 'akismet_as_submitted' AND DATE_SUB(NOW(), INTERVAL %d DAY) > c.comment_date_gmt LIMIT 10000", $interval ) ) ) {
 			if ( empty( $comment_ids ) )
@@ -443,7 +443,7 @@ class Akismet {
 			$wpdb->query("OPTIMIZE TABLE {$wpdb->commentmeta}");
 	}
 
-	// Clear out comments meta that no longer have corresponding comments in the database
+	// Clear out comments metaboxes that no longer have corresponding comments in the database
 	public static function delete_orphaned_commentmeta() {
 		global $wpdb;
 
@@ -517,9 +517,9 @@ class Akismet {
 		$history[] = array( 'time' => 445856410, 'event' => 'cron-retry-spam' );
 		$history[] = array( 'time' => 445856411, 'event' => 'cron-retry-ham' );
 		$history[] = array( 'time' => 445856412, 'event' => 'check-error' ); //
-		$history[] = array( 'time' => 445856413, 'event' => 'check-error', 'meta' => array( 'response' => 'The server was taking a nap.' ) );
+		$history[] = array( 'time' => 445856413, 'event' => 'check-error', 'metaboxes' => array( 'response' => 'The server was taking a nap.' ) );
 		$history[] = array( 'time' => 445856414, 'event' => 'recheck-error' ); // Should not generate a message.
-		$history[] = array( 'time' => 445856415, 'event' => 'recheck-error', 'meta' => array( 'response' => 'The server was taking a nap.' ) );
+		$history[] = array( 'time' => 445856415, 'event' => 'recheck-error', 'metaboxes' => array( 'response' => 'The server was taking a nap.' ) );
 		$history[] = array( 'time' => 445856416, 'event' => 'status-changedtrash' );
 		$history[] = array( 'time' => 445856417, 'event' => 'status-changedspam' );
 		$history[] = array( 'time' => 445856418, 'event' => 'status-changedhold' );
@@ -561,7 +561,7 @@ class Akismet {
 		}
 		
 		if ( ! empty( $meta ) ) {
-			$event['meta'] = $meta;
+			$event['metaboxes'] = $meta;
 		}
 
 		// $unique = false so as to allow multiple values per comment
@@ -849,7 +849,7 @@ class Akismet {
 		load_plugin_textdomain( 'akismet' );
 
 		foreach ( (array) $comment_errors as $comment_id ) {
-			// if the comment no longer exists, or is too old, remove the meta entry from the queue to avoid getting stuck
+			// if the comment no longer exists, or is too old, remove the metaboxes entry from the queue to avoid getting stuck
 			$comment = get_comment( $comment_id );
 
 			if (

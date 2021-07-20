@@ -1233,14 +1233,14 @@ body.is-fullscreen-mode .edit-post-layout .components-editor-notices__snackbar {
 .edit-post-meta-boxes-area {
   position: relative;
   /**
-   * The wordpress default for most meta-box elements is content-box. Some
+   * The wordpress default for most metaboxes-box elements is content-box. Some
    * elements such as textarea and input are set to border-box in forms.css.
    * These elements therefore specifically set back to border-box here, while
    * other elements (such as .button) are unaffected by Gutenberg's style
    * because of their higher specificity.
    */
-  /* Match width and positioning of the meta boxes. Override default styles. */
-  /* Override Default meta box stylings */
+  /* Match width and positioning of the metaboxes boxes. Override default styles. */
+  /* Override Default metaboxes box stylings */
 }
 .edit-post-meta-boxes-area__container,
 .edit-post-meta-boxes-area .inside {

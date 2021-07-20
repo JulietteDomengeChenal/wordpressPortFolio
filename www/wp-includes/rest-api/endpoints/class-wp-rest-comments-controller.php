@@ -17,7 +17,7 @@
 class WP_REST_Comments_Controller extends WP_REST_Controller {
 
 	/**
-	 * Instance of a comment meta fields object.
+	 * Instance of a comment metaboxes fields object.
 	 *
 	 * @since 4.7.0
 	 * @var WP_REST_Comment_Meta_Fields
@@ -726,8 +726,8 @@ class WP_REST_Comments_Controller extends WP_REST_Controller {
 
 		$schema = $this->get_item_schema();
 
-		if ( ! empty( $schema['properties']['meta'] ) && isset( $request['meta'] ) ) {
-			$meta_update = $this->meta->update_value( $request['meta'], $comment_id );
+		if ( ! empty( $schema['properties']['metaboxes'] ) && isset( $request['metaboxes'] ) ) {
+			$meta_update = $this->meta->update_value( $request['metaboxes'], $comment_id );
 
 			if ( is_wp_error( $meta_update ) ) {
 				return $meta_update;
@@ -890,8 +890,8 @@ class WP_REST_Comments_Controller extends WP_REST_Controller {
 
 		$schema = $this->get_item_schema();
 
-		if ( ! empty( $schema['properties']['meta'] ) && isset( $request['meta'] ) ) {
-			$meta_update = $this->meta->update_value( $request['meta'], $id );
+		if ( ! empty( $schema['properties']['metaboxes'] ) && isset( $request['metaboxes'] ) ) {
+			$meta_update = $this->meta->update_value( $request['metaboxes'], $id );
 
 			if ( is_wp_error( $meta_update ) ) {
 				return $meta_update;
@@ -1106,8 +1106,8 @@ class WP_REST_Comments_Controller extends WP_REST_Controller {
 			$data['author_avatar_urls'] = rest_get_avatar_urls( $comment );
 		}
 
-		if ( in_array( 'meta', $fields, true ) ) {
-			$data['meta'] = $this->meta->get_value( $comment->comment_ID, $request );
+		if ( in_array( 'metaboxes', $fields, true ) ) {
+			$data['metaboxes'] = $this->meta->get_value( $comment->comment_ID, $request );
 		}
 
 		$context = ! empty( $request['context'] ) ? $request['context'] : 'view';
@@ -1523,7 +1523,7 @@ class WP_REST_Comments_Controller extends WP_REST_Controller {
 			);
 		}
 
-		$schema['properties']['meta'] = $this->meta->get_field_schema();
+		$schema['properties']['metaboxes'] = $this->meta->get_field_schema();
 
 		$this->schema = $schema;
 

@@ -414,12 +414,12 @@ class WP_Image_Editor_Imagick extends WP_Image_Editor {
 	/**
 	 * Create multiple smaller images from a single source.
 	 *
-	 * Attempts to create all sub-sizes and returns the meta data at the end. This
+	 * Attempts to create all sub-sizes and returns the metaboxes data at the end. This
 	 * may result in the server running out of resources. When it fails there may be few
-	 * "orphaned" images left over as the meta data is never returned and saved.
+	 * "orphaned" images left over as the metaboxes data is never returned and saved.
 	 *
 	 * As of 5.3.0 the preferred way to do this is with `make_subsize()`. It creates
-	 * the new images one at a time and allows for the meta data to be saved after
+	 * the new images one at a time and allows for the metaboxes data to be saved after
 	 * each new image is created.
 	 *
 	 * @since 3.5.0
@@ -456,7 +456,7 @@ class WP_Image_Editor_Imagick extends WP_Image_Editor {
 	}
 
 	/**
-	 * Create an image sub-size and return the image meta data value for it.
+	 * Create an image sub-size and return the image metaboxes data value for it.
 	 *
 	 * @since 5.3.0
 	 *
@@ -467,7 +467,7 @@ class WP_Image_Editor_Imagick extends WP_Image_Editor {
 	 *     @type int  $height The maximum height in pixels.
 	 *     @type bool $crop   Whether to crop the image to exact dimensions.
 	 * }
-	 * @return array|WP_Error The image data array for inclusion in the `sizes` array in the image meta,
+	 * @return array|WP_Error The image data array for inclusion in the `sizes` array in the image metaboxes,
 	 *                        WP_Error object on error.
 	 */
 	public function make_subsize( $size_data ) {
@@ -640,7 +640,7 @@ class WP_Image_Editor_Imagick extends WP_Image_Editor {
 		if ( is_callable( array( $this->image, 'setImageOrientation' ) ) && defined( 'Imagick::ORIENTATION_TOPLEFT' ) ) {
 			return parent::maybe_exif_rotate();
 		} else {
-			return new WP_Error( 'write_exif_error', __( 'The image cannot be rotated because the embedded meta data cannot be updated.' ) );
+			return new WP_Error( 'write_exif_error', __( 'The image cannot be rotated because the embedded metaboxes data cannot be updated.' ) );
 		}
 	}
 
@@ -798,7 +798,7 @@ class WP_Image_Editor_Imagick extends WP_Image_Editor {
 	}
 
 	/**
-	 * Strips all image meta except color profiles from an image.
+	 * Strips all image metaboxes except color profiles from an image.
 	 *
 	 * @since 4.5.0
 	 *
@@ -811,7 +811,7 @@ class WP_Image_Editor_Imagick extends WP_Image_Editor {
 				'image_strip_meta_error',
 				sprintf(
 					/* translators: %s: ImageMagick method name. */
-					__( '%s is required to strip image meta.' ),
+					__( '%s is required to strip image metaboxes.' ),
 					'<code>Imagick::getImageProfiles()</code>'
 				)
 			);
@@ -822,7 +822,7 @@ class WP_Image_Editor_Imagick extends WP_Image_Editor {
 				'image_strip_meta_error',
 				sprintf(
 					/* translators: %s: ImageMagick method name. */
-					__( '%s is required to strip image meta.' ),
+					__( '%s is required to strip image metaboxes.' ),
 					'<code>Imagick::removeImageProfile()</code>'
 				)
 			);

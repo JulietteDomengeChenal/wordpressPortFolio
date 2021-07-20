@@ -642,16 +642,16 @@ class Akismet_Admin {
 						$message = esc_html( __( 'Akismet cleared this comment during an automatic retry.', 'akismet') );
 					break;
 					case 'check-error':
-						if ( isset( $row['meta'], $row['meta']['response'] ) ) {
-							$message = sprintf( esc_html( __( 'Akismet was unable to check this comment (response: %s) but will automatically retry later.', 'akismet') ), '<code>' . esc_html( $row['meta']['response'] ) . '</code>' );
+						if ( isset( $row['metaboxes'], $row['metaboxes']['response'] ) ) {
+							$message = sprintf( esc_html( __( 'Akismet was unable to check this comment (response: %s) but will automatically retry later.', 'akismet') ), '<code>' . esc_html( $row['metaboxes']['response'] ) . '</code>' );
 						}
 						else {
 							$message = esc_html( __( 'Akismet was unable to check this comment but will automatically retry later.', 'akismet' ) );
 						}
 					break;
 					case 'recheck-error':
-						if ( isset( $row['meta'], $row['meta']['response'] ) ) {
-							$message = sprintf( esc_html( __( 'Akismet was unable to recheck this comment (response: %s).', 'akismet') ), '<code>' . esc_html( $row['meta']['response'] ) . '</code>' );
+						if ( isset( $row['metaboxes'], $row['metaboxes']['response'] ) ) {
+							$message = sprintf( esc_html( __( 'Akismet was unable to recheck this comment (response: %s).', 'akismet') ), '<code>' . esc_html( $row['metaboxes']['response'] ) . '</code>' );
 						}
 						else {
 							$message = esc_html( __( 'Akismet was unable to recheck this comment.', 'akismet' ) );
@@ -796,7 +796,7 @@ class Akismet_Admin {
 	public static function are_any_comments_waiting_to_be_checked() {
 		return !! get_comments( array(
 			// Exclude comments that are not pending. This would happen if someone manually approved or spammed a comment
-			// that was waiting to be checked. The akismet_error meta entry will eventually be removed by the cron recheck job.
+			// that was waiting to be checked. The akismet_error metaboxes entry will eventually be removed by the cron recheck job.
 			'status' => 'hold',
 			
 			// This is the commentmeta that is saved when a comment couldn't be checked.
@@ -1173,9 +1173,9 @@ class Akismet_Admin {
 	 * Some commentmeta isn't useful in an export file. Suppress it (when supported).
 	 *
 	 * @param bool $exclude
-	 * @param string $key The meta key
-	 * @param object $meta The meta object
-	 * @return bool Whether to exclude this meta entry from the export.
+	 * @param string $key The metaboxes key
+	 * @param object $meta The metaboxes object
+	 * @return bool Whether to exclude this metaboxes entry from the export.
 	 */
 	public static function exclude_commentmeta_from_export( $exclude, $key, $meta ) {
 		if ( in_array( $key, array( 'akismet_as_submitted', 'akismet_rechecking', 'akismet_delayed_moderation_email' ) ) ) {

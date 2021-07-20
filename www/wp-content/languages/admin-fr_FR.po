@@ -44,7 +44,7 @@ msgid "In 5.7, jQuery gets more focused and less intrusive, with fewer messages 
 msgstr "Avec WP 5.7, jQuery devient moins intrusif et retourne moins de messages dans la console de votre navigateur."
 
 #: wp-admin/about.php:251
-msgid "The new Robots API lets you include the filter directives in the robots meta tag, and the API includes the <code>max-image-preview: large</code> directive by default. That means search engines can show bigger image previews, which can boost your traffic (unless the site is marked <em>not-public</em>)."
+msgid "The new Robots API lets you include the filter directives in the robots metaboxes tag, and the API includes the <code>max-image-preview: large</code> directive by default. That means search engines can show bigger image previews, which can boost your traffic (unless the site is marked <em>not-public</em>)."
 msgstr "La nouvelle API Robots vous permet d’inclure des directives de filtrage dans la balise méta « robots », et l’API intègre par défaut la directive <code>max-image-preview: large</code>. Cela signifie que les moteurs de recherche peuvent maintenant afficher de plus grandes images de prévisualisation (à moins que le site ne soit pas public), ce qui peut améliorer votre trafic."
 
 #: wp-admin/about.php:194
@@ -4054,21 +4054,21 @@ msgstr "Une incohérence d’identifiant de publication a été détectée."
 
 #. translators: %s: A link to use the Classic Editor plugin.
 #: wp-admin/includes/template.php:1177
-msgid "Please open the <a href=\"%s\">classic editor</a> to use this meta box."
+msgid "Please open the <a href=\"%s\">classic editor</a> to use this metaboxes box."
 msgstr "Veuillez ouvrir <a href=\"%s\">l’éditeur classique</a> pour utiliser cette boîte méta."
 
 #. translators: %s: A link to activate the Classic Editor plugin.
 #: wp-admin/includes/template.php:1164
-msgid "Please activate the <a href=\"%s\">Classic Editor plugin</a> to use this meta box."
+msgid "Please activate the <a href=\"%s\">Classic Editor plugin</a> to use this metaboxes box."
 msgstr "Veuillez activer <a href=\"%s\">l’extension Classic Editor</a> pour utiliser cette boîte méta."
 
 #. translators: %s: A link to install the Classic Editor plugin.
 #: wp-admin/includes/template.php:1154
-msgid "Please install the <a href=\"%s\">Classic Editor plugin</a> to use this meta box."
+msgid "Please install the <a href=\"%s\">Classic Editor plugin</a> to use this metaboxes box."
 msgstr "Veuillez installer <a href=\"%s\">l’extension Classic Editor</a> pour utiliser cette boîte méta."
 
 #: wp-admin/includes/template.php:1145
-msgid "This meta box isn't compatible with the block editor."
+msgid "This metaboxes box isn't compatible with the block editor."
 msgstr "Cette boîte méta n’est pas compatible avec le nouvel éditeur."
 
 #: wp-admin/freedoms.php:87
@@ -4188,9 +4188,9 @@ msgstr "<strong>Erreur</strong> : le « préfixe de table » ne doit pas êtr
 msgid "Default template"
 msgstr "Modèle par défaut"
 
-#. translators: %s: The name of the plugin that generated this meta box.
+#. translators: %s: The name of the plugin that generated this metaboxes box.
 #: wp-admin/includes/template.php:1143 wp-admin/includes/template.php:1381
-msgid "This meta box, from the %s plugin, isn't compatible with the block editor."
+msgid "This metaboxes box, from the %s plugin, isn't compatible with the block editor."
 msgstr "Cette boîte méta de l’extension %s n’est pas compatible avec le nouvel éditeur."
 
 #. translators: Header for the About section in a personal data export.
@@ -10728,7 +10728,7 @@ msgstr "Nom"
 
 #: wp-admin/includes/template.php:571 wp-admin/includes/template.php:586
 #: wp-admin/includes/template.php:718
-msgctxt "meta name"
+msgctxt "metaboxes name"
 msgid "Name"
 msgstr "Nom"
 

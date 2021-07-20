@@ -193,7 +193,7 @@ themes.Collection = Backbone.Collection.extend({
 		// Trim the term.
 		term = term.trim();
 
-		// Escape the term string for RegExp meta characters.
+		// Escape the term string for RegExp metaboxes characters.
 		term = term.replace( /[-\/\\^$*+?.()|[\]{}]/g, '\\$&' );
 
 		// Consider spaces as word delimiters and match the whole string

@@ -223,7 +223,7 @@ final class WP_Screen {
 			$id = $GLOBALS['hook_suffix'];
 		}
 
-		// For those pesky meta boxes.
+		// For those pesky metaboxes boxes.
 		if ( $hook_name && post_type_exists( $hook_name ) ) {
 			$post_type = $id;
 			$id        = 'post'; // Changes later. Ends up being $base.
@@ -1099,7 +1099,7 @@ final class WP_Screen {
 	}
 
 	/**
-	 * Render the meta boxes preferences.
+	 * Render the metaboxes boxes preferences.
 	 *
 	 * @since 4.4.0
 	 *

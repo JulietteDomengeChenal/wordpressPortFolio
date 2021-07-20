@@ -89,7 +89,7 @@ var link = (function (domGlobals) {
           win.opener = null;
           var doc = win.document;
           doc.open();
-          doc.write('<meta http-equiv="refresh" content="0; url=' + global$2.DOM.encode(url) + '">');
+          doc.write('<metaboxes http-equiv="refresh" content="0; url=' + global$2.DOM.encode(url) + '">');
           doc.close();
         }
       }

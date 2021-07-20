@@ -109,7 +109,7 @@ function wp_insert_site( array $data ) {
 		$user_id = ! empty( $args['user_id'] ) ? $args['user_id'] : 0;
 		$meta    = ! empty( $args['options'] ) ? $args['options'] : array();
 
-		// WPLANG was passed with `$meta` to the `wpmu_new_blog` hook prior to 5.1.0.
+		// WPLANG was passed with `$metaboxes` to the `wpmu_new_blog` hook prior to 5.1.0.
 		if ( ! array_key_exists( 'WPLANG', $meta ) ) {
 			$meta['WPLANG'] = get_network_option( $new_site->network_id, 'WPLANG' );
 		}
@@ -345,7 +345,7 @@ function get_site( $site = null ) {
  * @global wpdb $wpdb WordPress database abstraction object.
  *
  * @param array $ids               ID list.
- * @param bool  $update_meta_cache Optional. Whether to update the meta cache. Default true.
+ * @param bool  $update_meta_cache Optional. Whether to update the metaboxes cache. Default true.
  */
 function _prime_site_caches( $ids, $update_meta_cache = true ) {
 	global $wpdb;
@@ -365,7 +365,7 @@ function _prime_site_caches( $ids, $update_meta_cache = true ) {
  * @since 5.1.0 Introduced the `$update_meta_cache` parameter.
  *
  * @param array $sites             Array of site objects.
- * @param bool  $update_meta_cache Whether to update site meta cache. Default true.
+ * @param bool  $update_meta_cache Whether to update site metaboxes cache. Default true.
  */
 function update_site_cache( $sites, $update_meta_cache = true ) {
 	if ( ! $sites ) {
@@ -698,7 +698,7 @@ function wp_initialize_site( $site_id, array $args = array() ) {
 			/* translators: %d: Site ID. */
 			'title'   => sprintf( __( 'Site %d' ), $site->id ),
 			'options' => array(),
-			'meta'    => array(),
+			'metaboxes'    => array(),
 		)
 	);
 
@@ -764,7 +764,7 @@ function wp_initialize_site( $site_id, array $args = array() ) {
 	$wp_roles = new WP_Roles();
 
 	// Populate metadata for the site.
-	populate_site_meta( $site->id, $args['meta'] );
+	populate_site_meta( $site->id, $args['metaboxes'] );
 
 	// Remove all permissions that may exist for the site.
 	$table_prefix = $wpdb->get_blog_prefix();
@@ -1081,12 +1081,12 @@ function delete_site_meta( $site_id, $meta_key, $meta_value = '' ) {
  * @since 5.1.0
  *
  * @param int    $site_id Site ID.
- * @param string $key     Optional. The meta key to retrieve. By default,
+ * @param string $key     Optional. The metaboxes key to retrieve. By default,
  *                        returns data for all keys. Default empty.
  * @param bool   $single  Optional. Whether to return a single value.
  *                        This parameter has no effect if $key is not specified.
  *                        Default false.
- * @return mixed An array if $single is false. The value of meta data field
+ * @return mixed An array if $single is false. The value of metaboxes data field
  *               if $single is true. False for an invalid $site_id.
  */
 function get_site_meta( $site_id, $key = '', $single = false ) {
@@ -1096,10 +1096,10 @@ function get_site_meta( $site_id, $key = '', $single = false ) {
 /**
  * Updates metadata for a site.
  *
- * Use the $prev_value parameter to differentiate between meta fields with the
+ * Use the $prev_value parameter to differentiate between metaboxes fields with the
  * same key and site ID.
  *
- * If the meta field for the site does not exist, it will be added.
+ * If the metaboxes field for the site does not exist, it will be added.
  *
  * @since 5.1.0
  *
@@ -1118,12 +1118,12 @@ function update_site_meta( $site_id, $meta_key, $meta_value, $prev_value = '' ) 
 }
 
 /**
- * Deletes everything from site meta matching meta key.
+ * Deletes everything from site metaboxes matching metaboxes key.
  *
  * @since 5.1.0
  *
  * @param string $meta_key Metadata key to search for when deleting.
- * @return bool Whether the site meta key was deleted from the database.
+ * @return bool Whether the site metaboxes key was deleted from the database.
  */
 function delete_site_meta_by_key( $meta_key ) {
 	return delete_metadata( 'blog', null, $meta_key, '', true );
@@ -1319,14 +1319,14 @@ function wp_cache_set_sites_last_changed() {
 }
 
 /**
- * Aborts calls to site meta if it is not supported.
+ * Aborts calls to site metaboxes if it is not supported.
  *
  * @since 5.1.0
  *
  * @global wpdb $wpdb WordPress database abstraction object.
  *
- * @param mixed $check Skip-value for whether to proceed site meta function execution.
- * @return mixed Original value of $check, or false if site meta is not supported.
+ * @param mixed $check Skip-value for whether to proceed site metaboxes function execution.
+ * @return mixed Original value of $check, or false if site metaboxes is not supported.
  */
 function wp_check_site_meta_support_prefilter( $check ) {
 	if ( ! is_site_meta_supported() ) {

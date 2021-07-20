@@ -701,7 +701,7 @@ function get_user_option( $option, $user = 0, $deprecated = '' ) {
  * @param mixed  $newvalue    User option value.
  * @param bool   $global      Optional. Whether option name is global or blog specific.
  *                            Default false (blog specific).
- * @return int|bool User meta ID if the option didn't exist, true on successful update,
+ * @return int|bool User metaboxes ID if the option didn't exist, true on successful update,
  *                  false on failure.
  */
 function update_user_option( $user_id, $option_name, $newvalue, $global = false ) {
@@ -960,7 +960,7 @@ function is_user_member_of_blog( $user_id = 0, $blog_id = 0 ) {
 }
 
 /**
- * Adds meta data to a user.
+ * Adds metaboxes data to a user.
  *
  * @since 3.0.0
  *
@@ -998,19 +998,19 @@ function delete_user_meta( $user_id, $meta_key, $meta_value = '' ) {
 }
 
 /**
- * Retrieve user meta field for a user.
+ * Retrieve user metaboxes field for a user.
  *
  * @since 3.0.0
  *
  * @link https://developer.wordpress.org/reference/functions/get_user_meta/
  *
  * @param int    $user_id User ID.
- * @param string $key     Optional. The meta key to retrieve. By default,
+ * @param string $key     Optional. The metaboxes key to retrieve. By default,
  *                        returns data for all keys.
  * @param bool   $single  Optional. Whether to return a single value.
  *                        This parameter has no effect if $key is not specified.
  *                        Default false.
- * @return mixed An array if $single is false. The value of meta data field
+ * @return mixed An array if $single is false. The value of metaboxes data field
  *               if $single is true. False for an invalid $user_id.
  */
 function get_user_meta( $user_id, $key = '', $single = false ) {
@@ -1018,12 +1018,12 @@ function get_user_meta( $user_id, $key = '', $single = false ) {
 }
 
 /**
- * Update user meta field based on user ID.
+ * Update user metaboxes field based on user ID.
  *
- * Use the $prev_value parameter to differentiate between meta fields with the
+ * Use the $prev_value parameter to differentiate between metaboxes fields with the
  * same key and user ID.
  *
- * If the meta field for the user does not exist, it will be added.
+ * If the metaboxes field for the user does not exist, it will be added.
  *
  * @since 3.0.0
  *
@@ -1887,7 +1887,7 @@ function wp_insert_user( $userdata ) {
 
 	$spam = empty( $userdata['spam'] ) ? 0 : (bool) $userdata['spam'];
 
-	// Store values to save in user meta.
+	// Store values to save in user metaboxes.
 	$meta = array();
 
 	$nickname = empty( $userdata['nickname'] ) ? $user_login : $userdata['nickname'];
@@ -2028,15 +2028,15 @@ function wp_insert_user( $userdata ) {
 	$user = new WP_User( $user_id );
 
 	/**
-	 * Filters a user's meta values and keys immediately after the user is created or updated
-	 * and before any user meta is inserted or updated.
+	 * Filters a user's metaboxes values and keys immediately after the user is created or updated
+	 * and before any user metaboxes is inserted or updated.
 	 *
 	 * Does not include contact methods. These are added using `wp_get_user_contact_methods( $user )`.
 	 *
 	 * @since 4.4.0
 	 *
 	 * @param array $meta {
-	 *     Default meta values and keys for the user.
+	 *     Default metaboxes values and keys for the user.
 	 *
 	 *     @type string   $nickname             The user's nickname. Default is the user's username.
 	 *     @type string   $first_name           The user's first name.
@@ -2057,7 +2057,7 @@ function wp_insert_user( $userdata ) {
 	 */
 	$meta = apply_filters( 'insert_user_meta', $meta, $user, $update );
 
-	// Update user meta.
+	// Update user metaboxes.
 	foreach ( $meta as $key => $value ) {
 		update_user_meta( $user_id, $key, $value );
 	}
@@ -2387,10 +2387,10 @@ function wp_create_user( $username, $password, $email = '' ) {
 }
 
 /**
- * Returns a list of meta keys to be (maybe) populated in wp_update_user().
+ * Returns a list of metaboxes keys to be (maybe) populated in wp_update_user().
  *
  * The list of keys returned via this function are dependent on the presence
- * of those keys in the user meta data to be set.
+ * of those keys in the user metaboxes data to be set.
  *
  * @since 3.3.0
  * @access private

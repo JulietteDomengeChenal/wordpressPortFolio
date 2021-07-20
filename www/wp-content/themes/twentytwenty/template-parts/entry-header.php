@@ -66,7 +66,7 @@ if ( is_singular() ) {
 			<?php
 		}
 
-		// Default to displaying the post meta.
+		// Default to displaying the post metaboxes.
 		twentytwenty_the_post_meta( get_the_ID(), 'single-top' );
 		?>
 

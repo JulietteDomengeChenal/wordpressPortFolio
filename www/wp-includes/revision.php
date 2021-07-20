@@ -660,7 +660,7 @@ function _wp_preview_terms_filter( $terms, $post_id, $taxonomy ) {
  * @param null|array|string $value    The value to return - a single metadata value, or an array of values.
  * @param int               $post_id  Post ID.
  * @param string            $meta_key Meta key.
- * @return null|array The default return value or the post thumbnail meta array.
+ * @return null|array The default return value or the post thumbnail metaboxes array.
  */
 function _wp_preview_post_thumbnail_filter( $value, $post_id, $meta_key ) {
 	$post = get_post();

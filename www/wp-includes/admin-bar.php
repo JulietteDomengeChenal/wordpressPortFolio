@@ -137,7 +137,7 @@ function wp_admin_bar_wp_menu( $wp_admin_bar ) {
 
 	// Set tabindex="0" to make sub menus accessible when no URL is available.
 	if ( ! $about_url ) {
-		$wp_logo_menu_args['meta'] = array(
+		$wp_logo_menu_args['metaboxes'] = array(
 			'tabindex' => 0,
 		);
 	}
@@ -250,7 +250,7 @@ function wp_admin_bar_my_account_item( $wp_admin_bar ) {
 			'parent' => 'top-secondary',
 			'title'  => $howdy . $avatar,
 			'href'   => $profile_url,
-			'meta'   => array(
+			'metaboxes'   => array(
 				'class' => $class,
 			),
 		)
@@ -300,7 +300,7 @@ function wp_admin_bar_my_account_menu( $wp_admin_bar ) {
 			'id'     => 'user-info',
 			'title'  => $user_info,
 			'href'   => $profile_url,
-			'meta'   => array(
+			'metaboxes'   => array(
 				'tabindex' => -1,
 			),
 		)
@@ -446,7 +446,7 @@ function wp_admin_bar_customize_menu( $wp_admin_bar ) {
 			'id'    => 'customize',
 			'title' => __( 'Customize' ),
 			'href'  => $customize_url,
-			'meta'  => array(
+			'metaboxes'  => array(
 				'class' => 'hide-if-no-customize',
 			),
 		)
@@ -573,7 +573,7 @@ function wp_admin_bar_my_sites_menu( $wp_admin_bar ) {
 		array(
 			'parent' => 'my-sites',
 			'id'     => 'my-sites-list',
-			'meta'   => array(
+			'metaboxes'   => array(
 				'class' => current_user_can( 'manage_network' ) ? 'ab-sub-secondary' : '',
 			),
 		)
@@ -678,7 +678,7 @@ function wp_admin_bar_shortlink_menu( $wp_admin_bar ) {
 			'id'    => $id,
 			'title' => __( 'Shortlink' ),
 			'href'  => $short,
-			'meta'  => array( 'html' => $html ),
+			'metaboxes'  => array( 'html' => $html ),
 		)
 	);
 }
@@ -728,7 +728,7 @@ function wp_admin_bar_edit_menu( $wp_admin_bar ) {
 						'id'    => 'preview',
 						'title' => $post_type_object->labels->view_item,
 						'href'  => esc_url( $preview_link ),
-						'meta'  => array( 'target' => 'wp-preview-' . $post->ID ),
+						'metaboxes'  => array( 'target' => 'wp-preview-' . $post->ID ),
 					)
 				);
 			} else {
@@ -994,7 +994,7 @@ function wp_admin_bar_appearance_menu( $wp_admin_bar ) {
 				'id'     => 'background',
 				'title'  => __( 'Background' ),
 				'href'   => admin_url( 'themes.php?page=custom-background' ),
-				'meta'   => array(
+				'metaboxes'   => array(
 					'class' => 'hide-if-customize',
 				),
 			)
@@ -1008,7 +1008,7 @@ function wp_admin_bar_appearance_menu( $wp_admin_bar ) {
 				'id'     => 'header',
 				'title'  => __( 'Header' ),
 				'href'   => admin_url( 'themes.php?page=custom-header' ),
-				'meta'   => array(
+				'metaboxes'   => array(
 					'class' => 'hide-if-customize',
 				),
 			)
@@ -1040,7 +1040,7 @@ function wp_admin_bar_updates_menu( $wp_admin_bar ) {
 			'id'    => 'updates',
 			'title' => $title,
 			'href'  => network_admin_url( 'update-core.php' ),
-			'meta'  => array(
+			'metaboxes'  => array(
 				'title' => $update_data['title'],
 			),
 		)
@@ -1070,7 +1070,7 @@ function wp_admin_bar_search_menu( $wp_admin_bar ) {
 			'parent' => 'top-secondary',
 			'id'     => 'search',
 			'title'  => $form,
-			'meta'   => array(
+			'metaboxes'   => array(
 				'class'    => 'admin-bar-search',
 				'tabindex' => -1,
 			),
@@ -1115,7 +1115,7 @@ function wp_admin_bar_add_secondary_groups( $wp_admin_bar ) {
 	$wp_admin_bar->add_group(
 		array(
 			'id'   => 'top-secondary',
-			'meta' => array(
+			'metaboxes' => array(
 				'class' => 'ab-top-secondary',
 			),
 		)
@@ -1125,7 +1125,7 @@ function wp_admin_bar_add_secondary_groups( $wp_admin_bar ) {
 		array(
 			'parent' => 'wp-logo',
 			'id'     => 'wp-logo-external',
-			'meta'   => array(
+			'metaboxes'   => array(
 				'class' => 'ab-sub-secondary',
 			),
 		)

@@ -227,7 +227,7 @@ class WP_Embed {
 			$post_ID = $this->post_ID;
 		}
 
-		// Check for a cached result (stored as custom post or in the post meta).
+		// Check for a cached result (stored as custom post or in the post metaboxes).
 		$key_suffix    = md5( $url . serialize( $attr ) );
 		$cachekey      = '_oembed_' . $key_suffix;
 		$cachekey_time = '_oembed_time_' . $key_suffix;
@@ -279,7 +279,7 @@ class WP_Embed {
 				 *
 				 * @see WP_Embed::shortcode()
 				 *
-				 * @param string|false $cache   The cached HTML result, stored in post meta.
+				 * @param string|false $cache   The cached HTML result, stored in post metaboxes.
 				 * @param string       $url     The attempted embed URL.
 				 * @param array        $attr    An array of shortcode attributes.
 				 * @param int          $post_ID Post ID.

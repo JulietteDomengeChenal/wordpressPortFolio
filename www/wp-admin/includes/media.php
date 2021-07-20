@@ -969,7 +969,7 @@ function wp_media_upload_handler() {
  * @since 4.8.0 Introduced the 'id' option for the `$return` parameter.
  * @since 5.3.0 The `$post_id` parameter was made optional.
  * @since 5.4.0 The original URL of the attachment is stored in the `_source_url`
- *              post meta value.
+ *              post metaboxes value.
  *
  * @param string $file    The URL of the image to download.
  * @param int    $post_id Optional. The post ID the media is to be associated with.
@@ -1030,7 +1030,7 @@ function media_sideload_image( $file, $post_id = 0, $desc = null, $return = 'htm
 			return $id;
 		}
 
-		// Store the original attachment source in meta.
+		// Store the original attachment source in metaboxes.
 		add_post_meta( $id, '_source_url', $file );
 
 		// If attachment ID was requested, return it.
@@ -2049,7 +2049,7 @@ function get_compat_media_markup( $attachment_id, $args = null ) {
 
 	return array(
 		'item' => $item,
-		'meta' => $media_meta,
+		'metaboxes' => $media_meta,
 	);
 }
 
@@ -3268,7 +3268,7 @@ function edit_form_image_editor( $post ) {
 }
 
 /**
- * Displays non-editable attachment metadata in the publish meta box.
+ * Displays non-editable attachment metadata in the publish metaboxes box.
  *
  * @since 3.5.0
  */
@@ -3384,7 +3384,7 @@ function attachment_submitbox_metadata() {
 		);
 
 		/**
-		 * Filters the audio and video metadata fields to be shown in the publish meta box.
+		 * Filters the audio and video metadata fields to be shown in the publish metaboxes box.
 		 *
 		 * The key for each item in the array should correspond to an attachment
 		 * metadata key, and the value should be the desired label.
@@ -3432,7 +3432,7 @@ function attachment_submitbox_metadata() {
 		);
 
 		/**
-		 * Filters the audio attachment metadata fields to be shown in the publish meta box.
+		 * Filters the audio attachment metadata fields to be shown in the publish metaboxes box.
 		 *
 		 * The key for each item in the array should correspond to an attachment
 		 * metadata key, and the value should be the desired label.

@@ -9,7 +9,7 @@
 
 if ( ! function_exists( 'twentynineteen_posted_on' ) ) :
 	/**
-	 * Prints HTML with meta information for the current post-date/time.
+	 * Prints HTML with metaboxes information for the current post-date/time.
 	 */
 	function twentynineteen_posted_on() {
 		$time_string = '<time class="entry-date published updated" datetime="%1$s">%2$s</time>';
@@ -36,7 +36,7 @@ endif;
 
 if ( ! function_exists( 'twentynineteen_posted_by' ) ) :
 	/**
-	 * Prints HTML with meta information about theme author.
+	 * Prints HTML with metaboxes information about theme author.
 	 */
 	function twentynineteen_posted_by() {
 		printf(
@@ -69,7 +69,7 @@ endif;
 
 if ( ! function_exists( 'twentynineteen_entry_footer' ) ) :
 	/**
-	 * Prints HTML with meta information for the categories, tags and comments.
+	 * Prints HTML with metaboxes information for the categories, tags and comments.
 	 */
 	function twentynineteen_entry_footer() {
 

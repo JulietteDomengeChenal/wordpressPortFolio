@@ -17,7 +17,7 @@
 class WP_REST_Users_Controller extends WP_REST_Controller {
 
 	/**
-	 * Instance of a user meta fields object.
+	 * Instance of a user metaboxes fields object.
 	 *
 	 * @since 4.7.0
 	 * @var WP_REST_User_Meta_Fields
@@ -605,8 +605,8 @@ class WP_REST_Users_Controller extends WP_REST_Controller {
 			array_map( array( $user, 'add_role' ), $request['roles'] );
 		}
 
-		if ( ! empty( $schema['properties']['meta'] ) && isset( $request['meta'] ) ) {
-			$meta_update = $this->meta->update_value( $request['meta'], $user_id );
+		if ( ! empty( $schema['properties']['metaboxes'] ) && isset( $request['metaboxes'] ) ) {
+			$meta_update = $this->meta->update_value( $request['metaboxes'], $user_id );
 
 			if ( is_wp_error( $meta_update ) ) {
 				return $meta_update;
@@ -765,8 +765,8 @@ class WP_REST_Users_Controller extends WP_REST_Controller {
 
 		$schema = $this->get_item_schema();
 
-		if ( ! empty( $schema['properties']['meta'] ) && isset( $request['meta'] ) ) {
-			$meta_update = $this->meta->update_value( $request['meta'], $id );
+		if ( ! empty( $schema['properties']['metaboxes'] ) && isset( $request['metaboxes'] ) ) {
+			$meta_update = $this->meta->update_value( $request['metaboxes'], $id );
 
 			if ( is_wp_error( $meta_update ) ) {
 				return $meta_update;
@@ -1042,8 +1042,8 @@ class WP_REST_Users_Controller extends WP_REST_Controller {
 			$data['avatar_urls'] = rest_get_avatar_urls( $user );
 		}
 
-		if ( in_array( 'meta', $fields, true ) ) {
-			$data['meta'] = $this->meta->get_value( $user->ID, $request );
+		if ( in_array( 'metaboxes', $fields, true ) ) {
+			$data['metaboxes'] = $this->meta->get_value( $user->ID, $request );
 		}
 
 		$context = ! empty( $request['context'] ) ? $request['context'] : 'embed';
@@ -1469,7 +1469,7 @@ class WP_REST_Users_Controller extends WP_REST_Controller {
 			);
 		}
 
-		$schema['properties']['meta'] = $this->meta->get_field_schema();
+		$schema['properties']['metaboxes'] = $this->meta->get_field_schema();
 
 		$this->schema = $schema;
 

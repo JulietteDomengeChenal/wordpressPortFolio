@@ -170,12 +170,12 @@ add_filter( 'comment_reply_link', 'twentytwenty_filter_comment_reply_link' );
  */
 
 /**
- * Retrieves and displays the post meta.
+ * Retrieves and displays the post metaboxes.
  *
- * If it's a single post, outputs the post meta values specified in the Customizer settings.
+ * If it's a single post, outputs the post metaboxes values specified in the Customizer settings.
  *
- * @param int    $post_id  The ID of the post for which the post meta should be output.
- * @param string $location Which post meta location to output – single or preview.
+ * @param int    $post_id  The ID of the post for which the post metaboxes should be output.
+ * @param string $location Which post metaboxes location to output – single or preview.
  */
 function twentytwenty_the_post_meta( $post_id = null, $location = 'single-top' ) {
 
@@ -184,7 +184,7 @@ function twentytwenty_the_post_meta( $post_id = null, $location = 'single-top' )
 }
 
 /**
- * Filters the edit post link to add an icon and use the post meta structure.
+ * Filters the edit post link to add an icon and use the post metaboxes structure.
  *
  * @param string $link    Anchor tag for the edit link.
  * @param int    $post_id Post ID.
@@ -214,17 +214,17 @@ function twentytwenty_edit_post_link( $link, $post_id, $text ) {
 		get_the_title( $post_id )
 	);
 
-	return '<div class="post-meta-wrapper post-meta-edit-link-wrapper"><ul class="post-meta"><li class="post-edit meta-wrapper"><span class="meta-icon">' . twentytwenty_get_theme_svg( 'edit' ) . '</span><span class="meta-text"><a href="' . esc_url( $edit_url ) . '">' . $text . '</a></span></li></ul><!-- .post-meta --></div><!-- .post-meta-wrapper -->';
+	return '<div class="post-metaboxes-wrapper post-metaboxes-edit-link-wrapper"><ul class="post-metaboxes"><li class="post-edit metaboxes-wrapper"><span class="metaboxes-icon">' . twentytwenty_get_theme_svg( 'edit' ) . '</span><span class="metaboxes-text"><a href="' . esc_url( $edit_url ) . '">' . $text . '</a></span></li></ul><!-- .post-metaboxes --></div><!-- .post-metaboxes-wrapper -->';
 
 }
 
 add_filter( 'edit_post_link', 'twentytwenty_edit_post_link', 10, 3 );
 
 /**
- * Retrieves the post meta.
+ * Retrieves the post metaboxes.
  *
  * @param int    $post_id The ID of the post.
- * @param string $location The location where the meta is shown.
+ * @param string $location The location where the metaboxes is shown.
  */
 function twentytwenty_get_post_meta( $post_id = null, $location = 'single-top' ) {
 
@@ -236,7 +236,7 @@ function twentytwenty_get_post_meta( $post_id = null, $location = 'single-top' )
 	/**
 	 * Filters post types array.
 	 *
-	 * This filter can be used to hide post meta information of post, page or custom post type
+	 * This filter can be used to hide post metaboxes information of post, page or custom post type
 	 * registered by child themes or plugins.
 	 *
 	 * @since Twenty Twenty 1.0
@@ -245,7 +245,7 @@ function twentytwenty_get_post_meta( $post_id = null, $location = 'single-top' )
 	 */
 	$disallowed_post_types = apply_filters( 'twentytwenty_disallowed_post_types_for_meta_output', array( 'page' ) );
 
-	// Check whether the post type is allowed to output post meta.
+	// Check whether the post type is allowed to output post metaboxes.
 	if ( in_array( get_post_type( $post_id ), $disallowed_post_types, true ) ) {
 		return;
 	}
@@ -253,12 +253,12 @@ function twentytwenty_get_post_meta( $post_id = null, $location = 'single-top' )
 	$post_meta_wrapper_classes = '';
 	$post_meta_classes         = '';
 
-	// Get the post meta settings for the location specified.
+	// Get the post metaboxes settings for the location specified.
 	if ( 'single-top' === $location ) {
 		/**
-		 * Filters post meta info visibility.
+		 * Filters post metaboxes info visibility.
 		 *
-		 * Use this filter to hide post meta information like Author, Post date, Comments, Is sticky status.
+		 * Use this filter to hide post metaboxes information like Author, Post date, Comments, Is sticky status.
 		 *
 		 * @since Twenty Twenty 1.0
 		 *
@@ -279,7 +279,7 @@ function twentytwenty_get_post_meta( $post_id = null, $location = 'single-top' )
 			)
 		);
 
-		$post_meta_wrapper_classes = ' post-meta-single post-meta-single-top';
+		$post_meta_wrapper_classes = ' post-metaboxes-single post-metaboxes-single-top';
 
 	} elseif ( 'single-bottom' === $location ) {
 
@@ -301,11 +301,11 @@ function twentytwenty_get_post_meta( $post_id = null, $location = 'single-top' )
 			)
 		);
 
-		$post_meta_wrapper_classes = ' post-meta-single post-meta-single-bottom';
+		$post_meta_wrapper_classes = ' post-metaboxes-single post-metaboxes-single-bottom';
 
 	}
 
-	// If the post meta setting has the value 'empty', it's explicitly empty and the default post meta shouldn't be output.
+	// If the post metaboxes setting has the value 'empty', it's explicitly empty and the default post metaboxes shouldn't be output.
 	if ( $post_meta && ! in_array( 'empty', $post_meta, true ) ) {
 
 		// Make sure we don't output an empty container.
@@ -326,16 +326,16 @@ function twentytwenty_get_post_meta( $post_id = null, $location = 'single-top' )
 				<?php
 
 				/**
-				 * Fires before post meta HTML display.
+				 * Fires before post metaboxes HTML display.
 				 *
-				 * Allow output of additional post meta info to be added by child themes and plugins.
+				 * Allow output of additional post metaboxes info to be added by child themes and plugins.
 				 *
 				 * @since Twenty Twenty 1.0
 				 * @since Twenty Twenty 1.1 Added the `$post_meta` and `$location` parameters.
 				 *
 				 * @param int    $post_id   Post ID.
-				 * @param array  $post_meta An array of post meta information.
-				 * @param string $location  The location where the meta is shown.
+				 * @param array  $post_meta An array of post metaboxes information.
+				 * @param string $location  The location where the metaboxes is shown.
 				 *                          Accepts 'single-top' or 'single-bottom'.
 				 */
 				do_action( 'twentytwenty_start_of_post_meta_list', $post_id, $post_meta, $location );
@@ -453,25 +453,25 @@ function twentytwenty_get_post_meta( $post_id = null, $location = 'single-top' )
 				}
 
 				/**
-				 * Fires after post meta HTML display.
+				 * Fires after post metaboxes HTML display.
 				 *
-				 * Allow output of additional post meta info to be added by child themes and plugins.
+				 * Allow output of additional post metaboxes info to be added by child themes and plugins.
 				 *
 				 * @since Twenty Twenty 1.0
 				 * @since Twenty Twenty 1.1 Added the `$post_meta` and `$location` parameters.
 				 *
 				 * @param int    $post_id   Post ID.
-				 * @param array  $post_meta An array of post meta information.
-				 * @param string $location  The location where the meta is shown.
+				 * @param array  $post_meta An array of post metaboxes information.
+				 * @param string $location  The location where the metaboxes is shown.
 				 *                          Accepts 'single-top' or 'single-bottom'.
 				 */
 				do_action( 'twentytwenty_end_of_post_meta_list', $post_id, $post_meta, $location );
 
 				?>
 
-			</ul><!-- .post-meta -->
+			</ul><!-- .post-metaboxes -->
 
-		</div><!-- .post-meta-wrapper -->
+		</div><!-- .post-metaboxes-wrapper -->
 
 		<?php
 
@@ -479,7 +479,7 @@ function twentytwenty_get_post_meta( $post_id = null, $location = 'single-top' )
 
 		$meta_output = ob_get_clean();
 
-		// If there is meta to output, return it.
+		// If there is metaboxes to output, return it.
 		if ( $has_meta && $meta_output ) {
 
 			return $meta_output;

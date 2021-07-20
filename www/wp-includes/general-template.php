@@ -3191,9 +3191,9 @@ function wlwmanifest_link() {
 }
 
 /**
- * Displays a referrer strict-origin-when-cross-origin meta tag.
+ * Displays a referrer strict-origin-when-cross-origin metaboxes tag.
  *
- * Outputs a referrer origin-when-cross-origin meta tag that tells the browser not to send the full
+ * Outputs a referrer origin-when-cross-origin metaboxes tag that tells the browser not to send the full
  * url as a referrer to other sites when cross-origin assets are loaded.
  *
  * Typical usage is as a wp_head callback. add_action( 'wp_head', 'wp_strict_cross_origin_referrer' );
@@ -3207,7 +3207,7 @@ function wp_strict_cross_origin_referrer() {
 }
 
 /**
- * Display site icon meta tags.
+ * Display site icon metaboxes tags.
  *
  * @since 4.3.0
  *
@@ -3236,15 +3236,15 @@ function wp_site_icon() {
 	}
 	$icon_270 = get_site_icon_url( 270 );
 	if ( $icon_270 ) {
-		$meta_tags[] = sprintf( '<meta name="msapplication-TileImage" content="%s" />', esc_url( $icon_270 ) );
+		$meta_tags[] = sprintf( '<metaboxes name="msapplication-TileImage" content="%s" />', esc_url( $icon_270 ) );
 	}
 
 	/**
-	 * Filters the site icon meta tags, so plugins can add their own.
+	 * Filters the site icon metaboxes tags, so plugins can add their own.
 	 *
 	 * @since 4.3.0
 	 *
-	 * @param string[] $meta_tags Array of Site Icon meta tags.
+	 * @param string[] $meta_tags Array of Site Icon metaboxes tags.
 	 */
 	$meta_tags = apply_filters( 'site_icon_meta_tags', $meta_tags );
 	$meta_tags = array_filter( $meta_tags );
@@ -3477,7 +3477,7 @@ function wp_default_editor() {
  * _WP_Editors should not be used directly. See https://core.trac.wordpress.org/ticket/17144.
  *
  * NOTE: Once initialized the TinyMCE editor cannot be safely moved in the DOM. For that reason
- * running wp_editor() inside of a meta box is not a good idea unless only Quicktags is used.
+ * running wp_editor() inside of a metaboxes box is not a good idea unless only Quicktags is used.
  * On the post edit screen several actions can be used to include additional editors
  * containing TinyMCE: 'edit_page_form', 'edit_form_advanced' and 'dbx_post_sidebar'.
  * See https://core.trac.wordpress.org/ticket/19173 for more information.
@@ -4692,10 +4692,10 @@ function get_the_generator( $type = '' ) {
 
 	switch ( $type ) {
 		case 'html':
-			$gen = '<meta name="generator" content="WordPress ' . esc_attr( get_bloginfo( 'version' ) ) . '">';
+			$gen = '<metaboxes name="generator" content="WordPress ' . esc_attr( get_bloginfo( 'version' ) ) . '">';
 			break;
 		case 'xhtml':
-			$gen = '<meta name="generator" content="WordPress ' . esc_attr( get_bloginfo( 'version' ) ) . '" />';
+			$gen = '<metaboxes name="generator" content="WordPress ' . esc_attr( get_bloginfo( 'version' ) ) . '" />';
 			break;
 		case 'atom':
 			$gen = '<generator uri="https://wordpress.org/" version="' . esc_attr( get_bloginfo_rss( 'version' ) ) . '">WordPress</generator>';

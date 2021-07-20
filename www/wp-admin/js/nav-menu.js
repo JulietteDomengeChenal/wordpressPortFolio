@@ -893,11 +893,11 @@
 			var searchTimer;
 
 			// Prevent form submission.
-			$( '#nav-menu-meta' ).on( 'submit', function( event ) {
+			$( '#nav-menu-metaboxes' ).on( 'submit', function( event ) {
 				event.preventDefault();
 			});
 
-			$( '#nav-menu-meta' ).on( 'input', '.quick-search', function() {
+			$( '#nav-menu-metaboxes' ).on( 'input', '.quick-search', function() {
 				var $this = $( this );
 
 				$this.attr( 'autocomplete', 'off' );
@@ -1136,7 +1136,7 @@
 			 * Delegate the `click` event and attach it just to the pagination
 			 * links thus excluding the current page `<span>`. See ticket #35577.
 			 */
-			$( '#nav-menu-meta' ).on( 'click', 'a.page-numbers', function() {
+			$( '#nav-menu-metaboxes' ).on( 'click', 'a.page-numbers', function() {
 				var $container = $( this ).closest( '.inside' );
 
 				$.post( ajaxurl, this.href.replace( /.*\?/, '' ).replace( /action=([^&]*)/, '' ) + '&action=menu-get-metabox',
@@ -1148,14 +1148,14 @@
 							return;
 						}
 
-						// Get the post type menu meta box to update.
+						// Get the post type menu metaboxes box to update.
 						toReplace = document.getElementById( metaBoxData['replace-id'] );
 
 						if ( ! metaBoxData.markup || ! toReplace ) {
 							return;
 						}
 
-						// Update the post type menu meta box with new content from the response.
+						// Update the post type menu metaboxes box with new content from the response.
 						$container.html( metaBoxData.markup );
 					}
 				);

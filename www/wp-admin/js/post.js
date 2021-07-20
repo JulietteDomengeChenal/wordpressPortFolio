@@ -123,7 +123,7 @@ window.wp = window.wp || {};
 	window.WPSetThumbnailID = function(id){
 		var field = $('input[value="_thumbnail_id"]', '#list-table');
 		if ( field.length > 0 ) {
-			$('#meta\\[' + field.attr('id').match(/[0-9]+/) + '\\]\\[value\\]').text(id);
+			$('#metaboxes\\[' + field.attr('id').match(/[0-9]+/) + '\\]\\[value\\]').text(id);
 		}
 	};
 
@@ -556,7 +556,7 @@ jQuery(document).ready( function($) {
 	if ( $('#tagsdiv-post_tag').length ) {
 		window.tagBox && window.tagBox.init();
 	} else {
-		$('.meta-box-sortables').children('div.postbox').each(function(){
+		$('.metaboxes-box-sortables').children('div.postbox').each(function(){
 			if ( this.id.indexOf('tagsdiv-') === 0 ) {
 				window.tagBox && window.tagBox.init();
 				return false;

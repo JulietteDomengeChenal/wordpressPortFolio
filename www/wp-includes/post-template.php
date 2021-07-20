@@ -1059,11 +1059,11 @@ function _wp_link_page( $i ) {
 }
 
 //
-// Post-meta: Custom per-post fields.
+// Post-metaboxes: Custom per-post fields.
 //
 
 /**
- * Retrieve post custom meta data field.
+ * Retrieve post custom metaboxes data field.
  *
  * @since 1.5.0
  *
@@ -1104,7 +1104,7 @@ function the_meta() {
 			$value  = implode( ', ', $values );
 
 			$html = sprintf(
-				"<li><span class='post-meta-key'>%s</span> %s</li>\n",
+				"<li><span class='post-metaboxes-key'>%s</span> %s</li>\n",
 				/* translators: %s: Post custom field name. */
 				sprintf( _x( '%s:', 'Post custom field name' ), $key ),
 				$value
@@ -1123,7 +1123,7 @@ function the_meta() {
 		}
 
 		if ( $li_html ) {
-			echo "<ul class='post-meta'>\n{$li_html}</ul>\n";
+			echo "<ul class='post-metaboxes'>\n{$li_html}</ul>\n";
 		}
 	}
 }

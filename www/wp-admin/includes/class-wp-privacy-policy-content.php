@@ -85,7 +85,7 @@ final class WP_Privacy_Policy_Content {
 
 		$new = self::$policy_content;
 
-		// Remove the extra values added to the meta.
+		// Remove the extra values added to the metaboxes.
 		foreach ( $old as $key => $data ) {
 			if ( ! is_array( $data ) || ! empty( $data['removed'] ) ) {
 				unset( $old[ $key ] );

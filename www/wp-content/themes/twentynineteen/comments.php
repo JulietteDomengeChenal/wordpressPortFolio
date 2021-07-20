@@ -56,9 +56,9 @@ $discussion = twentynineteen_get_discussion_data();
 		?>
 		</h2><!-- .comments-title -->
 		<?php
-		// Only show discussion meta information when comments are open and available.
+		// Only show discussion metaboxes information when comments are open and available.
 		if ( have_comments() && comments_open() ) {
-			get_template_part( 'template-parts/post/discussion', 'meta' );
+			get_template_part( 'template-parts/post/discussion', 'metaboxes' );
 		}
 		?>
 	</div><!-- .comments-title-flex -->

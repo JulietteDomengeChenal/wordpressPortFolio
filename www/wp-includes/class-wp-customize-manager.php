@@ -2870,7 +2870,7 @@ final class WP_Customize_Manager {
 		/**
 		 * Filters the settings' data that will be persisted into the changeset.
 		 *
-		 * Plugins may amend additional data (such as additional meta for settings) into the changeset with this filter.
+		 * Plugins may amend additional data (such as additional metaboxes for settings) into the changeset with this filter.
 		 *
 		 * @since 4.7.0
 		 *
@@ -2945,7 +2945,7 @@ final class WP_Customize_Manager {
 		add_filter( 'wp_insert_post_data', array( $this, 'preserve_insert_changeset_post_content' ), 5, 3 );
 		if ( $changeset_post_id ) {
 			if ( $args['autosave'] && 'auto-draft' !== get_post_status( $changeset_post_id ) ) {
-				// See _wp_translate_postdata() for why this is required as it will use the edit_post meta capability.
+				// See _wp_translate_postdata() for why this is required as it will use the edit_post metaboxes capability.
 				add_filter( 'map_meta_cap', array( $this, 'grant_edit_post_capability_for_changeset' ), 10, 4 );
 
 				$post_array['post_ID']   = $post_array['ID'];
@@ -3201,13 +3201,13 @@ final class WP_Customize_Manager {
 	}
 
 	/**
-	 * Re-map 'edit_post' meta cap for a customize_changeset post to be the same as 'customize' maps.
+	 * Re-map 'edit_post' metaboxes cap for a customize_changeset post to be the same as 'customize' maps.
 	 *
-	 * There is essentially a "meta meta" cap in play here, where 'edit_post' meta cap maps to
-	 * the 'customize' meta cap which then maps to 'edit_theme_options'. This is currently
+	 * There is essentially a "metaboxes metaboxes" cap in play here, where 'edit_post' metaboxes cap maps to
+	 * the 'customize' metaboxes cap which then maps to 'edit_theme_options'. This is currently
 	 * required in core for `wp_create_post_autosave()` because it will call
 	 * `_wp_translate_postdata()` which in turn will check if a user can 'edit_post', but the
-	 * the caps for the customize_changeset post type are all mapping to the meta capability.
+	 * the caps for the customize_changeset post type are all mapping to the metaboxes capability.
 	 * This should be able to be removed once #40922 is addressed in core.
 	 *
 	 * @since 4.9.0

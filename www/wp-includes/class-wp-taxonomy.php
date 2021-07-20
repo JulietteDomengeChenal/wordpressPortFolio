@@ -125,7 +125,7 @@ final class WP_Taxonomy {
 	public $show_admin_column = false;
 
 	/**
-	 * The callback function for the meta box display.
+	 * The callback function for the metaboxes box display.
 	 *
 	 * @since 4.7.0
 	 * @var bool|callable
@@ -133,7 +133,7 @@ final class WP_Taxonomy {
 	public $meta_box_cb = null;
 
 	/**
-	 * The callback function for sanitizing taxonomy data saved from a meta box.
+	 * The callback function for sanitizing taxonomy data saved from a metaboxes box.
 	 *
 	 * @since 5.1.0
 	 * @var callable
@@ -396,7 +396,7 @@ final class WP_Taxonomy {
 
 		$args['object_type'] = array_unique( (array) $object_type );
 
-		// If not set, use the default meta box.
+		// If not set, use the default metaboxes box.
 		if ( null === $args['meta_box_cb'] ) {
 			if ( $args['hierarchical'] ) {
 				$args['meta_box_cb'] = 'post_categories_meta_box';
@@ -407,7 +407,7 @@ final class WP_Taxonomy {
 
 		$args['name'] = $this->name;
 
-		// Default meta box sanitization callback depends on the value of 'meta_box_cb'.
+		// Default metaboxes box sanitization callback depends on the value of 'meta_box_cb'.
 		if ( null === $args['meta_box_sanitize_cb'] ) {
 			switch ( $args['meta_box_cb'] ) {
 				case 'post_categories_meta_box':
@@ -496,7 +496,7 @@ final class WP_Taxonomy {
 	}
 
 	/**
-	 * Registers the ajax callback for the meta box.
+	 * Registers the ajax callback for the metaboxes box.
 	 *
 	 * @since 4.7.0
 	 */
@@ -505,7 +505,7 @@ final class WP_Taxonomy {
 	}
 
 	/**
-	 * Removes the ajax callback for the meta box.
+	 * Removes the ajax callback for the metaboxes box.
 	 *
 	 * @since 4.7.0
 	 */

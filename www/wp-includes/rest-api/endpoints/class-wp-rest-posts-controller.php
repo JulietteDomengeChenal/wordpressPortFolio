@@ -24,7 +24,7 @@ class WP_REST_Posts_Controller extends WP_REST_Controller {
 	protected $post_type;
 
 	/**
-	 * Instance of a post meta fields object.
+	 * Instance of a post metaboxes fields object.
 	 *
 	 * @since 4.7.0
 	 * @var WP_REST_Post_Meta_Fields
@@ -515,7 +515,7 @@ class WP_REST_Posts_Controller extends WP_REST_Controller {
 
 		/*
 		 * Users always gets access to password protected content in the edit
-		 * context if they have the `edit_post` meta capability.
+		 * context if they have the `edit_post` metaboxes capability.
 		 */
 		if (
 			'edit' === $request['context'] &&
@@ -692,8 +692,8 @@ class WP_REST_Posts_Controller extends WP_REST_Controller {
 			return $terms_update;
 		}
 
-		if ( ! empty( $schema['properties']['meta'] ) && isset( $request['meta'] ) ) {
-			$meta_update = $this->meta->update_value( $request['meta'], $post_id );
+		if ( ! empty( $schema['properties']['metaboxes'] ) && isset( $request['metaboxes'] ) ) {
+			$meta_update = $this->meta->update_value( $request['metaboxes'], $post_id );
 
 			if ( is_wp_error( $meta_update ) ) {
 				return $meta_update;
@@ -850,8 +850,8 @@ class WP_REST_Posts_Controller extends WP_REST_Controller {
 			return $terms_update;
 		}
 
-		if ( ! empty( $schema['properties']['meta'] ) && isset( $request['meta'] ) ) {
-			$meta_update = $this->meta->update_value( $request['meta'], $post->ID );
+		if ( ! empty( $schema['properties']['metaboxes'] ) && isset( $request['metaboxes'] ) ) {
+			$meta_update = $this->meta->update_value( $request['metaboxes'], $post->ID );
 
 			if ( is_wp_error( $meta_update ) ) {
 				return $meta_update;
@@ -1839,8 +1839,8 @@ class WP_REST_Posts_Controller extends WP_REST_Controller {
 			}
 		}
 
-		if ( rest_is_field_included( 'meta', $fields ) ) {
-			$data['meta'] = $this->meta->get_value( $post->ID, $request );
+		if ( rest_is_field_included( 'metaboxes', $fields ) ) {
+			$data['metaboxes'] = $this->meta->get_value( $post->ID, $request );
 		}
 
 		$taxonomies = wp_list_filter( get_object_taxonomies( $this->post_type, 'objects' ), array( 'show_in_rest' => true ) );
@@ -1942,7 +1942,7 @@ class WP_REST_Posts_Controller extends WP_REST_Controller {
 	protected function prepare_links( $post ) {
 		$base = sprintf( '%s/%s', $this->namespace, $this->rest_base );
 
-		// Entity meta.
+		// Entity metaboxes.
 		$links = array(
 			'self'       => array(
 				'href' => rest_url( trailingslashit( $base ) . $post->ID ),
@@ -2441,7 +2441,7 @@ class WP_REST_Posts_Controller extends WP_REST_Controller {
 					break;
 
 				case 'custom-fields':
-					$schema['properties']['meta'] = $this->meta->get_field_schema();
+					$schema['properties']['metaboxes'] = $this->meta->get_field_schema();
 					break;
 
 			}

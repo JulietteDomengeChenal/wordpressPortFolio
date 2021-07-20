@@ -208,7 +208,7 @@ class WP_Site_Icon {
 	}
 
 	/**
-	 * Adds custom image sizes when meta data for an image is requested, that happens to be used as Site Icon.
+	 * Adds custom image sizes when metaboxes data for an image is requested, that happens to be used as Site Icon.
 	 *
 	 * @since 4.3.0
 	 *

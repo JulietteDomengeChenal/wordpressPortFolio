@@ -19,12 +19,12 @@
  *
  * @param WP_Post $post Current post object.
  * @param array   $args {
- *     Array of arguments for building the post submit meta box.
+ *     Array of arguments for building the post submit metaboxes box.
  *
  *     @type string   $id       Meta box 'id' attribute.
  *     @type string   $title    Meta box title.
  *     @type callable $callback Meta box display callback.
- *     @type array    $args     Extra meta box arguments.
+ *     @type array    $args     Extra metaboxes box arguments.
  * }
  */
 function post_submit_meta_box( $post, $args = array() ) {
@@ -87,7 +87,7 @@ function post_submit_meta_box( $post, $args = array() ) {
 		endif;
 
 		/**
-		 * Fires before the post time/date setting in the Publish meta box.
+		 * Fires before the post time/date setting in the Publish metaboxes box.
 		 *
 		 * @since 4.4.0
 		 *
@@ -302,7 +302,7 @@ function post_submit_meta_box( $post, $args = array() ) {
 		endif;
 
 		/**
-		 * Fires after the post time/date setting in the Publish meta box.
+		 * Fires after the post time/date setting in the Publish metaboxes box.
 		 *
 		 * @since 2.9.0
 		 * @since 4.4.0 Added the `$post` parameter.
@@ -318,7 +318,7 @@ function post_submit_meta_box( $post, $args = array() ) {
 <div id="major-publishing-actions">
 	<?php
 	/**
-	 * Fires at the beginning of the publishing actions section of the Publish meta box.
+	 * Fires at the beginning of the publishing actions section of the Publish metaboxes box.
 	 *
 	 * @since 2.7.0
 	 * @since 4.9.0 Added the `$post` parameter.
@@ -419,7 +419,7 @@ function attachment_submit_meta_box( $post ) {
 
 	<?php
 	/**
-	 * Fires after the 'Uploaded on' section of the Save meta box
+	 * Fires after the 'Uploaded on' section of the Save metaboxes box
 	 * in the attachment editing screen.
 	 *
 	 * @since 3.5.0
@@ -467,12 +467,12 @@ function attachment_submit_meta_box( $post ) {
  *
  * @param WP_Post $post Post object.
  * @param array   $box {
- *     Post formats meta box arguments.
+ *     Post formats metaboxes box arguments.
  *
  *     @type string   $id       Meta box 'id' attribute.
  *     @type string   $title    Meta box title.
  *     @type callable $callback Meta box display callback.
- *     @type array    $args     Extra meta box arguments.
+ *     @type array    $args     Extra metaboxes box arguments.
  * }
  */
 function post_format_meta_box( $post, $box ) {
@@ -512,13 +512,13 @@ endif;
  *
  * @param WP_Post $post Post object.
  * @param array   $box {
- *     Tags meta box arguments.
+ *     Tags metaboxes box arguments.
  *
  *     @type string   $id       Meta box 'id' attribute.
  *     @type string   $title    Meta box title.
  *     @type callable $callback Meta box display callback.
  *     @type array    $args {
- *         Extra meta box arguments.
+ *         Extra metaboxes box arguments.
  *
  *         @type string $taxonomy Taxonomy. Default 'post_tag'.
  *     }
@@ -575,13 +575,13 @@ function post_tags_meta_box( $post, $box ) {
  *
  * @param WP_Post $post Post object.
  * @param array   $box {
- *     Categories meta box arguments.
+ *     Categories metaboxes box arguments.
  *
  *     @type string   $id       Meta box 'id' attribute.
  *     @type string   $title    Meta box title.
  *     @type callable $callback Meta box display callback.
  *     @type array    $args {
- *         Extra meta box arguments.
+ *         Extra metaboxes box arguments.
  *
  *         @type string $taxonomy Taxonomy. Default 'category'.
  *     }
@@ -810,7 +810,7 @@ function post_comment_status_meta_box( $post ) {
 	</label>
 	<?php
 	/**
-	 * Fires at the end of the Discussion meta box on the post editing screen.
+	 * Fires at the end of the Discussion metaboxes box on the post editing screen.
 	 *
 	 * @since 3.1.0
 	 *
@@ -977,7 +977,7 @@ function page_attributes_meta_box( $post ) {
 		<?php
 		/**
 		 * Fires immediately after the label inside the 'Template' section
-		 * of the 'Page Attributes' meta box.
+		 * of the 'Page Attributes' metaboxes box.
 		 *
 		 * @since 4.4.0
 		 *
@@ -996,9 +996,9 @@ function page_attributes_meta_box( $post ) {
 		 *
 		 * @param string $label   The display value for the default page template title.
 		 * @param string $context Where the option label is displayed. Possible values
-		 *                        include 'meta-box' or 'quick-edit'.
+		 *                        include 'metaboxes-box' or 'quick-edit'.
 		 */
-		$default_title = apply_filters( 'default_page_template_title', __( 'Default template' ), 'meta-box' );
+		$default_title = apply_filters( 'default_page_template_title', __( 'Default template' ), 'metaboxes-box' );
 		?>
 <option value="default"><?php echo esc_html( $default_title ); ?></option>
 		<?php page_template_dropdown( $template, $post->post_type ); ?>
@@ -1009,7 +1009,7 @@ function page_attributes_meta_box( $post ) {
 <input name="menu_order" type="text" size="4" id="menu_order" value="<?php echo esc_attr( $post->menu_order ); ?>" />
 		<?php
 		/**
-		 * Fires before the help hint text in the 'Page Attributes' meta box.
+		 * Fires before the help hint text in the 'Page Attributes' metaboxes box.
 		 *
 		 * @since 4.9.0
 		 *
@@ -1065,7 +1065,7 @@ function link_submit_meta_box( $link ) {
 
 <div id="major-publishing-actions">
 	<?php
-	/** This action is documented in wp-admin/includes/meta-boxes.php */
+	/** This action is documented in wp-admin/includes/metaboxes-boxes.php */
 	do_action( 'post_submitbox_start', null );
 	?>
 <div id="delete-action">
@@ -1377,7 +1377,7 @@ function link_advanced_meta_box( $link ) {
 }
 
 /**
- * Display post thumbnail meta box.
+ * Display post thumbnail metaboxes box.
  *
  * @since 2.9.0
  *
@@ -1416,11 +1416,11 @@ function attachment_id3_data_meta_box( $post ) {
 }
 
 /**
- * Registers the default post meta boxes, and runs the `do_meta_boxes` actions.
+ * Registers the default post metaboxes boxes, and runs the `do_meta_boxes` actions.
  *
  * @since 5.0.0
  *
- * @param WP_Post $post The post object that these meta boxes are being generated for.
+ * @param WP_Post $post The post object that these metaboxes boxes are being generated for.
  */
 function register_and_do_post_meta_boxes( $post ) {
 	$post_type        = $post->post_type;
@@ -1440,7 +1440,7 @@ function register_and_do_post_meta_boxes( $post ) {
 	if ( post_type_supports( $post_type, 'revisions' ) && 'auto-draft' !== $post->post_status ) {
 		$revisions = wp_get_post_revisions( $post->ID, array( 'fields' => 'ids' ) );
 
-		// We should aim to show the revisions meta box only when there are revisions.
+		// We should aim to show the revisions metaboxes box only when there are revisions.
 		if ( count( $revisions ) > 1 ) {
 			$publish_callback_args = array(
 				'revisions_count'        => count( $revisions ),
@@ -1530,7 +1530,7 @@ function register_and_do_post_meta_boxes( $post ) {
 	}
 
 	/**
-	 * Fires in the middle of built-in meta box registration.
+	 * Fires in the middle of built-in metaboxes box registration.
 	 *
 	 * @since 2.1.0
 	 * @deprecated 3.7.0 Use {@see 'add_meta_boxes'} instead.
@@ -1539,7 +1539,7 @@ function register_and_do_post_meta_boxes( $post ) {
 	 */
 	do_action_deprecated( 'dbx_post_advanced', array( $post ), '3.7.0', 'add_meta_boxes' );
 
-	// Allow the Discussion meta box to show up if the post type supports comments,
+	// Allow the Discussion metaboxes box to show up if the post type supports comments,
 	// or if comments or pings are open.
 	if ( comments_open( $post ) || pings_open( $post ) || post_type_supports( $post_type, 'comments' ) ) {
 		add_meta_box( 'commentstatusdiv', __( 'Discussion' ), 'post_comment_status_meta_box', null, 'normal', 'core', array( '__back_compat_meta_box' => true ) );
@@ -1553,7 +1553,7 @@ function register_and_do_post_meta_boxes( $post ) {
 
 	if ( in_array( get_post_status( $post ), $stati, true ) ) {
 		// If the post type support comments, or the post has comments,
-		// allow the Comments meta box.
+		// allow the Comments metaboxes box.
 		if ( comments_open( $post ) || pings_open( $post ) || $post->comment_count > 0 || post_type_supports( $post_type, 'comments' ) ) {
 			add_meta_box( 'commentsdiv', __( 'Comments' ), 'post_comment_meta_box', null, 'normal', 'core', array( '__back_compat_meta_box' => true ) );
 		}
@@ -1568,7 +1568,7 @@ function register_and_do_post_meta_boxes( $post ) {
 	}
 
 	/**
-	 * Fires after all built-in meta boxes have been added.
+	 * Fires after all built-in metaboxes boxes have been added.
 	 *
 	 * @since 3.0.0
 	 *
@@ -1578,7 +1578,7 @@ function register_and_do_post_meta_boxes( $post ) {
 	do_action( 'add_meta_boxes', $post_type, $post );
 
 	/**
-	 * Fires after all built-in meta boxes have been added, contextually for the given post type.
+	 * Fires after all built-in metaboxes boxes have been added, contextually for the given post type.
 	 *
 	 * The dynamic portion of the hook, `$post_type`, refers to the post type of the post.
 	 *
@@ -1589,9 +1589,9 @@ function register_and_do_post_meta_boxes( $post ) {
 	do_action( "add_meta_boxes_{$post_type}", $post );
 
 	/**
-	 * Fires after meta boxes have been added.
+	 * Fires after metaboxes boxes have been added.
 	 *
-	 * Fires once for each of the default meta box contexts: normal, advanced, and side.
+	 * Fires once for each of the default metaboxes box contexts: normal, advanced, and side.
 	 *
 	 * @since 3.0.0
 	 *
@@ -1602,8 +1602,8 @@ function register_and_do_post_meta_boxes( $post ) {
 	 *                                         an empty string on Dashboard screen.
 	 */
 	do_action( 'do_meta_boxes', $post_type, 'normal', $post );
-	/** This action is documented in wp-admin/includes/meta-boxes.php */
+	/** This action is documented in wp-admin/includes/metaboxes-boxes.php */
 	do_action( 'do_meta_boxes', $post_type, 'advanced', $post );
-	/** This action is documented in wp-admin/includes/meta-boxes.php */
+	/** This action is documented in wp-admin/includes/metaboxes-boxes.php */
 	do_action( 'do_meta_boxes', $post_type, 'side', $post );
 }

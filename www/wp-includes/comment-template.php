@@ -1383,7 +1383,7 @@ function comments_template( $file = '/comments.php', $separate_comments = false 
 		'status'                    => 'approve',
 		'post_id'                   => $post->ID,
 		'no_found_rows'             => false,
-		'update_comment_meta_cache' => false, // We lazy-load comment meta for performance.
+		'update_comment_meta_cache' => false, // We lazy-load comment metaboxes for performance.
 	);
 
 	if ( get_option( 'thread_comments' ) ) {
@@ -1475,7 +1475,7 @@ function comments_template( $file = '/comments.php', $separate_comments = false 
 	 *                                                   will be included in results.
 	 *     @type int          $post_id                   ID of the post.
 	 *     @type bool         $no_found_rows             Whether to refrain from querying for found rows.
-	 *     @type bool         $update_comment_meta_cache Whether to prime cache for comment meta.
+	 *     @type bool         $update_comment_meta_cache Whether to prime cache for comment metaboxes.
 	 *     @type bool|string  $hierarchical              Whether to query for comments hierarchically.
 	 *     @type int          $offset                    Comment offset.
 	 *     @type int          $number                    Number of comments to fetch.

@@ -350,7 +350,7 @@ function wp_shake_js() {
 }
 
 /**
- * Outputs the viewport meta tag for the login page.
+ * Outputs the viewport metaboxes tag for the login page.
  *
  * @since 3.7.0
  */

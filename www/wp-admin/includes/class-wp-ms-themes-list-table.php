@@ -729,7 +729,7 @@ class WP_MS_Themes_List_Table extends WP_List_Table {
 		}
 
 		/**
-		 * Filters the array of row meta for each theme in the Multisite themes
+		 * Filters the array of row metaboxes for each theme in the Multisite themes
 		 * list table.
 		 *
 		 * @since 3.1.0

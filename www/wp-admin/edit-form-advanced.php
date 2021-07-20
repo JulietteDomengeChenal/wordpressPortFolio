@@ -265,7 +265,7 @@ if ( $autosave && mysql2date( 'U', $autosave->post_modified_gmt, false ) > mysql
 
 $post_type_object = get_post_type_object( $post_type );
 
-// All meta boxes should be defined and added before the first do_meta_boxes() call (or potentially during the do_meta_boxes action).
+// All metaboxes boxes should be defined and added before the first do_meta_boxes() call (or potentially during the do_meta_boxes action).
 require_once ABSPATH . 'wp-admin/includes/meta-boxes.php';
 
 register_and_do_post_meta_boxes( $post );
@@ -483,7 +483,7 @@ if ( 'draft' !== get_post_status( $post ) ) {
 
 echo $form_extra;
 
-wp_nonce_field( 'meta-box-order', 'meta-box-order-nonce', false );
+wp_nonce_field( 'metaboxes-box-order', 'metaboxes-box-order-nonce', false );
 wp_nonce_field( 'closedpostboxes', 'closedpostboxesnonce', false );
 ?>
 
@@ -655,9 +655,9 @@ do_action( 'edit_form_after_editor', $post );
 
 if ( 'page' === $post_type ) {
 	/**
-	 * Fires before meta boxes with 'side' context are output for the 'page' post type.
+	 * Fires before metaboxes boxes with 'side' context are output for the 'page' post type.
 	 *
-	 * The submitpage box is a meta box with 'side' context, so this hook fires just before it is output.
+	 * The submitpage box is a metaboxes box with 'side' context, so this hook fires just before it is output.
 	 *
 	 * @since 2.5.0
 	 *
@@ -666,9 +666,9 @@ if ( 'page' === $post_type ) {
 	do_action( 'submitpage_box', $post );
 } else {
 	/**
-	 * Fires before meta boxes with 'side' context are output for all post types other than 'page'.
+	 * Fires before metaboxes boxes with 'side' context are output for all post types other than 'page'.
 	 *
-	 * The submitpost box is a meta box with 'side' context, so this hook fires just before it is output.
+	 * The submitpost box is a metaboxes box with 'side' context, so this hook fires just before it is output.
 	 *
 	 * @since 2.5.0
 	 *
@@ -689,7 +689,7 @@ do_meta_boxes( null, 'normal', $post );
 
 if ( 'page' === $post_type ) {
 	/**
-	 * Fires after 'normal' context meta boxes have been output for the 'page' post type.
+	 * Fires after 'normal' context metaboxes boxes have been output for the 'page' post type.
 	 *
 	 * @since 1.5.0
 	 *
@@ -698,7 +698,7 @@ if ( 'page' === $post_type ) {
 	do_action( 'edit_page_form', $post );
 } else {
 	/**
-	 * Fires after 'normal' context meta boxes have been output for all post types other than 'page'.
+	 * Fires after 'normal' context metaboxes boxes have been output for all post types other than 'page'.
 	 *
 	 * @since 1.5.0
 	 *
@@ -714,7 +714,7 @@ do_meta_boxes( null, 'advanced', $post );
 </div>
 <?php
 /**
- * Fires after all meta box sections have been output, before the closing #post-body div.
+ * Fires after all metaboxes box sections have been output, before the closing #post-body div.
  *
  * @since 2.1.0
  *

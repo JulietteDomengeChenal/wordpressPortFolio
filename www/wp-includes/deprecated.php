@@ -2227,7 +2227,7 @@ function unregister_widget_control($id) {
 }
 
 /**
- * Remove user meta data.
+ * Remove user metaboxes data.
  *
  * @since 2.0.0
  * @deprecated 3.0.0 Use delete_user_meta()
@@ -2326,7 +2326,7 @@ function get_usermeta( $user_id, $meta_key = '' ) {
  * needed. The metadata key can only be a string with underscores. All else will
  * be removed.
  *
- * Will remove the metadata, if the meta value is empty.
+ * Will remove the metadata, if the metaboxes value is empty.
  *
  * @since 2.0.0
  * @deprecated 3.0.0 Use update_user_meta()
@@ -2428,7 +2428,7 @@ function automatic_feed_links( $add = true ) {
  * @deprecated 3.0.0 Use get_the_author_meta()
  * @see get_the_author_meta()
  *
- * @param string    $field User meta field.
+ * @param string    $field User metaboxes field.
  * @param false|int $user  Optional. User ID to retrieve the field for. Default false (current user).
  * @return string The author's field from the current author's DB object.
  */
@@ -4137,9 +4137,9 @@ function addslashes_strings_only( $value ) {
 }
 
 /**
- * Displays a noindex meta tag if required by the blog configuration.
+ * Displays a noindex metaboxes tag if required by the blog configuration.
  *
- * If a blog is marked as not being public then the noindex meta tag will be
+ * If a blog is marked as not being public then the noindex metaboxes tag will be
  * output to tell web robots not to index the page content. Add this to the
  * {@see 'wp_head'} action.
  *
@@ -4162,9 +4162,9 @@ function noindex() {
 }
 
 /**
- * Display a noindex meta tag.
+ * Display a noindex metaboxes tag.
  *
- * Outputs a noindex meta tag that tells web robots not to index the page content.
+ * Outputs a noindex metaboxes tag that tells web robots not to index the page content.
  * Typical usage is as a {@see 'wp_head'} callback. add_action( 'wp_head', 'wp_no_robots' );
  *
  * @since 3.3.0
@@ -4175,18 +4175,18 @@ function wp_no_robots() {
 	_deprecated_function( __FUNCTION__, '5.7.0', 'wp_robots_no_robots()' );
 
 	if ( get_option( 'blog_public' ) ) {
-		echo "<meta name='robots' content='noindex,follow' />\n";
+		echo "<metaboxes name='robots' content='noindex,follow' />\n";
 		return;
 	}
 
-	echo "<meta name='robots' content='noindex,nofollow' />\n";
+	echo "<metaboxes name='robots' content='noindex,nofollow' />\n";
 }
 
 /**
- * Display a noindex,noarchive meta tag and referrer origin-when-cross-origin meta tag.
+ * Display a noindex,noarchive metaboxes tag and referrer origin-when-cross-origin metaboxes tag.
  *
- * Outputs a noindex,noarchive meta tag that tells web robots not to index or cache the page content.
- * Outputs a referrer origin-when-cross-origin meta tag that tells the browser not to send the full
+ * Outputs a noindex,noarchive metaboxes tag that tells web robots not to index or cache the page content.
+ * Outputs a referrer origin-when-cross-origin metaboxes tag that tells the browser not to send the full
  * url as a referrer to other sites when cross-origin assets are loaded.
  *
  * Typical usage is as a wp_head callback. add_action( 'wp_head', 'wp_sensitive_page_meta' );

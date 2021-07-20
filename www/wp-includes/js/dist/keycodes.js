@@ -429,7 +429,7 @@ var modifiers = {
  * ```js
  * // Assuming macOS:
  * rawShortcut.primary( 'm' )
- * // "meta+m""
+ * // "metaboxes+m""
  * ```
  *
  * @type {WPModifierHandler<WPKeyHandler<string>>} Keyed map of functions to raw

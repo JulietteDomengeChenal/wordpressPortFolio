@@ -942,7 +942,7 @@ require_once ABSPATH . 'wp-admin/admin-header.php';
 					<input type="hidden" name="nav-menu-data">
 					<?php
 					wp_nonce_field( 'closedpostboxes', 'closedpostboxesnonce', false );
-					wp_nonce_field( 'meta-box-order', 'meta-box-order-nonce', false );
+					wp_nonce_field( 'metaboxes-box-order', 'metaboxes-box-order-nonce', false );
 					wp_nonce_field( 'update-nav_menu', 'update-nav-menu-nonce' );
 
 					$menu_name_aria_desc = $add_new_screen ? ' aria-describedby="menu-name-desc"' : '';

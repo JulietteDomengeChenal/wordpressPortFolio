@@ -41,7 +41,7 @@ final class WP_Customize_Widgets {
 		'media_audio',
 		'media_image',
 		'media_video',
-		'meta',
+		'metaboxes',
 		'nav_menu',
 		'pages',
 		'recent-comments',

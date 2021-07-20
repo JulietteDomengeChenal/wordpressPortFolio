@@ -119,14 +119,14 @@ wp_add_inline_script(
 	'wp.blocks.unstable__bootstrapServerSideBlockDefinitions(' . wp_json_encode( get_block_editor_server_block_settings() ) . ');'
 );
 
-// Get admin url for handling meta boxes.
+// Get admin url for handling metaboxes boxes.
 $meta_box_url = admin_url( 'post.php' );
 $meta_box_url = add_query_arg(
 	array(
 		'post'                  => $post->ID,
 		'action'                => 'edit',
-		'meta-box-loader'       => true,
-		'meta-box-loader-nonce' => wp_create_nonce( 'meta-box-loader' ),
+		'metaboxes-box-loader'       => true,
+		'metaboxes-box-loader-nonce' => wp_create_nonce( 'metaboxes-box-loader' ),
 	),
 	$meta_box_url
 );
@@ -162,7 +162,7 @@ $custom_spacing     = get_theme_support( 'custom-spacing' );
 $allowed_block_types = apply_filters( 'allowed_block_types', true, $post );
 
 /*
- * Get all available templates for the post/page attributes meta-box.
+ * Get all available templates for the post/page attributes metaboxes-box.
  * The "Default template" array element should only be added if the array is
  * not empty so we do not trigger the template select element without any options
  * besides the default value.
@@ -170,7 +170,7 @@ $allowed_block_types = apply_filters( 'allowed_block_types', true, $post );
 $available_templates = wp_get_theme()->get_page_templates( get_post( $post->ID ) );
 $available_templates = ! empty( $available_templates ) ? array_merge(
 	array(
-		/** This filter is documented in wp-admin/includes/meta-boxes.php */
+		/** This filter is documented in wp-admin/includes/metaboxes-boxes.php */
 		'' => apply_filters( 'default_page_template_title', __( 'Default template' ), 'rest-api' ),
 	),
 	$available_templates
@@ -334,7 +334,7 @@ $editor_settings = array(
 	'__experimentalBlockPatterns'          => WP_Block_Patterns_Registry::get_instance()->get_all_registered(),
 	'__experimentalBlockPatternCategories' => WP_Block_Pattern_Categories_Registry::get_instance()->get_all_registered(),
 
-	// Whether or not to load the 'postcustom' meta box is stored as a user meta
+	// Whether or not to load the 'postcustom' metaboxes box is stored as a user metaboxes
 	// field so that we're not always loading its assets.
 	'enableCustomFields'                   => (bool) get_user_meta( get_current_user_id(), 'enable_custom_fields', true ),
 	'enableCustomLineHeight'               => $custom_line_height,
@@ -408,11 +408,11 @@ wp_enqueue_style( 'wp-format-library' );
  */
 do_action( 'enqueue_block_editor_assets' );
 
-// In order to duplicate classic meta box behaviour, we need to run the classic meta box actions.
+// In order to duplicate classic metaboxes box behaviour, we need to run the classic metaboxes box actions.
 require_once ABSPATH . 'wp-admin/includes/meta-boxes.php';
 register_and_do_post_meta_boxes( $post );
 
-// Check if the Custom Fields meta box has been removed at some point.
+// Check if the Custom Fields metaboxes box has been removed at some point.
 $core_meta_boxes = $wp_meta_boxes[ $current_screen->id ]['normal']['core'];
 if ( ! isset( $core_meta_boxes['postcustom'] ) || ! $core_meta_boxes['postcustom'] ) {
 	unset( $editor_settings['enableCustomFields'] );

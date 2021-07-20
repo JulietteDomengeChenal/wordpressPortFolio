@@ -22,7 +22,7 @@ while ( have_posts() ) :
 		the_post_navigation(
 			array(
 				/* translators: %s: Parent post link. */
-				'prev_text' => sprintf( __( '<span class="meta-nav">Published in</span><span class="post-title">%s</span>', 'twentytwentyone' ), '%title' ),
+				'prev_text' => sprintf( __( '<span class="metaboxes-nav">Published in</span><span class="post-title">%s</span>', 'twentytwentyone' ), '%title' ),
 			)
 		);
 	}
@@ -41,8 +41,8 @@ while ( have_posts() ) :
 
 	the_post_navigation(
 		array(
-			'next_text' => '<p class="meta-nav">' . $twentytwentyone_next_label . $twentytwentyone_next . '</p><p class="post-title">%title</p>',
-			'prev_text' => '<p class="meta-nav">' . $twentytwentyone_prev . $twentytwentyone_previous_label . '</p><p class="post-title">%title</p>',
+			'next_text' => '<p class="metaboxes-nav">' . $twentytwentyone_next_label . $twentytwentyone_next . '</p><p class="post-title">%title</p>',
+			'prev_text' => '<p class="metaboxes-nav">' . $twentytwentyone_prev . $twentytwentyone_previous_label . '</p><p class="post-title">%title</p>',
 		)
 	);
 endwhile; // End of the loop.

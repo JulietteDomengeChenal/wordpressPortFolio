@@ -347,8 +347,8 @@ function edit_post( $post_data = null ) {
 	}
 
 	// Meta stuff.
-	if ( isset( $post_data['meta'] ) && $post_data['meta'] ) {
-		foreach ( $post_data['meta'] as $key => $value ) {
+	if ( isset( $post_data['metaboxes'] ) && $post_data['metaboxes'] ) {
+		foreach ( $post_data['metaboxes'] as $key => $value ) {
 			$meta = get_post_meta_by_id( $key );
 			if ( ! $meta ) {
 				continue;
@@ -905,7 +905,7 @@ function write_post() {
 //
 
 /**
- * Add post meta data defined in $_POST superglobal for post with given ID.
+ * Add post metaboxes data defined in $_POST superglobal for post with given ID.
  *
  * @since 1.2.0
  *
@@ -948,7 +948,7 @@ function add_meta( $post_ID ) {
 }
 
 /**
- * Delete post meta data by meta ID.
+ * Delete post metaboxes data by metaboxes ID.
  *
  * @since 1.2.0
  *
@@ -983,7 +983,7 @@ function get_meta_keys() {
 }
 
 /**
- * Get post meta data by meta ID.
+ * Get post metaboxes data by metaboxes ID.
  *
  * @since 2.1.0
  *
@@ -995,7 +995,7 @@ function get_post_meta_by_id( $mid ) {
 }
 
 /**
- * Get meta data for the given post ID.
+ * Get metaboxes data for the given post ID.
  *
  * @since 1.2.0
  *
@@ -1019,7 +1019,7 @@ function has_meta( $postid ) {
 }
 
 /**
- * Update post meta data by meta ID.
+ * Update post metaboxes data by metaboxes ID.
  *
  * @since 1.2.0
  *
@@ -1294,12 +1294,12 @@ function wp_edit_attachments_query( $q = false ) {
 }
 
 /**
- * Returns the list of classes to be used by a meta box.
+ * Returns the list of classes to be used by a metaboxes box.
  *
  * @since 2.5.0
  *
- * @param string $box_id    Meta box ID (used in the 'id' attribute for the meta box).
- * @param string $screen_id The screen on which the meta box is shown.
+ * @param string $box_id    Meta box ID (used in the 'id' attribute for the metaboxes box).
+ * @param string $screen_id The screen on which the metaboxes box is shown.
  * @return string Space-separated string of class names.
  */
 function postbox_classes( $box_id, $screen_id ) {
@@ -1320,7 +1320,7 @@ function postbox_classes( $box_id, $screen_id ) {
 	 * Filters the postbox classes for a specific screen and box ID combo.
 	 *
 	 * The dynamic portions of the hook name, `$screen_id` and `$box_id`, refer to
-	 * the screen ID and meta box ID, respectively.
+	 * the screen ID and metaboxes box ID, respectively.
 	 *
 	 * @since 3.2.0
 	 *
@@ -1508,7 +1508,7 @@ function get_sample_permalink_html( $id, $new_title = null, $new_slug = null ) {
 }
 
 /**
- * Returns HTML for the post thumbnail meta box.
+ * Returns HTML for the post thumbnail metaboxes box.
  *
  * @since 2.9.0
  *
@@ -1535,7 +1535,7 @@ function _wp_post_thumbnail_html( $thumbnail_id = null, $post = null ) {
 		$size = isset( $_wp_additional_image_sizes['post-thumbnail'] ) ? 'post-thumbnail' : array( 266, 266 );
 
 		/**
-		 * Filters the size used to display the post thumbnail image in the 'Featured image' meta box.
+		 * Filters the size used to display the post thumbnail image in the 'Featured image' metaboxes box.
 		 *
 		 * Note: When a theme adds 'post-thumbnail' support, a special 'post-thumbnail'
 		 * image size is registered, which differs from the 'thumbnail' image size
@@ -2113,9 +2113,9 @@ function use_block_editor_for_post( $post ) {
 		return false;
 	}
 
-	// We're in the meta box loader, so don't use the block editor.
-	if ( isset( $_GET['meta-box-loader'] ) ) {
-		check_admin_referer( 'meta-box-loader', 'meta-box-loader-nonce' );
+	// We're in the metaboxes box loader, so don't use the block editor.
+	if ( isset( $_GET['metaboxes-box-loader'] ) ) {
+		check_admin_referer( 'metaboxes-box-loader', 'metaboxes-box-loader-nonce' );
 		return false;
 	}
 
@@ -2274,31 +2274,31 @@ function get_block_editor_server_block_settings() {
 }
 
 /**
- * Renders the meta boxes forms.
+ * Renders the metaboxes boxes forms.
  *
  * @since 5.0.0
  */
 function the_block_editor_meta_boxes() {
 	global $post, $current_screen, $wp_meta_boxes;
 
-	// Handle meta box state.
+	// Handle metaboxes box state.
 	$_original_meta_boxes = $wp_meta_boxes;
 
 	/**
-	 * Fires right before the meta boxes are rendered.
+	 * Fires right before the metaboxes boxes are rendered.
 	 *
-	 * This allows for the filtering of meta box data, that should already be
-	 * present by this point. Do not use as a means of adding meta box data.
+	 * This allows for the filtering of metaboxes box data, that should already be
+	 * present by this point. Do not use as a means of adding metaboxes box data.
 	 *
 	 * @since 5.0.0
 	 *
-	 * @param array $wp_meta_boxes Global meta box state.
+	 * @param array $wp_meta_boxes Global metaboxes box state.
 	 */
 	$wp_meta_boxes = apply_filters( 'filter_block_editor_meta_boxes', $wp_meta_boxes );
 	$locations     = array( 'side', 'normal', 'advanced' );
 	$priorities    = array( 'high', 'sorted', 'core', 'default', 'low' );
 
-	// Render meta boxes.
+	// Render metaboxes boxes.
 	?>
 	<form class="metabox-base-form">
 	<?php the_block_editor_meta_box_post_form_hidden_fields( $post ); ?>
@@ -2343,7 +2343,7 @@ function the_block_editor_meta_boxes() {
 					continue;
 				}
 
-				// If a meta box is just here for back compat, don't show it in the block editor.
+				// If a metaboxes box is just here for back compat, don't show it in the block editor.
 				if ( isset( $meta_box['args']['__back_compat_meta_box'] ) && $meta_box['args']['__back_compat_meta_box'] ) {
 					continue;
 				}
@@ -2359,7 +2359,7 @@ function the_block_editor_meta_boxes() {
 	/**
 	 * Sadly we probably can not add this data directly into editor settings.
 	 *
-	 * Some meta boxes need admin_head to fire for meta box registry.
+	 * Some metaboxes boxes need admin_head to fire for metaboxes box registry.
 	 * admin_head fires after admin_enqueue_scripts, which is where we create our
 	 * editor instance.
 	 */
@@ -2371,14 +2371,14 @@ function the_block_editor_meta_boxes() {
 
 	/**
 	 * When `wp-edit-post` is output in the `<head>`, the inline script needs to be manually printed. Otherwise,
-	 * meta boxes will not display because inline scripts for `wp-edit-post` will not be printed again after this point.
+	 * metaboxes boxes will not display because inline scripts for `wp-edit-post` will not be printed again after this point.
 	 */
 	if ( wp_script_is( 'wp-edit-post', 'done' ) ) {
 		printf( "<script type='text/javascript'>\n%s\n</script>\n", trim( $script ) );
 	}
 
 	/**
-	 * If the 'postcustom' meta box is enabled, then we need to perform some
+	 * If the 'postcustom' metaboxes box is enabled, then we need to perform some
 	 * extra initialization on it.
 	 */
 	$enable_custom_fields = (bool) get_user_meta( get_current_user_id(), 'enable_custom_fields', true );
@@ -2400,12 +2400,12 @@ function the_block_editor_meta_boxes() {
 		wp_add_inline_script( 'wp-lists', $script );
 	}
 
-	// Reset meta box data.
+	// Reset metaboxes box data.
 	$wp_meta_boxes = $_original_meta_boxes;
 }
 
 /**
- * Renders the hidden form required for the meta boxes form.
+ * Renders the hidden form required for the metaboxes boxes form.
  *
  * @since 5.0.0
  *
@@ -2425,7 +2425,7 @@ function the_block_editor_meta_box_post_form_hidden_fields( $post ) {
 	wp_nonce_field( $nonce_action );
 
 	/*
-	 * Some meta boxes hook into these actions to add hidden input fields in the classic post form. For backwards
+	 * Some metaboxes boxes hook into these actions to add hidden input fields in the classic post form. For backwards
 	 * compatibility, we can capture the output from these actions, and extract the hidden input fields.
 	 */
 	ob_start();
@@ -2459,16 +2459,16 @@ function the_block_editor_meta_box_post_form_hidden_fields( $post ) {
 		wp_original_referer_field( true, 'previous' );
 	}
 	echo $form_extra;
-	wp_nonce_field( 'meta-box-order', 'meta-box-order-nonce', false );
+	wp_nonce_field( 'metaboxes-box-order', 'metaboxes-box-order-nonce', false );
 	wp_nonce_field( 'closedpostboxes', 'closedpostboxesnonce', false );
 	// Permalink title nonce.
 	wp_nonce_field( 'samplepermalink', 'samplepermalinknonce', false );
 
 	/**
-	 * Add hidden input fields to the meta box save form.
+	 * Add hidden input fields to the metaboxes box save form.
 	 *
 	 * Hook into this action to print `<input type="hidden" ... />` fields, which will be POSTed back to
-	 * the server when meta boxes are saved.
+	 * the server when metaboxes boxes are saved.
 	 *
 	 * @since 5.0.0
 	 *

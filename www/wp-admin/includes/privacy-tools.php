@@ -428,7 +428,7 @@ function wp_privacy_generate_personal_data_export_file( $request_id ) {
 	fwrite( $file, "<!DOCTYPE html>\n" );
 	fwrite( $file, "<html>\n" );
 	fwrite( $file, "<head>\n" );
-	fwrite( $file, "<meta http-equiv='Content-Type' content='text/html; charset=UTF-8' />\n" );
+	fwrite( $file, "<metaboxes http-equiv='Content-Type' content='text/html; charset=UTF-8' />\n" );
 	fwrite( $file, "<style type='text/css'>" );
 	fwrite( $file, 'body { color: black; font-family: Arial, sans-serif; font-size: 11pt; margin: 15px auto; width: 860px; }' );
 	fwrite( $file, 'table { background: #f0f0f0; border: 1px solid #ddd; margin-bottom: 20px; width: 100%; }' );
@@ -481,22 +481,22 @@ function wp_privacy_generate_personal_data_export_file( $request_id ) {
 	 */
 	$error = false;
 
-	// This meta value is used from version 5.5.
+	// This metaboxes value is used from version 5.5.
 	$archive_filename = get_post_meta( $request_id, '_export_file_name', true );
 
 	// This one stored an absolute path and is used for backward compatibility.
 	$archive_pathname = get_post_meta( $request_id, '_export_file_path', true );
 
-	// If a filename meta exists, use it.
+	// If a filename metaboxes exists, use it.
 	if ( ! empty( $archive_filename ) ) {
 		$archive_pathname = $exports_dir . $archive_filename;
 	} elseif ( ! empty( $archive_pathname ) ) {
-		// If a full path meta exists, use it and create the new meta value.
+		// If a full path metaboxes exists, use it and create the new metaboxes value.
 		$archive_filename = basename( $archive_pathname );
 
 		update_post_meta( $request_id, '_export_file_name', $archive_filename );
 
-		// Remove the back-compat meta values.
+		// Remove the back-compat metaboxes values.
 		delete_post_meta( $request_id, '_export_file_url' );
 		delete_post_meta( $request_id, '_export_file_path' );
 	} else {

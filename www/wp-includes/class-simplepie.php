@@ -676,7 +676,7 @@ class SimplePie
 	 * @see SimplePie::strip_htmltags()
 	 * @access private
 	 */
-	public $strip_htmltags = array('base', 'blink', 'body', 'doctype', 'embed', 'font', 'form', 'frame', 'frameset', 'html', 'iframe', 'input', 'marquee', 'meta', 'noscript', 'object', 'param', 'script', 'style');
+	public $strip_htmltags = array('base', 'blink', 'body', 'doctype', 'embed', 'font', 'form', 'frame', 'frameset', 'html', 'iframe', 'input', 'marquee', 'metaboxes', 'noscript', 'object', 'param', 'script', 'style');
 
 	/**
 	 * @var bool Should we throw exceptions, or use the old-style error property?

@@ -1632,7 +1632,7 @@ $this->warning('incomplete/incorrect handling of "stsd" with Parrot metadata in 
 					//$atom_structure['subatoms']  = $this->QuicktimeParseContainerAtom($atom_data, $baseoffset + 8, $atomHierarchy, $ParseAllPossibleAtoms);
 					break;
 
-				case 'meta': // METAdata atom
+				case 'metaboxes': // METAdata atom
 					// https://developer.apple.com/library/mac/documentation/QuickTime/QTFF/Metadata/Metadata.html
 
 					$atom_structure['version']   =          getid3_lib::BigEndian2Int(substr($atom_data, 0, 1));

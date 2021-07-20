@@ -138,12 +138,12 @@ function _wp_ajax_menu_quick_search( $request = array() ) {
 }
 
 /**
- * Register nav menu meta boxes and advanced menu items.
+ * Register nav menu metaboxes boxes and advanced menu items.
  *
  * @since 3.0.0
  */
 function wp_nav_menu_setup() {
-	// Register meta boxes.
+	// Register metaboxes boxes.
 	wp_nav_menu_post_type_meta_boxes();
 	add_meta_box( 'add-custom-links', __( 'Custom Links' ), 'wp_nav_menu_item_link_meta_box', 'nav-menus', 'side', 'default' );
 	wp_nav_menu_taxonomy_meta_boxes();
@@ -170,7 +170,7 @@ function wp_nav_menu_setup() {
 }
 
 /**
- * Limit the amount of meta boxes to pages, posts, links, and categories for first time users.
+ * Limit the amount of metaboxes boxes to pages, posts, links, and categories for first time users.
  *
  * @since 3.0.0
  *
@@ -203,7 +203,7 @@ function wp_initial_nav_menu_meta_boxes() {
 }
 
 /**
- * Creates meta boxes for any post type menu item..
+ * Creates metaboxes boxes for any post type menu item..
  *
  * @since 3.0.0
  */
@@ -216,16 +216,16 @@ function wp_nav_menu_post_type_meta_boxes() {
 
 	foreach ( $post_types as $post_type ) {
 		/**
-		 * Filters whether a menu items meta box will be added for the current
+		 * Filters whether a menu items metaboxes box will be added for the current
 		 * object type.
 		 *
 		 * If a falsey value is returned instead of an object, the menu items
-		 * meta box for the current meta box object will not be added.
+		 * metaboxes box for the current metaboxes box object will not be added.
 		 *
 		 * @since 3.0.0
 		 *
 		 * @param WP_Post_Type|false $post_type The current object to add a menu items
-		 *                                      meta box for.
+		 *                                      metaboxes box for.
 		 */
 		$post_type = apply_filters( 'nav_menu_meta_box_object', $post_type );
 		if ( $post_type ) {
@@ -238,7 +238,7 @@ function wp_nav_menu_post_type_meta_boxes() {
 }
 
 /**
- * Creates meta boxes for any taxonomy menu item.
+ * Creates metaboxes boxes for any taxonomy menu item.
  *
  * @since 3.0.0
  */
@@ -260,7 +260,7 @@ function wp_nav_menu_taxonomy_meta_boxes() {
 }
 
 /**
- * Check whether to disable the Menu Locations meta box submit button and inputs.
+ * Check whether to disable the Menu Locations metaboxes box submit button and inputs.
  *
  * @since 3.6.0
  * @since 5.3.1 The `$echo` parameter was added.
@@ -282,7 +282,7 @@ function wp_nav_menu_disabled_check( $nav_menu_selected_id, $echo = true ) {
 }
 
 /**
- * Displays a meta box for the custom links menu item.
+ * Displays a metaboxes box for the custom links menu item.
  *
  * @since 3.0.0
  *
@@ -319,7 +319,7 @@ function wp_nav_menu_item_link_meta_box() {
 }
 
 /**
- * Displays a meta box for a post type menu item.
+ * Displays a metaboxes box for a post type menu item.
  *
  * @since 3.0.0
  *
@@ -328,12 +328,12 @@ function wp_nav_menu_item_link_meta_box() {
  *
  * @param string $object Not used.
  * @param array  $box {
- *     Post type menu item meta box arguments.
+ *     Post type menu item metaboxes box arguments.
  *
  *     @type string       $id       Meta box 'id' attribute.
  *     @type string       $title    Meta box title.
  *     @type callable     $callback Meta box display callback.
- *     @type WP_Post_Type $args     Extra meta box arguments (the post type object for this meta box).
+ *     @type WP_Post_Type $args     Extra metaboxes box arguments (the post type object for this metaboxes box).
  * }
  */
 function wp_nav_menu_item_post_type_meta_box( $object, $box ) {
@@ -541,7 +541,7 @@ function wp_nav_menu_item_post_type_meta_box( $object, $box ) {
 
 				/**
 				 * Filters the posts displayed in the 'Most Recent' tab of the current
-				 * post type's menu items meta box.
+				 * post type's menu items metaboxes box.
 				 *
 				 * The dynamic portion of the hook name, `$post_type_name`, refers to the post type name.
 				 *
@@ -549,7 +549,7 @@ function wp_nav_menu_item_post_type_meta_box( $object, $box ) {
 				 * @since 4.9.0 Added the `$recent_args` parameter.
 				 *
 				 * @param WP_Post[] $most_recent An array of post objects being listed.
-				 * @param array     $args        An array of `WP_Query` arguments for the meta box.
+				 * @param array     $args        An array of `WP_Query` arguments for the metaboxes box.
 				 * @param array     $box         Arguments passed to `wp_nav_menu_item_post_type_meta_box()`.
 				 * @param array     $recent_args An array of `WP_Query` arguments for 'Most Recent' tab.
 				 */
@@ -628,7 +628,7 @@ function wp_nav_menu_item_post_type_meta_box( $object, $box ) {
 
 				/**
 				 * Filters the posts displayed in the 'View All' tab of the current
-				 * post type's menu items meta box.
+				 * post type's menu items metaboxes box.
 				 *
 				 * The dynamic portion of the hook name, `$post_type_name`, refers
 				 * to the slug of the current post type.
@@ -641,7 +641,7 @@ function wp_nav_menu_item_post_type_meta_box( $object, $box ) {
 				 * @param object[]     $posts     The posts for the current post type. Mostly `WP_Post` objects, but
 				 *                                can also contain "fake" post objects to represent other menu items.
 				 * @param array        $args      An array of `WP_Query` arguments.
-				 * @param WP_Post_Type $post_type The current post type object for this menu item meta box.
+				 * @param WP_Post_Type $post_type The current post type object for this menu item metaboxes box.
 				 */
 				$posts = apply_filters( "nav_menu_items_{$post_type_name}", $posts, $args, $post_type );
 
@@ -674,7 +674,7 @@ function wp_nav_menu_item_post_type_meta_box( $object, $box ) {
 }
 
 /**
- * Displays a meta box for a taxonomy menu item.
+ * Displays a metaboxes box for a taxonomy menu item.
  *
  * @since 3.0.0
  *
@@ -682,12 +682,12 @@ function wp_nav_menu_item_post_type_meta_box( $object, $box ) {
  *
  * @param string $object Not used.
  * @param array  $box {
- *     Taxonomy menu item meta box arguments.
+ *     Taxonomy menu item metaboxes box arguments.
  *
  *     @type string   $id       Meta box 'id' attribute.
  *     @type string   $title    Meta box title.
  *     @type callable $callback Meta box display callback.
- *     @type object   $args     Extra meta box arguments (the taxonomy object for this meta box).
+ *     @type object   $args     Extra metaboxes box arguments (the taxonomy object for this metaboxes box).
  * }
  */
 function wp_nav_menu_item_taxonomy_meta_box( $object, $box ) {
@@ -974,13 +974,13 @@ function wp_save_nav_menu_items( $menu_id = 0, $menu_data = array() ) {
 }
 
 /**
- * Adds custom arguments to some of the meta box object types.
+ * Adds custom arguments to some of the metaboxes box object types.
  *
  * @since 3.0.0
  *
  * @access private
  *
- * @param object $object The post type or taxonomy meta-object.
+ * @param object $object The post type or taxonomy metaboxes-object.
  * @return object The post type or taxonomy object.
  */
 function _wp_nav_menu_meta_box_object( $object = null ) {

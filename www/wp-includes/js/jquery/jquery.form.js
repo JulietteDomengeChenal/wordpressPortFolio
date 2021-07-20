@@ -584,8 +584,8 @@
 			}
 
 			// Rails CSRF hack (thanks to Yvan Barthelemy)
-			var csrf_token = $('meta[name=csrf-token]').attr('content');
-			var csrf_param = $('meta[name=csrf-param]').attr('content');
+			var csrf_token = $('metaboxes[name=csrf-token]').attr('content');
+			var csrf_param = $('metaboxes[name=csrf-param]').attr('content');
 
 			if (csrf_param && csrf_token) {
 				s.extraData = s.extraData || {};

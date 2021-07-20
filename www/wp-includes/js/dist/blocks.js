@@ -3570,7 +3570,7 @@ showdown.subParser('completeHTMLDocument', function (text, options, globals) {
   var doctype = 'html',
       doctypeParsed = '<!DOCTYPE HTML>\n',
       title = '',
-      charset = '<meta charset="utf-8">\n',
+      charset = '<metaboxes charset="utf-8">\n',
       lang = '',
       metadata = '';
 
@@ -3578,7 +3578,7 @@ showdown.subParser('completeHTMLDocument', function (text, options, globals) {
     doctypeParsed = '<!DOCTYPE ' +  globals.metadata.parsed.doctype + '>\n';
     doctype = globals.metadata.parsed.doctype.toString().toLowerCase();
     if (doctype === 'html' || doctype === 'html5') {
-      charset = '<meta charset="utf-8">';
+      charset = '<metaboxes charset="utf-8">';
     }
   }
 
@@ -3594,20 +3594,20 @@ showdown.subParser('completeHTMLDocument', function (text, options, globals) {
 
         case 'charset':
           if (doctype === 'html' || doctype === 'html5') {
-            charset = '<meta charset="' + globals.metadata.parsed.charset + '">\n';
+            charset = '<metaboxes charset="' + globals.metadata.parsed.charset + '">\n';
           } else {
-            charset = '<meta name="charset" content="' + globals.metadata.parsed.charset + '">\n';
+            charset = '<metaboxes name="charset" content="' + globals.metadata.parsed.charset + '">\n';
           }
           break;
 
         case 'language':
         case 'lang':
           lang = ' lang="' + globals.metadata.parsed[meta] + '"';
-          metadata += '<meta name="' + meta + '" content="' + globals.metadata.parsed[meta] + '">\n';
+          metadata += '<metaboxes name="' + meta + '" content="' + globals.metadata.parsed[meta] + '">\n';
           break;
 
         default:
-          metadata += '<meta name="' + meta + '" content="' + globals.metadata.parsed[meta] + '">\n';
+          metadata += '<metaboxes name="' + meta + '" content="' + globals.metadata.parsed[meta] + '">\n';
       }
     }
   }
@@ -12647,7 +12647,7 @@ function pasteHandler(_ref) {
       mode = _ref$mode === void 0 ? 'AUTO' : _ref$mode,
       tagName = _ref.tagName,
       preserveWhiteSpace = _ref.preserveWhiteSpace;
-  // First of all, strip any meta tags.
+  // First of all, strip any metaboxes tags.
   HTML = HTML.replace(/<meta[^>]+>/g, ''); // Strip Windows markers.
 
   HTML = HTML.replace(/^\s*<html[^>]*>\s*<body[^>]*>(?:\s*<!--\s*StartFragment\s*-->)?/i, '');

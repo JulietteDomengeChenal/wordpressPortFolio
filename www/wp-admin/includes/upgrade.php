@@ -471,7 +471,7 @@ Commenter avatars come from <a href="https://gravatar.com">Gravatar</a>.'
 				'sidebar-2'           => array(
 					0 => 'archives-2',
 					1 => 'categories-2',
-					2 => 'meta-2',
+					2 => 'metaboxes-2',
 				),
 				'array_version'       => 3,
 			)
@@ -1732,10 +1732,10 @@ function upgrade_300() {
 		$wpdb->query(
 			$wpdb->prepare(
 				$sql,
-				$prefix . '%' . $wpdb->esc_like( 'meta-box-hidden' ) . '%',
+				$prefix . '%' . $wpdb->esc_like( 'metaboxes-box-hidden' ) . '%',
 				$prefix . '%' . $wpdb->esc_like( 'closedpostboxes' ) . '%',
 				$prefix . '%' . $wpdb->esc_like( 'manage-' ) . '%' . $wpdb->esc_like( '-columns-hidden' ) . '%',
-				$prefix . '%' . $wpdb->esc_like( 'meta-box-order' ) . '%',
+				$prefix . '%' . $wpdb->esc_like( 'metaboxes-box-order' ) . '%',
 				$prefix . '%' . $wpdb->esc_like( 'metaboxorder' ) . '%',
 				$prefix . '%' . $wpdb->esc_like( 'screen_layout' ) . '%'
 			)
@@ -2142,7 +2142,7 @@ function upgrade_450() {
 function upgrade_460() {
 	global $wp_current_db_version;
 
-	// Remove unused post meta.
+	// Remove unused post metaboxes.
 	if ( $wp_current_db_version < 37854 ) {
 		delete_post_meta_by_key( '_post_restored_from' );
 	}

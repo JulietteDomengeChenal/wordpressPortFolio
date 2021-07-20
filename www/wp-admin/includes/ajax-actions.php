@@ -804,7 +804,7 @@ function wp_ajax_delete_link() {
 }
 
 /**
- * Ajax handler for deleting meta.
+ * Ajax handler for deleting metaboxes.
  *
  * @since 3.1.0
  */
@@ -1532,12 +1532,12 @@ function wp_ajax_add_menu_item() {
 }
 
 /**
- * Ajax handler for adding meta.
+ * Ajax handler for adding metaboxes.
  *
  * @since 3.1.0
  */
 function wp_ajax_add_meta() {
-	check_ajax_referer( 'add-meta', '_ajax_nonce-add-meta' );
+	check_ajax_referer( 'add-metaboxes', '_ajax_nonce-add-metaboxes' );
 	$c    = 0;
 	$pid  = (int) $_POST['post_id'];
 	$post = get_post( $pid );
@@ -1551,7 +1551,7 @@ function wp_ajax_add_meta() {
 			wp_die( 1 );
 		}
 
-		// If the post is an autodraft, save the post as a draft and then attempt to save the meta.
+		// If the post is an autodraft, save the post as a draft and then attempt to save the metaboxes.
 		if ( 'auto-draft' === $post->post_status ) {
 			$post_data                = array();
 			$post_data['action']      = 'draft'; // Warning fix.
@@ -1568,7 +1568,7 @@ function wp_ajax_add_meta() {
 				if ( is_wp_error( $pid ) ) {
 					$x = new WP_Ajax_Response(
 						array(
-							'what' => 'meta',
+							'what' => 'metaboxes',
 							'data' => $pid,
 						)
 					);
@@ -1595,7 +1595,7 @@ function wp_ajax_add_meta() {
 
 		$x = new WP_Ajax_Response(
 			array(
-				'what'         => 'meta',
+				'what'         => 'metaboxes',
 				'id'           => $mid,
 				'data'         => _list_meta_row( $meta, $c ),
 				'position'     => 1,
@@ -1603,9 +1603,9 @@ function wp_ajax_add_meta() {
 			)
 		);
 	} else { // Update?
-		$mid   = (int) key( $_POST['meta'] );
-		$key   = wp_unslash( $_POST['meta'][ $mid ]['key'] );
-		$value = wp_unslash( $_POST['meta'][ $mid ]['value'] );
+		$mid   = (int) key( $_POST['metaboxes'] );
+		$key   = wp_unslash( $_POST['metaboxes'][ $mid ]['key'] );
+		$value = wp_unslash( $_POST['metaboxes'][ $mid ]['value'] );
 
 		if ( '' === trim( $key ) ) {
 			wp_die( __( 'Please provide a custom field name.' ) );
@@ -1614,7 +1614,7 @@ function wp_ajax_add_meta() {
 		$meta = get_metadata_by_mid( 'post', $mid );
 
 		if ( ! $meta ) {
-			wp_die( 0 ); // If meta doesn't exist.
+			wp_die( 0 ); // If metaboxes doesn't exist.
 		}
 
 		if (
@@ -1628,13 +1628,13 @@ function wp_ajax_add_meta() {
 		if ( $meta->meta_value != $value || $meta->meta_key != $key ) {
 			$u = update_metadata_by_mid( 'post', $mid, $value, $key );
 			if ( ! $u ) {
-				wp_die( 0 ); // We know meta exists; we also know it's unchanged (or DB error, in which case there are bigger problems).
+				wp_die( 0 ); // We know metaboxes exists; we also know it's unchanged (or DB error, in which case there are bigger problems).
 			}
 		}
 
 		$x = new WP_Ajax_Response(
 			array(
-				'what'         => 'meta',
+				'what'         => 'metaboxes',
 				'id'           => $mid,
 				'old_id'       => $mid,
 				'data'         => _list_meta_row(
@@ -1787,7 +1787,7 @@ function wp_ajax_update_welcome_panel() {
 }
 
 /**
- * Ajax handler for retrieving menu meta boxes.
+ * Ajax handler for retrieving menu metaboxes boxes.
  *
  * @since 3.1.0
  */
@@ -1894,12 +1894,12 @@ function wp_ajax_menu_locations_save() {
 }
 
 /**
- * Ajax handler for saving the meta box order.
+ * Ajax handler for saving the metaboxes box order.
  *
  * @since 3.1.0
  */
 function wp_ajax_meta_box_order() {
-	check_ajax_referer( 'meta-box-order' );
+	check_ajax_referer( 'metaboxes-box-order' );
 	$order        = isset( $_POST['order'] ) ? (array) $_POST['order'] : false;
 	$page_columns = isset( $_POST['page_columns'] ) ? $_POST['page_columns'] : 'auto';
 
@@ -1919,7 +1919,7 @@ function wp_ajax_meta_box_order() {
 	}
 
 	if ( $order ) {
-		update_user_option( $user->ID, "meta-box-order_$page", $order, true );
+		update_user_option( $user->ID, "metaboxes-box-order_$page", $order, true );
 	}
 
 	if ( $page_columns ) {
@@ -3654,7 +3654,7 @@ function wp_ajax_parse_embed() {
 		/*
 		 * Refresh oEmbeds cached outside of posts that are past their TTL.
 		 * Posts are excluded because they have separate logic for refreshing
-		 * their post meta caches. See WP_Embed::cache_oembed().
+		 * their post metaboxes caches. See WP_Embed::cache_oembed().
 		 */
 		$wp_embed->usecache = false;
 	}

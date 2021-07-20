@@ -260,8 +260,8 @@ class WP_User {
 	 *
 	 * @since 3.3.0
 	 *
-	 * @param string $key User meta key to check if set.
-	 * @return bool Whether the given user meta key is set.
+	 * @param string $key User metaboxes key to check if set.
+	 * @return bool Whether the given user metaboxes key is set.
 	 */
 	public function __isset( $key ) {
 		if ( 'id' === $key ) {
@@ -293,8 +293,8 @@ class WP_User {
 	 *
 	 * @since 3.3.0
 	 *
-	 * @param string $key User meta key to retrieve.
-	 * @return mixed Value of the given user meta key (if set). If `$key` is 'id', the user ID.
+	 * @param string $key User metaboxes key to retrieve.
+	 * @return mixed Value of the given user metaboxes key (if set). If `$key` is 'id', the user ID.
 	 */
 	public function __get( $key ) {
 		if ( 'id' === $key ) {
@@ -334,8 +334,8 @@ class WP_User {
 	 *
 	 * @since 3.3.0
 	 *
-	 * @param string $key   User meta key.
-	 * @param mixed  $value User meta value.
+	 * @param string $key   User metaboxes key.
+	 * @param mixed  $value User metaboxes value.
 	 */
 	public function __set( $key, $value ) {
 		if ( 'id' === $key ) {
@@ -360,7 +360,7 @@ class WP_User {
 	 *
 	 * @since 4.4.0
 	 *
-	 * @param string $key User meta key to unset.
+	 * @param string $key User metaboxes key to unset.
 	 */
 	public function __unset( $key ) {
 		if ( 'id' === $key ) {
@@ -396,7 +396,7 @@ class WP_User {
 	}
 
 	/**
-	 * Retrieve the value of a property or meta key.
+	 * Retrieve the value of a property or metaboxes key.
 	 *
 	 * Retrieves from the users and usermeta table.
 	 *
@@ -410,7 +410,7 @@ class WP_User {
 	}
 
 	/**
-	 * Determine whether a property or meta key is set
+	 * Determine whether a property or metaboxes key is set
 	 *
 	 * Consults the users and usermeta tables.
 	 *
@@ -527,7 +527,7 @@ class WP_User {
 	/**
 	 * Add role to user.
 	 *
-	 * Updates the user's meta data option with capabilities and roles.
+	 * Updates the user's metaboxes data option with capabilities and roles.
 	 *
 	 * @since 2.0.0
 	 *
@@ -719,7 +719,7 @@ class WP_User {
 	/**
 	 * Returns whether the user has the specified capability.
 	 *
-	 * This function also accepts an ID of an object to check against if the capability is a meta capability. Meta
+	 * This function also accepts an ID of an object to check against if the capability is a metaboxes capability. Meta
 	 * capabilities such as `edit_post` and `edit_user` are capabilities used by the `map_meta_cap()` function to
 	 * map to primitive capabilities that a user or role has, such as `edit_posts` and `edit_others_posts`.
 	 *

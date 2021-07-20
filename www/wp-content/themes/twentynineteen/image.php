@@ -84,7 +84,7 @@ get_header();
 				// Parent post navigation.
 				the_post_navigation(
 					array(
-						'prev_text' => _x( '<span class="meta-nav">Published in</span><br><span class="post-title">%title</span>', 'Parent post link', 'twentynineteen' ),
+						'prev_text' => _x( '<span class="metaboxes-nav">Published in</span><br><span class="post-title">%title</span>', 'Parent post link', 'twentynineteen' ),
 					)
 				);
 

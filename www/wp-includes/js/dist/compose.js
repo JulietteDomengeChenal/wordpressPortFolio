@@ -1942,13 +1942,13 @@ var __WEBPACK_AMD_DEFINE_RESULT__;/*global define:false */
                     continue;
                 }
 
-                // if this is a keypress event and the meta key and control key
+                // if this is a keypress event and the metaboxes key and control key
                 // are not pressed that means that we need to only look at the
                 // character, otherwise check the modifiers as well
                 //
-                // chrome will not fire a keypress if meta or control is down
-                // safari will fire a keypress if meta or meta+shift is down
-                // firefox will fire a keypress if meta or control is down
+                // chrome will not fire a keypress if metaboxes or control is down
+                // safari will fire a keypress if metaboxes or metaboxes+shift is down
+                // firefox will fire a keypress if metaboxes or control is down
                 if ((action == 'keypress' && !e.metaKey && !e.ctrlKey) || _modifiersMatch(modifiers, callback.modifiers)) {
 
                     // when you bind a combination or sequence a second time it

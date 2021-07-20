@@ -1595,10 +1595,10 @@ class getid3_id3v2 extends getid3_handler
 			unset($parsedFrame['data']);
 
 
-		} elseif (($id3v2_majorversion == 2) && ($parsedFrame['frame_name'] == 'CRM')) { // 4.20  Encrypted meta frame (ID3v2.2 only)
+		} elseif (($id3v2_majorversion == 2) && ($parsedFrame['frame_name'] == 'CRM')) { // 4.20  Encrypted metaboxes frame (ID3v2.2 only)
 			//   There may be more than one 'CRM' frame in a tag,
 			//   but only one with the same 'owner identifier'
-			// <Header for 'Encrypted meta frame', ID: 'CRM'>
+			// <Header for 'Encrypted metaboxes frame', ID: 'CRM'>
 			// Owner identifier      <textstring> $00 (00)
 			// Content/explanation   <textstring> $00 (00)
 			// Encrypted datablock   <binary data>
@@ -3306,7 +3306,7 @@ class getid3_id3v2 extends getid3_handler
 			COMM	Comments
 			COMR	Commercial frame
 			CRA	Audio encryption
-			CRM	Encrypted meta frame
+			CRM	Encrypted metaboxes frame
 			ENCR	Encryption method registration
 			EQU	Equalisation
 			EQU2	Equalisation (2)

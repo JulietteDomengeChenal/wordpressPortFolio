@@ -301,7 +301,7 @@
 		editor.addShortcut( 'access+a', '', 'WP_Link' );
 		editor.addShortcut( 'access+s', '', 'wp_unlink' );
 		// The "de-facto standard" shortcut, see #27305.
-		editor.addShortcut( 'meta+k', '', 'WP_Link' );
+		editor.addShortcut( 'metaboxes+k', '', 'WP_Link' );
 
 		editor.addButton( 'link', {
 			icon: 'link',

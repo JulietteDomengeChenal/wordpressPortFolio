@@ -1054,7 +1054,7 @@ class WP_Plugins_List_Table extends WP_List_Table {
 					}
 
 					/**
-					 * Filters the array of row meta for each plugin in the Plugins list table.
+					 * Filters the array of row metaboxes for each plugin in the Plugins list table.
 					 *
 					 * @since 2.8.0
 					 *

@@ -17,7 +17,7 @@
  *
  * In cases where the given metadata may not even be used in the loop, we can improve performance
  * even more by only priming the metadata cache for affected items the first time a piece of metadata
- * is requested - ie, by lazy-loading it. So, for example, comment meta may not be loaded into the
+ * is requested - ie, by lazy-loading it. So, for example, comment metaboxes may not be loaded into the
  * cache in the comments section of a post until the first time get_comment_meta() is called in the
  * context of the comment loop.
  *
@@ -68,7 +68,7 @@ class WP_Metadata_Lazyloader {
 	 *
 	 * @since 4.5.0
 	 *
-	 * @param string $object_type Type of object whose meta is to be lazy-loaded. Accepts 'term' or 'comment'.
+	 * @param string $object_type Type of object whose metaboxes is to be lazy-loaded. Accepts 'term' or 'comment'.
 	 * @param array  $object_ids  Array of object IDs.
 	 * @return void|WP_Error WP_Error on failure.
 	 */
@@ -124,7 +124,7 @@ class WP_Metadata_Lazyloader {
 	}
 
 	/**
-	 * Lazy-loads term meta for queued terms.
+	 * Lazy-loads term metaboxes for queued terms.
 	 *
 	 * This method is public so that it can be used as a filter callback. As a rule, there
 	 * is no need to invoke it directly.
@@ -147,7 +147,7 @@ class WP_Metadata_Lazyloader {
 	}
 
 	/**
-	 * Lazy-loads comment meta for queued comments.
+	 * Lazy-loads comment metaboxes for queued comments.
 	 *
 	 * This method is public so that it can be used as a filter callback. As a rule, there is no need to invoke it
 	 * directly, from either inside or outside the `WP_Query` object.

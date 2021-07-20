@@ -26582,12 +26582,12 @@ function WritingFlow(_ref) {
       verticalRect.current = Object(external_wp_dom_["computeCaretRect"])(defaultView);
     } // This logic inside this condition needs to be checked before
     // the check for event.nativeEvent.defaultPrevented.
-    // The logic handles meta+a keypress and this event is default prevented
+    // The logic handles metaboxes+a keypress and this event is default prevented
     // by RichText.
 
 
     if (!isNav) {
-      // Set immediately before the meta+a combination can be pressed.
+      // Set immediately before the metaboxes+a combination can be pressed.
       if (external_wp_keycodes_["isKeyboardEvent"].primary(event)) {
         entirelySelected.current = Object(external_wp_dom_["isEntirelySelected"])(target);
       }
@@ -35522,7 +35522,7 @@ function isAbsolutePath(filePath) {
 /**
  * Whether or not the url should be inluded.
  *
- * @param  {Object} meta url meta info
+ * @param  {Object} meta url metaboxes info
  *
  * @return {boolean} is valid.
  */
@@ -35574,7 +35574,7 @@ function processURL(baseURL) {
   };
 }
 /**
- * Get all `url()`s, and return the meta info
+ * Get all `url()`s, and return the metaboxes info
  *
  * @param  {string} value decl.value
  *

@@ -163,8 +163,8 @@ class WP_REST_Attachments_Controller extends WP_REST_Posts_Controller {
 			update_post_meta( $attachment_id, '_wp_attachment_image_alt', sanitize_text_field( $request['alt_text'] ) );
 		}
 
-		if ( ! empty( $schema['properties']['meta'] ) && isset( $request['meta'] ) ) {
-			$meta_update = $this->meta->update_value( $request['meta'], $attachment_id );
+		if ( ! empty( $schema['properties']['metaboxes'] ) && isset( $request['metaboxes'] ) ) {
+			$meta_update = $this->meta->update_value( $request['metaboxes'], $attachment_id );
 
 			if ( is_wp_error( $meta_update ) ) {
 				return $meta_update;
@@ -203,7 +203,7 @@ class WP_REST_Attachments_Controller extends WP_REST_Posts_Controller {
 		require_once ABSPATH . 'wp-admin/includes/media.php';
 		require_once ABSPATH . 'wp-admin/includes/image.php';
 
-		// Post-process the upload (create image sub-sizes, make PDF thumbnails, etc.) and insert attachment meta.
+		// Post-process the upload (create image sub-sizes, make PDF thumbnails, etc.) and insert attachment metaboxes.
 		// At this point the server may run out of resources and post-processing of uploaded images may fail.
 		wp_update_attachment_metadata( $attachment_id, wp_generate_attachment_metadata( $attachment_id, $file ) );
 
@@ -216,7 +216,7 @@ class WP_REST_Attachments_Controller extends WP_REST_Posts_Controller {
 	}
 
 	/**
-	 * Inserts the attachment post in the database. Does not update the attachment meta.
+	 * Inserts the attachment post in the database. Does not update the attachment metaboxes.
 	 *
 	 * @since 5.3.0
 	 *
@@ -433,7 +433,7 @@ class WP_REST_Attachments_Controller extends WP_REST_Posts_Controller {
 		) {
 			return new WP_Error(
 				'rest_unknown_attachment',
-				__( 'Unable to get meta information for file.' ),
+				__( 'Unable to get metaboxes information for file.' ),
 				array( 'status' => 404 )
 			);
 		}
@@ -622,7 +622,7 @@ class WP_REST_Attachments_Controller extends WP_REST_Posts_Controller {
 			header( 'X-WP-Upload-Attachment-ID: ' . $new_attachment_id );
 		}
 
-		// Generate image sub-sizes and meta.
+		// Generate image sub-sizes and metaboxes.
 		$new_image_meta = wp_generate_attachment_metadata( $new_attachment_id, $saved['path'] );
 
 		// Copy the EXIF metadata from the original attachment if not generated for the edited image.
@@ -648,7 +648,7 @@ class WP_REST_Attachments_Controller extends WP_REST_Posts_Controller {
 		);
 
 		/**
-		 * Filters the meta data for the new image created by editing an existing image.
+		 * Filters the metaboxes data for the new image created by editing an existing image.
 		 *
 		 * @since 5.5.0
 		 *

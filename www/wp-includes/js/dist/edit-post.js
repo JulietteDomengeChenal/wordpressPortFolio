@@ -1128,8 +1128,8 @@ function publishSidebarActive() {
   return state;
 }
 /**
- * Reducer keeping track of the meta boxes isSaving state.
- * A "true" value means the meta boxes saving request is in-flight.
+ * Reducer keeping track of the metaboxes boxes isSaving state.
+ * A "true" value means the metaboxes boxes saving request is in-flight.
  *
  *
  * @param {boolean}  state   Previous state.
@@ -1154,7 +1154,7 @@ function isSavingMetaBoxes() {
   }
 }
 /**
- * Reducer keeping track of the meta boxes per location.
+ * Reducer keeping track of the metaboxes boxes per location.
  *
  * @param {boolean}  state   Previous state.
  * @param {Object}   action  Action Object.
@@ -1262,17 +1262,17 @@ var build_module = __webpack_require__(61);
 // EXTERNAL MODULE: external ["wp","a11y"]
 var external_wp_a11y_ = __webpack_require__(48);
 
-// CONCATENATED MODULE: ./node_modules/@wordpress/edit-post/build-module/utils/meta-boxes.js
+// CONCATENATED MODULE: ./node_modules/@wordpress/edit-post/build-module/utils/metaboxes-boxes.js
 /**
  * Function returning the current Meta Boxes DOM Node in the editor
- * whether the meta box area is opened or not.
+ * whether the metaboxes box area is opened or not.
  * If the MetaBox Area is visible returns it, and returns the original container instead.
  *
  * @param   {string} location Meta Box location.
  * @return {string}          HTML content.
  */
 var getMetaBoxContainer = function getMetaBoxContainer(location) {
-  var area = document.querySelector(".edit-post-meta-boxes-area.is-".concat(location, " .metabox-location-").concat(location));
+  var area = document.querySelector(".edit-post-metaboxes-boxes-area.is-".concat(location, " .metabox-location-").concat(location));
 
   if (area) {
     return area;
@@ -1660,7 +1660,7 @@ function setAvailableMetaBoxesPerLocation(metaBoxesPerLocation) {
   }, _marked4);
 }
 /**
- * Returns an action object used to request meta box update.
+ * Returns an action object used to request metaboxes box update.
  *
  * @yield {Object} Action object.
  */
@@ -1749,7 +1749,7 @@ function requestMetaBoxUpdates() {
   }, _marked5);
 }
 /**
- * Returns an action object used signal a successful meta box update.
+ * Returns an action object used signal a successful metaboxes box update.
  *
  * @return {Object} Action object.
  */
@@ -1990,11 +1990,11 @@ var isPluginItemPinned = Object(external_wp_data_["createRegistrySelector"])(fun
   };
 });
 /**
- * Returns an array of active meta box locations.
+ * Returns an array of active metaboxes box locations.
  *
  * @param {Object} state Post editor state.
  *
- * @return {string[]} Active meta box locations.
+ * @return {string[]} Active metaboxes box locations.
  */
 
 var getActiveMetaBoxLocations = Object(rememo["a" /* default */])(function (state) {
@@ -2010,23 +2010,23 @@ var getActiveMetaBoxLocations = Object(rememo["a" /* default */])(function (stat
  * @param {Object} state    Post editor state.
  * @param {string} location Meta box location to test.
  *
- * @return {boolean} Whether the meta box location is active and visible.
+ * @return {boolean} Whether the metaboxes box location is active and visible.
  */
 
 function isMetaBoxLocationVisible(state, location) {
   return isMetaBoxLocationActive(state, location) && Object(external_lodash_["some"])(getMetaBoxesPerLocation(state, location), function (_ref) {
     var id = _ref.id;
-    return isEditorPanelEnabled(state, "meta-box-".concat(id));
+    return isEditorPanelEnabled(state, "metaboxes-box-".concat(id));
   });
 }
 /**
- * Returns true if there is an active meta box in the given location, or false
+ * Returns true if there is an active metaboxes box in the given location, or false
  * otherwise.
  *
  * @param {Object} state    Post editor state.
  * @param {string} location Meta box location to test.
  *
- * @return {boolean} Whether the meta box location is active.
+ * @return {boolean} Whether the metaboxes box location is active.
  */
 
 function isMetaBoxLocationActive(state, location) {
@@ -2034,23 +2034,23 @@ function isMetaBoxLocationActive(state, location) {
   return !!metaBoxes && metaBoxes.length !== 0;
 }
 /**
- * Returns the list of all the available meta boxes for a given location.
+ * Returns the list of all the available metaboxes boxes for a given location.
  *
  * @param {Object} state    Global application state.
  * @param {string} location Meta box location to test.
  *
- * @return {?Array} List of meta boxes.
+ * @return {?Array} List of metaboxes boxes.
  */
 
 function getMetaBoxesPerLocation(state, location) {
   return state.metaBoxes.locations[location];
 }
 /**
- * Returns the list of all the available meta boxes.
+ * Returns the list of all the available metaboxes boxes.
  *
  * @param {Object} state Global application state.
  *
- * @return {Array} List of meta boxes.
+ * @return {Array} List of metaboxes boxes.
  */
 
 var getAllMetaBoxes = Object(rememo["a" /* default */])(function (state) {
@@ -4206,7 +4206,7 @@ var section_Section = function Section(_ref) {
 // EXTERNAL MODULE: ./node_modules/@wordpress/edit-post/build-module/components/preferences-modal/options/index.js + 6 modules
 var options = __webpack_require__(65);
 
-// CONCATENATED MODULE: ./node_modules/@wordpress/edit-post/build-module/components/preferences-modal/meta-boxes-section.js
+// CONCATENATED MODULE: ./node_modules/@wordpress/edit-post/build-module/components/preferences-modal/metaboxes-boxes-section.js
 
 
 
@@ -4232,7 +4232,7 @@ function MetaBoxesSection(_ref) {
       metaBoxes = _ref.metaBoxes,
       sectionProps = Object(objectWithoutProperties["a" /* default */])(_ref, ["areCustomFieldsRegistered", "metaBoxes"]);
 
-  // The 'Custom Fields' meta box is a special case that we handle separately.
+  // The 'Custom Fields' metaboxes box is a special case that we handle separately.
   var thirdPartyMetaBoxes = Object(external_lodash_["filter"])(metaBoxes, function (_ref2) {
     var id = _ref2.id;
     return id !== 'postcustom';
@@ -4250,7 +4250,7 @@ function MetaBoxesSection(_ref) {
     return Object(external_wp_element_["createElement"])(options["c" /* EnablePanelOption */], {
       key: id,
       label: title,
-      panelName: "meta-box-".concat(id)
+      panelName: "metaboxes-box-".concat(id)
     });
   }));
 }
@@ -6860,7 +6860,7 @@ var page_attributes_applyWithDispatch = Object(external_wp_data_["withDispatch"]
 // EXTERNAL MODULE: ./node_modules/@babel/runtime/helpers/esm/assertThisInitialized.js
 var assertThisInitialized = __webpack_require__(18);
 
-// CONCATENATED MODULE: ./node_modules/@wordpress/edit-post/build-module/components/meta-boxes/meta-boxes-area/index.js
+// CONCATENATED MODULE: ./node_modules/@wordpress/edit-post/build-module/components/metaboxes-boxes/metaboxes-boxes-area/index.js
 
 
 
@@ -6922,7 +6922,7 @@ var meta_boxes_area_MetaBoxesArea = /*#__PURE__*/function (_Component) {
       }
     }
     /**
-     * Get the meta box location form from the original location.
+     * Get the metaboxes box location form from the original location.
      */
 
   }, {
@@ -6953,16 +6953,16 @@ var meta_boxes_area_MetaBoxesArea = /*#__PURE__*/function (_Component) {
       var _this$props = this.props,
           location = _this$props.location,
           isSaving = _this$props.isSaving;
-      var classes = classnames_default()('edit-post-meta-boxes-area', "is-".concat(location), {
+      var classes = classnames_default()('edit-post-metaboxes-boxes-area', "is-".concat(location), {
         'is-loading': isSaving
       });
       return Object(external_wp_element_["createElement"])("div", {
         className: classes
       }, isSaving && Object(external_wp_element_["createElement"])(external_wp_components_["Spinner"], null), Object(external_wp_element_["createElement"])("div", {
-        className: "edit-post-meta-boxes-area__container",
+        className: "edit-post-metaboxes-boxes-area__container",
         ref: this.bindContainerNode
       }), Object(external_wp_element_["createElement"])("div", {
-        className: "edit-post-meta-boxes-area__clear"
+        className: "edit-post-metaboxes-boxes-area__clear"
       }));
     }
   }]);
@@ -6976,7 +6976,7 @@ var meta_boxes_area_MetaBoxesArea = /*#__PURE__*/function (_Component) {
   };
 })(meta_boxes_area_MetaBoxesArea));
 
-// CONCATENATED MODULE: ./node_modules/@wordpress/edit-post/build-module/components/meta-boxes/meta-box-visibility.js
+// CONCATENATED MODULE: ./node_modules/@wordpress/edit-post/build-module/components/metaboxes-boxes/metaboxes-box-visibility.js
 
 
 
@@ -7052,11 +7052,11 @@ var meta_box_visibility_MetaBoxVisibility = /*#__PURE__*/function (_Component) {
 /* harmony default export */ var meta_box_visibility = (Object(external_wp_data_["withSelect"])(function (select, _ref) {
   var id = _ref.id;
   return {
-    isVisible: select(store["a" /* store */]).isEditorPanelEnabled("meta-box-".concat(id))
+    isVisible: select(store["a" /* store */]).isEditorPanelEnabled("metaboxes-box-".concat(id))
   };
 })(meta_box_visibility_MetaBoxVisibility));
 
-// CONCATENATED MODULE: ./node_modules/@wordpress/edit-post/build-module/components/meta-boxes/index.js
+// CONCATENATED MODULE: ./node_modules/@wordpress/edit-post/build-module/components/metaboxes-boxes/index.js
 
 
 /**
@@ -8236,7 +8236,7 @@ function initializeEditor(id, postType, postId, settings, initialEdits) {
 
   if (documentMode !== 'Standards') {
     // eslint-disable-next-line no-console
-    console.warn("Your browser is using Quirks Mode. \nThis can cause rendering issues such as blocks overlaying meta boxes in the editor. Quirks Mode can be triggered by PHP errors or HTML code appearing before the opening <!DOCTYPE html>. Try checking the raw page source or your site's PHP error log and resolving errors there, removing any HTML before the doctype, or disabling plugins.");
+    console.warn("Your browser is using Quirks Mode. \nThis can cause rendering issues such as blocks overlaying metaboxes boxes in the editor. Quirks Mode can be triggered by PHP errors or HTML code appearing before the opening <!DOCTYPE html>. Try checking the raw page source or your site's PHP error log and resolving errors there, removing any HTML before the doctype, or disabling plugins.");
   } // This is a temporary fix for a couple of issues specific to Webkit on iOS.
   // Without this hack the browser scrolls the mobile toolbar off-screen.
   // Once supported in Safari we can replace this in favor of preventScroll.

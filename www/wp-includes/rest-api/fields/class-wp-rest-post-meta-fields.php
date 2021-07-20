@@ -8,7 +8,7 @@
  */
 
 /**
- * Core class used to manage meta values for posts via the REST API.
+ * Core class used to manage metaboxes values for posts via the REST API.
  *
  * @since 4.7.0
  *
@@ -36,22 +36,22 @@ class WP_REST_Post_Meta_Fields extends WP_REST_Meta_Fields {
 	}
 
 	/**
-	 * Retrieves the object meta type.
+	 * Retrieves the object metaboxes type.
 	 *
 	 * @since 4.7.0
 	 *
-	 * @return string The meta type.
+	 * @return string The metaboxes type.
 	 */
 	protected function get_meta_type() {
 		return 'post';
 	}
 
 	/**
-	 * Retrieves the object meta subtype.
+	 * Retrieves the object metaboxes subtype.
 	 *
 	 * @since 4.9.8
 	 *
-	 * @return string Subtype for the meta type, or empty string if no specific subtype.
+	 * @return string Subtype for the metaboxes type, or empty string if no specific subtype.
 	 */
 	protected function get_meta_subtype() {
 		return $this->post_type;

@@ -1525,7 +1525,7 @@
 			// This is very similar to what is found for api.Panel.attachEvents().
 			section.container.find( '.customize-section-title .customize-help-toggle' ).on( 'click', function() {
 
-				meta = section.container.find( '.section-meta' );
+				meta = section.container.find( '.section-metaboxes' );
 				if ( meta.hasClass( 'cannot-expand' ) ) {
 					return;
 				}
@@ -2845,7 +2845,7 @@
 				}
 			});
 
-			meta = panel.container.find( '.panel-meta:first' );
+			meta = panel.container.find( '.panel-metaboxes:first' );
 
 			meta.find( '> .accordion-section-title .customize-help-toggle' ).on( 'click', function() {
 				if ( meta.hasClass( 'cannot-expand' ) ) {
@@ -8540,7 +8540,7 @@
 					}
 				}
 
-				headerElement = newInstance.contentContainer.find( '.customize-section-title, .panel-meta' ).first();
+				headerElement = newInstance.contentContainer.find( '.customize-section-title, .panel-metaboxes' ).first();
 				if ( headerElement.length ) {
 					activeHeader = {
 						instance: newInstance,
@@ -9121,7 +9121,7 @@
 
 				// Close the section description when clicking the close button.
 				section.container.find( '.section-description-buttons .section-description-close' ).on( 'click', function() {
-					section.container.find( '.section-meta .customize-section-description:first' )
+					section.container.find( '.section-metaboxes .customize-section-description:first' )
 						.removeClass( 'open' )
 						.slideUp();
 
@@ -9132,7 +9132,7 @@
 
 				// Reveal help text if setting is empty.
 				if ( control && ! control.setting.get() ) {
-					section.container.find( '.section-meta .customize-section-description:first' )
+					section.container.find( '.section-metaboxes .customize-section-description:first' )
 						.addClass( 'open' )
 						.show()
 						.trigger( 'toggled' );

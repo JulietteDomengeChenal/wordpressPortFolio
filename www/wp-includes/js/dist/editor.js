@@ -2075,7 +2075,7 @@ function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { va
 
 /**
  * Object whose keys are the names of block attributes, where each value
- * represents the meta key to which the block attribute is intended to save.
+ * represents the metaboxes key to which the block attribute is intended to save.
  *
  * @see https://developer.wordpress.org/reference/functions/register_meta/
  *
@@ -2083,10 +2083,10 @@ function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { va
  */
 
 /**
- * Given a mapping of attribute names (meta source attributes) to their
- * associated meta key, returns a higher order component that overrides its
+ * Given a mapping of attribute names (metaboxes source attributes) to their
+ * associated metaboxes key, returns a higher order component that overrides its
  * `attributes` and `setAttributes` props to sync any changes with the edited
- * post's meta keys.
+ * post's metaboxes keys.
  *
  * @param {WPMetaAttributeMapping} metaAttributes Meta attribute mapping.
  *
@@ -2118,10 +2118,10 @@ var custom_sources_backwards_compatibility_createWithMetaAttributeSource = funct
         attributes: mergedAttributes,
         setAttributes: function setAttributes(nextAttributes) {
           var nextMeta = Object(external_lodash_["mapKeys"])( // Filter to intersection of keys between the updated
-          // attributes and those with an associated meta key.
+          // attributes and those with an associated metaboxes key.
           Object(external_lodash_["pickBy"])(nextAttributes, function (value, key) {
             return metaAttributes[key];
-          }), // Rename the keys to the expected meta key name.
+          }), // Rename the keys to the expected metaboxes key name.
           function (value, attributeKey) {
             return metaAttributes[attributeKey];
           });
@@ -2138,7 +2138,7 @@ var custom_sources_backwards_compatibility_createWithMetaAttributeSource = funct
 };
 /**
  * Filters a registered block's settings to enhance a block's `edit` component
- * to upgrade meta-sourced attributes to use the post's meta entity property.
+ * to upgrade metaboxes-sourced attributes to use the post's metaboxes entity property.
  *
  * @param {WPBlockSettings} settings Registered block settings.
  *
@@ -2173,7 +2173,7 @@ Object(external_wp_hooks_["addFilter"])('blocks.registerBlockType', 'core/editor
 //
 // `getBlockTypes` or `getBlockType` implementation could change in the future
 // in regards to creating settings clones, but the corresponding end-to-end
-// tests for meta blocks should cover against any potential regressions.
+// tests for metaboxes blocks should cover against any potential regressions.
 //
 // In the future, we could support updating block settings, at which point this
 // implementation could use that mechanism instead.
@@ -3040,7 +3040,7 @@ function selectors_getCurrentPostAttribute(state, attributeName) {
 /**
  * Returns a single attribute of the post being edited, preferring the unsaved
  * edit if one exists, but merging with the attribute value for the last known
- * saved state of the post (this is needed for some nested attributes like meta).
+ * saved state of the post (this is needed for some nested attributes like metaboxes).
  *
  * @param {Object} state         Global application state.
  * @param {string} attributeName Post attribute name.
@@ -3210,7 +3210,7 @@ function selectors_isEditedPostSaveable(state) {
   if (selectors_isSavingPost(state)) {
     return false;
   } // TODO: Post should not be saveable if not dirty. Cannot be added here at
-  // this time since posts where meta boxes are present can be saved even if
+  // this time since posts where metaboxes boxes are present can be saved even if
   // the post is not dirty. Currently this restriction is imposed at UI, but
   // should be moved here.
   //
@@ -6019,7 +6019,7 @@ function SaveShortcut(_ref) {
   Object(external_wp_keyboardShortcuts_["useShortcut"])('core/editor/save', function (event) {
     event.preventDefault(); // TODO: This should be handled in the `savePost` effect in
     // considering `isSaveable`. See note on `isEditedPostSaveable`
-    // selector about dirtiness and meta-boxes.
+    // selector about dirtiness and metaboxes-boxes.
     //
     // See: `isEditedPostSaveable`
 

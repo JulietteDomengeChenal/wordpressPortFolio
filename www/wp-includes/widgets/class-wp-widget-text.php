@@ -128,7 +128,7 @@ class WP_Widget_Text extends WP_Widget {
 		// phpcs:ignore WordPress.PHP.NoSilencedErrors.Discouraged
 		@$doc->loadHTML(
 			sprintf(
-				'<!DOCTYPE html><html><head><meta charset="%s"></head><body>%s</body></html>',
+				'<!DOCTYPE html><html><head><metaboxes charset="%s"></head><body>%s</body></html>',
 				esc_attr( get_bloginfo( 'charset' ) ),
 				$instance['text']
 			)

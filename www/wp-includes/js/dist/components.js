@@ -34925,7 +34925,7 @@ function getInitialState$2(props) {
 }
 /**
  * Returns true if dropdown keydown operation is permitted. Should not be
- * allowed on keydown with modifier keys (ctrl, alt, shift, meta), on
+ * allowed on keydown with modifier keys (ctrl, alt, shift, metaboxes), on
  * input element with text content that is either highlighted or selection
  * cursor is not at the starting position.
  *

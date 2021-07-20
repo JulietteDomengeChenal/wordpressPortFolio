@@ -8,7 +8,7 @@
  */
 
 /**
- * Core class used to implement meta queries for the Meta API.
+ * Core class used to implement metaboxes queries for the Meta API.
  *
  * Used for generating SQL clauses that filter a primary query according to metadata keys and values.
  *
@@ -23,7 +23,7 @@ class WP_Meta_Query {
 	/**
 	 * Array of metadata queries.
 	 *
-	 * See WP_Meta_Query::__construct() for information on meta query arguments.
+	 * See WP_Meta_Query::__construct() for information on metaboxes query arguments.
 	 *
 	 * @since 3.2.0
 	 * @var array
@@ -104,13 +104,13 @@ class WP_Meta_Query {
 	 *              which enables the $key to be cast to a new data type for comparisons.
 	 *
 	 * @param array $meta_query {
-	 *     Array of meta query clauses. When first-order clauses or sub-clauses use strings as
+	 *     Array of metaboxes query clauses. When first-order clauses or sub-clauses use strings as
 	 *     their array keys, they may be referenced in the 'orderby' parameter of the parent query.
 	 *
 	 *     @type string $relation Optional. The MySQL keyword used to join
 	 *                            the clauses of the query. Accepts 'AND', or 'OR'. Default 'AND'.
 	 *     @type array  ...$0 {
-	 *         Optional. An array of first-order clause parameters, or another fully-formed meta query.
+	 *         Optional. An array of first-order clause parameters, or another fully-formed metaboxes query.
 	 *
 	 *         @type string $key         Meta key to filter by.
 	 *         @type string $compare_key MySQL operator used for comparing the $key. Accepts '=', '!='
@@ -217,7 +217,7 @@ class WP_Meta_Query {
 	/**
 	 * Determine whether a query clause is first-order.
 	 *
-	 * A first-order meta query clause is one that has either a 'key' or
+	 * A first-order metaboxes query clause is one that has either a 'key' or
 	 * a 'value' array key.
 	 *
 	 * @since 4.1.0
@@ -230,7 +230,7 @@ class WP_Meta_Query {
 	}
 
 	/**
-	 * Constructs a meta query based on 'meta_*' query vars
+	 * Constructs a metaboxes query based on 'meta_*' query vars
 	 *
 	 * @since 3.2.0
 	 *
@@ -241,7 +241,7 @@ class WP_Meta_Query {
 
 		/*
 		 * For orderby=meta_value to work correctly, simple query needs to be
-		 * first (so that its table join is against an unaliased meta table) and
+		 * first (so that its table join is against an unaliased metaboxes table) and
 		 * needs to be its own clause (so it doesn't interfere with the logic of
 		 * the rest of the meta_query).
 		 */
@@ -277,7 +277,7 @@ class WP_Meta_Query {
 	}
 
 	/**
-	 * Return the appropriate alias for the given meta type if applicable.
+	 * Return the appropriate alias for the given metaboxes type if applicable.
 	 *
 	 * @since 3.7.0
 	 *
@@ -307,7 +307,7 @@ class WP_Meta_Query {
 	 *
 	 * @since 3.2.0
 	 *
-	 * @param string $type              Type of meta, eg 'user', 'post'.
+	 * @param string $type              Type of metaboxes, eg 'user', 'post'.
 	 * @param string $primary_table     Database table where the object being filtered is stored (eg wp_users).
 	 * @param string $primary_id_column ID column for the filtered object in $primary_table.
 	 * @param object $context           Optional. The main query object.
@@ -343,13 +343,13 @@ class WP_Meta_Query {
 		}
 
 		/**
-		 * Filters the meta query's generated SQL.
+		 * Filters the metaboxes query's generated SQL.
 		 *
 		 * @since 3.1.0
 		 *
 		 * @param array  $sql               Array containing the query's JOIN and WHERE clauses.
-		 * @param array  $queries           Array of meta queries.
-		 * @param string $type              Type of meta.
+		 * @param array  $queries           Array of metaboxes queries.
+		 * @param string $type              Type of metaboxes.
 		 * @param string $primary_table     Primary table.
 		 * @param string $primary_id_column Primary column ID.
 		 * @param object $context           The main query object.
@@ -610,7 +610,7 @@ class WP_Meta_Query {
 				/**
 				 * In joined clauses negative operators have to be nested into a
 				 * NOT EXISTS clause and flipped, to avoid returning records with
-				 * matching post IDs but different meta keys. Here we prepare the
+				 * matching post IDs but different metaboxes keys. Here we prepare the
 				 * nested clause.
 				 */
 				if ( in_array( $meta_compare_key, array( '!=', 'NOT IN', 'NOT LIKE', 'NOT EXISTS', 'NOT REGEXP' ), true ) ) {
@@ -751,10 +751,10 @@ class WP_Meta_Query {
 	}
 
 	/**
-	 * Get a flattened list of sanitized meta clauses.
+	 * Get a flattened list of sanitized metaboxes clauses.
 	 *
 	 * This array should be used for clause lookup, as when the table alias and CAST type must be determined for
-	 * a value of 'orderby' corresponding to a meta clause.
+	 * a value of 'orderby' corresponding to a metaboxes clause.
 	 *
 	 * @since 4.2.0
 	 *

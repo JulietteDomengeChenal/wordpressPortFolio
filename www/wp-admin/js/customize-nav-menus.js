@@ -772,7 +772,7 @@
 			api.Panel.prototype.attachEvents.call( this );
 
 			var panel = this,
-				panelMeta = panel.container.find( '.panel-meta' ),
+				panelMeta = panel.container.find( '.panel-metaboxes' ),
 				help = panelMeta.find( '.customize-help-toggle' ),
 				content = panelMeta.find( '.customize-panel-description' ),
 				options = $( '#screen-options-wrap' ),

@@ -509,11 +509,11 @@
 			MetaMixin = {
 
 				/**
-				 * Get meta by key for a post.
+				 * Get metaboxes by key for a post.
 				 *
-				 * @param {string} key The meta key.
+				 * @param {string} key The metaboxes key.
 				 *
-				 * @return {Object} The post meta value.
+				 * @return {Object} The post metaboxes value.
 				 */
 				getMeta: function( key ) {
 					var metas = this.get( 'meta' );
@@ -521,7 +521,7 @@
 				},
 
 				/**
-				 * Get all meta key/values for a post.
+				 * Get all metaboxes key/values for a post.
 				 *
 				 * @return {Object} The post metas, as a key value pair object.
 				 */
@@ -530,9 +530,9 @@
 				},
 
 				/**
-				 * Set a group of meta key/values for a post.
+				 * Set a group of metaboxes key/values for a post.
 				 *
-				 * @param {Object} meta The post meta to set, as key/value pairs.
+				 * @param {Object} meta The post metaboxes to set, as key/value pairs.
 				 */
 				setMetas: function( meta ) {
 					var metas = this.get( 'meta' );
@@ -541,10 +541,10 @@
 				},
 
 				/**
-				 * Set a single meta value for a post, by key.
+				 * Set a single metaboxes value for a post, by key.
 				 *
-				 * @param {string} key   The meta key.
-				 * @param {Object} value The meta value.
+				 * @param {string} key   The metaboxes key.
+				 * @param {Object} value The metaboxes value.
 				 */
 				setMeta: function( key, value ) {
 					var metas = this.get( 'meta' );
@@ -781,7 +781,7 @@
 			model = model.extend( CategoriesMixin );
 		}
 
-		// Add the MetaMixin for models that support meta.
+		// Add the MetaMixin for models that support metaboxes.
 		if ( ! _.isUndefined( model.prototype.args.meta ) ) {
 			model = model.extend( MetaMixin );
 		}
@@ -924,7 +924,7 @@
 	);
 
 	/**
-	 * API Schema model. Contains meta information about the API.
+	 * API Schema model. Contains metaboxes information about the API.
 	 */
 	wp.api.models.Schema = wp.api.WPApiBaseModel.extend(
 		/** @lends Schema.prototype  */

@@ -1742,7 +1742,7 @@ class WP_Posts_List_Table extends WP_List_Table {
 							<option value="-1"><?php _e( '&mdash; No Change &mdash;' ); ?></option>
 							<?php endif; // $bulk ?>
 							<?php
-							/** This filter is documented in wp-admin/includes/meta-boxes.php */
+							/** This filter is documented in wp-admin/includes/metaboxes-boxes.php */
 							$default_title = apply_filters( 'default_page_template_title', __( 'Default template' ), 'quick-edit' );
 							?>
 							<option value="default"><?php echo esc_html( $default_title ); ?></option>

@@ -555,24 +555,24 @@ function wp_comment_trashnotice() {
 }
 
 /**
- * Outputs a post's public meta data in the Custom Fields meta box.
+ * Outputs a post's public metaboxes data in the Custom Fields metaboxes box.
  *
  * @since 1.2.0
  *
  * @param array $meta
  */
 function list_meta( $meta ) {
-	// Exit if no meta.
+	// Exit if no metaboxes.
 	if ( ! $meta ) {
 		echo '
 <table id="list-table" style="display: none;">
 	<thead>
 	<tr>
-		<th class="left">' . _x( 'Name', 'meta name' ) . '</th>
+		<th class="left">' . _x( 'Name', 'metaboxes name' ) . '</th>
 		<th>' . __( 'Value' ) . '</th>
 	</tr>
 	</thead>
-	<tbody id="the-list" data-wp-lists="list:meta">
+	<tbody id="the-list" data-wp-lists="list:metaboxes">
 	<tr><td></td></tr>
 	</tbody>
 </table>'; // TBODY needed for list-manipulation JS.
@@ -583,7 +583,7 @@ function list_meta( $meta ) {
 <table id="list-table">
 	<thead>
 	<tr>
-		<th class="left"><?php _ex( 'Name', 'meta name' ); ?></th>
+		<th class="left"><?php _ex( 'Name', 'metaboxes name' ); ?></th>
 		<th><?php _e( 'Value' ); ?></th>
 	</tr>
 	</thead>
@@ -599,7 +599,7 @@ function list_meta( $meta ) {
 }
 
 /**
- * Outputs a single row of public meta data in the Custom Fields meta box.
+ * Outputs a single row of public metaboxes data in the Custom Fields metaboxes box.
  *
  * @since 2.5.0
  *
@@ -615,7 +615,7 @@ function _list_meta_row( $entry, &$count ) {
 	}
 
 	if ( ! $update_nonce ) {
-		$update_nonce = wp_create_nonce( 'add-meta' );
+		$update_nonce = wp_create_nonce( 'add-metaboxes' );
 	}
 
 	$r = '';
@@ -638,23 +638,23 @@ function _list_meta_row( $entry, &$count ) {
 
 	$delete_nonce = wp_create_nonce( 'delete-meta_' . $entry['meta_id'] );
 
-	$r .= "\n\t<tr id='meta-{$entry['meta_id']}'>";
-	$r .= "\n\t\t<td class='left'><label class='screen-reader-text' for='meta-{$entry['meta_id']}-key'>" . __( 'Key' ) . "</label><input name='meta[{$entry['meta_id']}][key]' id='meta-{$entry['meta_id']}-key' type='text' size='20' value='{$entry['meta_key']}' />";
+	$r .= "\n\t<tr id='metaboxes-{$entry['meta_id']}'>";
+	$r .= "\n\t\t<td class='left'><label class='screen-reader-text' for='metaboxes-{$entry['meta_id']}-key'>" . __( 'Key' ) . "</label><input name='metaboxes[{$entry['meta_id']}][key]' id='metaboxes-{$entry['meta_id']}-key' type='text' size='20' value='{$entry['meta_key']}' />";
 
 	$r .= "\n\t\t<div class='submit'>";
-	$r .= get_submit_button( __( 'Delete' ), 'deletemeta small', "deletemeta[{$entry['meta_id']}]", false, array( 'data-wp-lists' => "delete:the-list:meta-{$entry['meta_id']}::_ajax_nonce=$delete_nonce" ) );
+	$r .= get_submit_button( __( 'Delete' ), 'deletemeta small', "deletemeta[{$entry['meta_id']}]", false, array( 'data-wp-lists' => "delete:the-list:metaboxes-{$entry['meta_id']}::_ajax_nonce=$delete_nonce" ) );
 	$r .= "\n\t\t";
-	$r .= get_submit_button( __( 'Update' ), 'updatemeta small', "meta-{$entry['meta_id']}-submit", false, array( 'data-wp-lists' => "add:the-list:meta-{$entry['meta_id']}::_ajax_nonce-add-meta=$update_nonce" ) );
+	$r .= get_submit_button( __( 'Update' ), 'updatemeta small', "metaboxes-{$entry['meta_id']}-submit", false, array( 'data-wp-lists' => "add:the-list:metaboxes-{$entry['meta_id']}::_ajax_nonce-add-metaboxes=$update_nonce" ) );
 	$r .= '</div>';
-	$r .= wp_nonce_field( 'change-meta', '_ajax_nonce', false, false );
+	$r .= wp_nonce_field( 'change-metaboxes', '_ajax_nonce', false, false );
 	$r .= '</td>';
 
-	$r .= "\n\t\t<td><label class='screen-reader-text' for='meta-{$entry['meta_id']}-value'>" . __( 'Value' ) . "</label><textarea name='meta[{$entry['meta_id']}][value]' id='meta-{$entry['meta_id']}-value' rows='2' cols='30'>{$entry['meta_value']}</textarea></td>\n\t</tr>";
+	$r .= "\n\t\t<td><label class='screen-reader-text' for='metaboxes-{$entry['meta_id']}-value'>" . __( 'Value' ) . "</label><textarea name='metaboxes[{$entry['meta_id']}][value]' id='metaboxes-{$entry['meta_id']}-value' rows='2' cols='30'>{$entry['meta_value']}</textarea></td>\n\t</tr>";
 	return $r;
 }
 
 /**
- * Prints the form in the Custom Fields meta box.
+ * Prints the form in the Custom Fields metaboxes box.
  *
  * @since 1.2.0
  *
@@ -667,14 +667,14 @@ function meta_form( $post = null ) {
 	$post = get_post( $post );
 
 	/**
-	 * Filters values for the meta key dropdown in the Custom Fields meta box.
+	 * Filters values for the metaboxes key dropdown in the Custom Fields metaboxes box.
 	 *
 	 * Returning a non-null value will effectively short-circuit and avoid a
 	 * potentially expensive query against postmeta.
 	 *
 	 * @since 4.4.0
 	 *
-	 * @param array|null $keys Pre-defined meta keys to be used in place of a postmeta query. Default null.
+	 * @param array|null $keys Pre-defined metaboxes keys to be used in place of a postmeta query. Default null.
 	 * @param WP_Post    $post The current post object.
 	 */
 	$keys = apply_filters( 'postmeta_form_keys', null, $post );
@@ -682,7 +682,7 @@ function meta_form( $post = null ) {
 	if ( null === $keys ) {
 		/**
 		 * Filters the number of custom fields to retrieve for the drop-down
-		 * in the Custom Fields meta box.
+		 * in the Custom Fields metaboxes box.
 		 *
 		 * @since 2.1.0
 		 *
@@ -715,7 +715,7 @@ function meta_form( $post = null ) {
 <table id="newmeta">
 <thead>
 <tr>
-<th class="left"><label for="<?php echo $meta_key_input_id; ?>"><?php _ex( 'Name', 'meta name' ); ?></label></th>
+<th class="left"><label for="<?php echo $meta_key_input_id; ?>"><?php _ex( 'Name', 'metaboxes name' ); ?></label></th>
 <th><label for="metavalue"><?php _e( 'Value' ); ?></label></th>
 </tr>
 </thead>
@@ -761,7 +761,7 @@ function meta_form( $post = null ) {
 	);
 	?>
 </div>
-	<?php wp_nonce_field( 'add-meta', '_ajax_nonce-add-meta', false ); ?>
+	<?php wp_nonce_field( 'add-metaboxes', '_ajax_nonce-add-metaboxes', false ); ?>
 </td></tr>
 </tbody>
 </table>
@@ -996,15 +996,15 @@ function wp_import_upload_form( $action ) {
 }
 
 /**
- * Adds a meta box to one or more screens.
+ * Adds a metaboxes box to one or more screens.
  *
  * @since 2.5.0
  * @since 4.4.0 The `$screen` parameter now accepts an array of screen IDs.
  *
  * @global array $wp_meta_boxes
  *
- * @param string                 $id            Meta box ID (used in the 'id' attribute for the meta box).
- * @param string                 $title         Title of the meta box.
+ * @param string                 $id            Meta box ID (used in the 'id' attribute for the metaboxes box).
+ * @param string                 $title         Title of the metaboxes box.
  * @param callable               $callback      Function that fills the box with the desired content.
  *                                              The function should echo its output.
  * @param string|array|WP_Screen $screen        Optional. The screen or screens on which to show the box
@@ -1018,7 +1018,7 @@ function wp_import_upload_form( $action ) {
  *                                              should display. Available contexts vary from screen to
  *                                              screen. Post edit screen contexts include 'normal', 'side',
  *                                              and 'advanced'. Comments screen contexts include 'normal'
- *                                              and 'side'. Menus meta boxes (accordion sections) all use
+ *                                              and 'side'. Menus metaboxes boxes (accordion sections) all use
  *                                              the 'side' context. Global default is 'advanced'.
  * @param string                 $priority      Optional. The priority within the context where the box should show.
  *                                              Accepts 'high', 'core', 'default', or 'low'. Default 'default'.
@@ -1119,19 +1119,19 @@ function add_meta_box( $id, $title, $callback, $screen = null, $context = 'advan
 
 
 /**
- * Function that renders a "fake" meta box with an information message,
- * shown on the block editor, when an incompatible meta box is found.
+ * Function that renders a "fake" metaboxes box with an information message,
+ * shown on the block editor, when an incompatible metaboxes box is found.
  *
  * @since 5.0.0
  *
  * @param mixed $object The data object being rendered on this screen.
  * @param array $box    {
- *     Custom formats meta box arguments.
+ *     Custom formats metaboxes box arguments.
  *
  *     @type string   $id           Meta box 'id' attribute.
  *     @type string   $title        Meta box title.
- *     @type callable $old_callback The original callback for this meta box.
- *     @type array    $args         Extra meta box arguments.
+ *     @type callable $old_callback The original callback for this metaboxes box.
+ *     @type array    $args         Extra metaboxes box arguments.
  * }
  */
 function do_block_editor_incompatible_meta_box( $object, $box ) {
@@ -1139,10 +1139,10 @@ function do_block_editor_incompatible_meta_box( $object, $box ) {
 	$plugins = get_plugins();
 	echo '<p>';
 	if ( $plugin ) {
-		/* translators: %s: The name of the plugin that generated this meta box. */
-		printf( __( "This meta box, from the %s plugin, isn't compatible with the block editor." ), "<strong>{$plugin['Name']}</strong>" );
+		/* translators: %s: The name of the plugin that generated this metaboxes box. */
+		printf( __( "This metaboxes box, from the %s plugin, isn't compatible with the block editor." ), "<strong>{$plugin['Name']}</strong>" );
 	} else {
-		_e( "This meta box isn't compatible with the block editor." );
+		_e( "This metaboxes box isn't compatible with the block editor." );
 	}
 	echo '</p>';
 
@@ -1151,7 +1151,7 @@ function do_block_editor_incompatible_meta_box( $object, $box ) {
 			echo '<p>';
 			printf(
 				/* translators: %s: A link to install the Classic Editor plugin. */
-				__( 'Please install the <a href="%s">Classic Editor plugin</a> to use this meta box.' ),
+				__( 'Please install the <a href="%s">Classic Editor plugin</a> to use this metaboxes box.' ),
 				esc_url( wp_nonce_url( self_admin_url( 'plugin-install.php?tab=favorites&user=wordpressdotorg&save=0' ), 'save_wporg_username_' . get_current_user_id() ) )
 			);
 			echo '</p>';
@@ -1161,7 +1161,7 @@ function do_block_editor_incompatible_meta_box( $object, $box ) {
 			$activate_url = wp_nonce_url( self_admin_url( 'plugins.php?action=activate&plugin=classic-editor/classic-editor.php' ), 'activate-plugin_classic-editor/classic-editor.php' );
 			echo '<p>';
 			/* translators: %s: A link to activate the Classic Editor plugin. */
-			printf( __( 'Please activate the <a href="%s">Classic Editor plugin</a> to use this meta box.' ), esc_url( $activate_url ) );
+			printf( __( 'Please activate the <a href="%s">Classic Editor plugin</a> to use this metaboxes box.' ), esc_url( $activate_url ) );
 			echo '</p>';
 		}
 	} elseif ( $object instanceof WP_Post ) {
@@ -1174,13 +1174,13 @@ function do_block_editor_incompatible_meta_box( $object, $box ) {
 		);
 		echo '<p>';
 		/* translators: %s: A link to use the Classic Editor plugin. */
-		printf( __( 'Please open the <a href="%s">classic editor</a> to use this meta box.' ), esc_url( $edit_url ) );
+		printf( __( 'Please open the <a href="%s">classic editor</a> to use this metaboxes box.' ), esc_url( $edit_url ) );
 		echo '</p>';
 	}
 }
 
 /**
- * Internal helper function to find the plugin from a meta box callback.
+ * Internal helper function to find the plugin from a metaboxes box callback.
  *
  * @since 5.0.0
  *
@@ -1206,7 +1206,7 @@ function _get_plugin_from_callback( $callback ) {
 	// Don't show an error if it's an internal PHP function.
 	if ( ! $reflection->isInternal() ) {
 
-		// Only show errors if the meta box was registered by a plugin.
+		// Only show errors if the metaboxes box was registered by a plugin.
 		$filename   = wp_normalize_path( $reflection->getFileName() );
 		$plugin_dir = wp_normalize_path( WP_PLUGIN_DIR );
 
@@ -1238,8 +1238,8 @@ function _get_plugin_from_callback( $callback ) {
  *                                  add_submenu_page() to create a new screen (and hence screen_id)
  *                                  make sure your menu slug conforms to the limits of sanitize_key()
  *                                  otherwise the 'screen' menu may not correctly render on your page.
- * @param string           $context The screen context for which to display meta boxes.
- * @param mixed            $object  Gets passed to the meta box callback function as the first parameter.
+ * @param string           $context The screen context for which to display metaboxes boxes.
+ * @param mixed            $object  Gets passed to the metaboxes box callback function as the first parameter.
  *                                  Often this is the object that's the focus of the current screen, for
  *                                  example a `WP_Post` or `WP_Comment` object.
  * @return int Number of meta_boxes.
@@ -1258,11 +1258,11 @@ function do_meta_boxes( $screen, $context, $object ) {
 
 	$hidden = get_hidden_meta_boxes( $screen );
 
-	printf( '<div id="%s-sortables" class="meta-box-sortables">', esc_attr( $context ) );
+	printf( '<div id="%s-sortables" class="metaboxes-box-sortables">', esc_attr( $context ) );
 
 	// Grab the ones the user has manually sorted.
 	// Pull them out of their previous context/priority and into the one the user chose.
-	$sorted = get_user_option( "meta-box-order_$page" );
+	$sorted = get_user_option( "metaboxes-box-order_$page" );
 
 	if ( ! $already_sorted && $sorted ) {
 		foreach ( $sorted as $box_context => $ids ) {
@@ -1288,7 +1288,7 @@ function do_meta_boxes( $screen, $context, $object ) {
 
 					$block_compatible = true;
 					if ( is_array( $box['args'] ) ) {
-						// If a meta box is just here for back compat, don't show it in the block editor.
+						// If a metaboxes box is just here for back compat, don't show it in the block editor.
 						if ( $screen->is_block_editor() && isset( $box['args']['__back_compat_meta_box'] ) && $box['args']['__back_compat_meta_box'] ) {
 							continue;
 						}
@@ -1298,7 +1298,7 @@ function do_meta_boxes( $screen, $context, $object ) {
 							unset( $box['args']['__block_editor_compatible_meta_box'] );
 						}
 
-						// If the meta box is declared as incompatible with the block editor, override the callback function.
+						// If the metaboxes box is declared as incompatible with the block editor, override the callback function.
 						if ( ! $block_compatible && $screen->is_block_editor() ) {
 							$box['old_callback'] = $box['callback'];
 							$box['callback']     = 'do_block_editor_incompatible_meta_box';
@@ -1370,15 +1370,15 @@ function do_meta_boxes( $screen, $context, $object ) {
 
 					echo '<div class="inside">' . "\n";
 
-					if ( WP_DEBUG && ! $block_compatible && 'edit' === $screen->parent_base && ! $screen->is_block_editor() && ! isset( $_GET['meta-box-loader'] ) ) {
+					if ( WP_DEBUG && ! $block_compatible && 'edit' === $screen->parent_base && ! $screen->is_block_editor() && ! isset( $_GET['metaboxes-box-loader'] ) ) {
 						$plugin = _get_plugin_from_callback( $box['callback'] );
 						if ( $plugin ) {
 							?>
 							<div class="error inline">
 								<p>
 									<?php
-										/* translators: %s: The name of the plugin that generated this meta box. */
-										printf( __( "This meta box, from the %s plugin, isn't compatible with the block editor." ), "<strong>{$plugin['Name']}</strong>" );
+										/* translators: %s: The name of the plugin that generated this metaboxes box. */
+										printf( __( "This metaboxes box, from the %s plugin, isn't compatible with the block editor." ), "<strong>{$plugin['Name']}</strong>" );
 									?>
 								</p>
 							</div>
@@ -1401,21 +1401,21 @@ function do_meta_boxes( $screen, $context, $object ) {
 }
 
 /**
- * Removes a meta box from one or more screens.
+ * Removes a metaboxes box from one or more screens.
  *
  * @since 2.6.0
  * @since 4.4.0 The `$screen` parameter now accepts an array of screen IDs.
  *
  * @global array $wp_meta_boxes
  *
- * @param string                 $id      Meta box ID (used in the 'id' attribute for the meta box).
- * @param string|array|WP_Screen $screen  The screen or screens on which the meta box is shown (such as a
+ * @param string                 $id      Meta box ID (used in the 'id' attribute for the metaboxes box).
+ * @param string|array|WP_Screen $screen  The screen or screens on which the metaboxes box is shown (such as a
  *                                        post type, 'link', or 'comment'). Accepts a single screen ID,
  *                                        WP_Screen object, or array of screen IDs.
  * @param string                 $context The context within the screen where the box is set to display.
  *                                        Contexts vary from screen to screen. Post edit screen contexts
  *                                        include 'normal', 'side', and 'advanced'. Comments screen contexts
- *                                        include 'normal' and 'side'. Menus meta boxes (accordion sections)
+ *                                        include 'normal' and 'side'. Menus metaboxes boxes (accordion sections)
  *                                        all use the 'side' context.
  */
 function remove_meta_box( $id, $screen, $context ) {
@@ -1456,17 +1456,17 @@ function remove_meta_box( $id, $screen, $context ) {
  * Meta Box Accordion Template Function.
  *
  * Largely made up of abstracted code from do_meta_boxes(), this
- * function serves to build meta boxes as list items for display as
+ * function serves to build metaboxes boxes as list items for display as
  * a collapsible accordion.
  *
  * @since 3.6.0
  *
- * @uses global $wp_meta_boxes Used to retrieve registered meta boxes.
+ * @uses global $wp_meta_boxes Used to retrieve registered metaboxes boxes.
  *
  * @param string|object $screen  The screen identifier.
  * @param string        $context The screen context for which to display accordion sections.
  * @param mixed         $object  Gets passed to the section callback function as the first parameter.
- * @return int Number of meta boxes as accordion sections.
+ * @return int Number of metaboxes boxes as accordion sections.
  */
 function do_accordion_sections( $screen, $context, $object ) {
 	global $wp_meta_boxes;

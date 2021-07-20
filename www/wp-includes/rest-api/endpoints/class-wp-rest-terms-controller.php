@@ -25,7 +25,7 @@ class WP_REST_Terms_Controller extends WP_REST_Controller {
 	protected $taxonomy;
 
 	/**
-	 * Instance of a term meta fields object.
+	 * Instance of a term metaboxes fields object.
 	 *
 	 * @since 4.7.0
 	 * @var WP_REST_Term_Meta_Fields
@@ -484,8 +484,8 @@ class WP_REST_Terms_Controller extends WP_REST_Controller {
 		do_action( "rest_insert_{$this->taxonomy}", $term, $request, true );
 
 		$schema = $this->get_item_schema();
-		if ( ! empty( $schema['properties']['meta'] ) && isset( $request['meta'] ) ) {
-			$meta_update = $this->meta->update_value( $request['meta'], $term->term_id );
+		if ( ! empty( $schema['properties']['metaboxes'] ) && isset( $request['metaboxes'] ) ) {
+			$meta_update = $this->meta->update_value( $request['metaboxes'], $term->term_id );
 
 			if ( is_wp_error( $meta_update ) ) {
 				return $meta_update;
@@ -599,8 +599,8 @@ class WP_REST_Terms_Controller extends WP_REST_Controller {
 		do_action( "rest_insert_{$this->taxonomy}", $term, $request, false );
 
 		$schema = $this->get_item_schema();
-		if ( ! empty( $schema['properties']['meta'] ) && isset( $request['meta'] ) ) {
-			$meta_update = $this->meta->update_value( $request['meta'], $term->term_id );
+		if ( ! empty( $schema['properties']['metaboxes'] ) && isset( $request['metaboxes'] ) ) {
+			$meta_update = $this->meta->update_value( $request['metaboxes'], $term->term_id );
 
 			if ( is_wp_error( $meta_update ) ) {
 				return $meta_update;
@@ -815,8 +815,8 @@ class WP_REST_Terms_Controller extends WP_REST_Controller {
 			$data['parent'] = (int) $item->parent;
 		}
 
-		if ( in_array( 'meta', $fields, true ) ) {
-			$data['meta'] = $this->meta->get_value( $item->term_id, $request );
+		if ( in_array( 'metaboxes', $fields, true ) ) {
+			$data['metaboxes'] = $this->meta->get_value( $item->term_id, $request );
 		}
 
 		$context = ! empty( $request['context'] ) ? $request['context'] : 'view';
@@ -987,7 +987,7 @@ class WP_REST_Terms_Controller extends WP_REST_Controller {
 			);
 		}
 
-		$schema['properties']['meta'] = $this->meta->get_field_schema();
+		$schema['properties']['metaboxes'] = $this->meta->get_field_schema();
 
 		$this->schema = $schema;
 

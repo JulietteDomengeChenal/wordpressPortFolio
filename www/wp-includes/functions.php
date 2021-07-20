@@ -1640,7 +1640,7 @@ function do_feed_atom( $for_comments ) {
  *
  * @since 2.1.0
  * @since 5.3.0 Remove the "Disallow: /" output if search engine visiblity is
- *              discouraged in favor of robots meta HTML tag via wp_robots_no_robots()
+ *              discouraged in favor of robots metaboxes HTML tag via wp_robots_no_robots()
  *              filter callback.
  */
 function do_robots() {
@@ -5725,7 +5725,7 @@ function global_terms_enabled() {
 }
 
 /**
- * Determines whether site meta is enabled.
+ * Determines whether site metaboxes is enabled.
  *
  * This function checks whether the 'blogmeta' database table exists. The result is saved as
  * a setting for the main network, making it essentially a global setting. Subsequent requests
@@ -5735,7 +5735,7 @@ function global_terms_enabled() {
  *
  * @global wpdb $wpdb WordPress database abstraction object.
  *
- * @return bool True if site meta is supported, false otherwise.
+ * @return bool True if site metaboxes is supported, false otherwise.
  */
 function is_site_meta_supported() {
 	global $wpdb;

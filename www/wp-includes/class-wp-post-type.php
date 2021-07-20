@@ -185,7 +185,7 @@ final class WP_Post_Type {
 	public $capability_type = 'post';
 
 	/**
-	 * Whether to use the internal default meta capability handling.
+	 * Whether to use the internal default metaboxes capability handling.
 	 *
 	 * Default false.
 	 *
@@ -195,7 +195,7 @@ final class WP_Post_Type {
 	public $map_meta_cap = false;
 
 	/**
-	 * Provide a callback function that sets up the meta boxes for the edit form.
+	 * Provide a callback function that sets up the metaboxes boxes for the edit form.
 	 *
 	 * Do `remove_meta_box()` and `add_meta_box()` calls in the callback. Default null.
 	 *
@@ -627,7 +627,7 @@ final class WP_Post_Type {
 	}
 
 	/**
-	 * Registers the post type meta box if a custom callback was specified.
+	 * Registers the post type metaboxes box if a custom callback was specified.
 	 *
 	 * @since 4.6.0
 	 */
@@ -677,7 +677,7 @@ final class WP_Post_Type {
 	 *
 	 * @global WP_Rewrite $wp_rewrite          WordPress rewrite component.
 	 * @global WP         $wp                  Current WordPress environment instance.
-	 * @global array      $post_type_meta_caps Used to remove meta capabilities.
+	 * @global array      $post_type_meta_caps Used to remove metaboxes capabilities.
 	 */
 	public function remove_rewrite_rules() {
 		global $wp, $wp_rewrite, $post_type_meta_caps;
@@ -698,14 +698,14 @@ final class WP_Post_Type {
 			}
 		}
 
-		// Remove registered custom meta capabilities.
+		// Remove registered custom metaboxes capabilities.
 		foreach ( $this->cap as $cap ) {
 			unset( $post_type_meta_caps[ $cap ] );
 		}
 	}
 
 	/**
-	 * Unregisters the post type meta box if a custom callback was specified.
+	 * Unregisters the post type metaboxes box if a custom callback was specified.
 	 *
 	 * @since 4.6.0
 	 */

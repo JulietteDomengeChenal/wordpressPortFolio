@@ -146,10 +146,10 @@ function wp_dashboard_setup() {
 		exit;
 	}
 
-	/** This action is documented in wp-admin/includes/meta-boxes.php */
+	/** This action is documented in wp-admin/includes/metaboxes-boxes.php */
 	do_action( 'do_meta_boxes', $screen->id, 'normal', '' );
 
-	/** This action is documented in wp-admin/includes/meta-boxes.php */
+	/** This action is documented in wp-admin/includes/metaboxes-boxes.php */
 	do_action( 'do_meta_boxes', $screen->id, 'side', '' );
 }
 
@@ -268,7 +268,7 @@ function wp_dashboard() {
 
 	<?php
 	wp_nonce_field( 'closedpostboxes', 'closedpostboxesnonce', false );
-	wp_nonce_field( 'meta-box-order', 'meta-box-order-nonce', false );
+	wp_nonce_field( 'metaboxes-box-order', 'metaboxes-box-order-nonce', false );
 
 }
 
@@ -1660,7 +1660,7 @@ function wp_dashboard_browser_nag() {
 	}
 
 	/**
-	 * Filters the notice output for the 'Browse Happy' nag meta box.
+	 * Filters the notice output for the 'Browse Happy' nag metaboxes box.
 	 *
 	 * @since 3.2.0
 	 *
@@ -1675,8 +1675,8 @@ function wp_dashboard_browser_nag() {
  *
  * @since 3.2.0
  *
- * @param string[] $classes Array of meta box classes.
- * @return string[] Modified array of meta box classes.
+ * @param string[] $classes Array of metaboxes box classes.
+ * @return string[] Modified array of metaboxes box classes.
  */
 function dashboard_browser_nag_class( $classes ) {
 	$response = wp_check_browser_version();
@@ -1808,8 +1808,8 @@ function wp_dashboard_php_nag() {
  *
  * @since 5.1.0
  *
- * @param string[] $classes Array of meta box classes.
- * @return string[] Modified array of meta box classes.
+ * @param string[] $classes Array of metaboxes box classes.
+ * @return string[] Modified array of metaboxes box classes.
  */
 function dashboard_php_nag_class( $classes ) {
 	$response = wp_check_php_version();
