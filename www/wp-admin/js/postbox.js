@@ -99,7 +99,7 @@
 			var button = $( this ),
 				postbox = button.closest( '.postbox' ),
 				postboxId = postbox.attr( 'id' ),
-				postboxesWithinSortables = postbox.closest( '.metaboxes-box-sortables' ).find( '.postbox:visible' ),
+				postboxesWithinSortables = postbox.closest( '.meta-box-sortables' ).find( '.postbox:visible' ),
 				postboxesWithinSortablesCount = postboxesWithinSortables.length,
 				postboxWithinSortablesIndex = postboxesWithinSortables.index( postbox ),
 				firstOrLastPositionMessage;
@@ -160,13 +160,13 @@
 		 * @return {void}
 		 */
 		handleOrderBetweenSortables: function( position, button, postbox ) {
-			var closestSortablesId = button.closest( '.metaboxes-box-sortables' ).attr( 'id' ),
+			var closestSortablesId = button.closest( '.meta-box-sortables' ).attr( 'id' ),
 				sortablesIds = [],
 				sortablesIndex,
 				detachedPostbox;
 
 			// Get the list of sortables within the page.
-			$( '.metaboxes-box-sortables:visible' ).each( function() {
+			$( '.meta-box-sortables:visible' ).each( function() {
 				sortablesIds.push( $( this ).attr( 'id' ) );
 			});
 
@@ -203,14 +203,14 @@
 		 * @return {void}
 		 */
 		updateOrderButtonsProperties: function() {
-			var firstSortablesId = $( '.metaboxes-box-sortables:visible:first' ).attr( 'id' ),
-				lastSortablesId = $( '.metaboxes-box-sortables:visible:last' ).attr( 'id' ),
+			var firstSortablesId = $( '.meta-box-sortables:visible:first' ).attr( 'id' ),
+				lastSortablesId = $( '.meta-box-sortables:visible:last' ).attr( 'id' ),
 				firstPostbox = $( '.postbox:visible:first' ),
 				lastPostbox = $( '.postbox:visible:last' ),
 				firstPostboxId = firstPostbox.attr( 'id' ),
 				lastPostboxId = lastPostbox.attr( 'id' ),
-				firstPostboxSortablesId = firstPostbox.closest( '.metaboxes-box-sortables' ).attr( 'id' ),
-				lastPostboxSortablesId = lastPostbox.closest( '.metaboxes-box-sortables' ).attr( 'id' ),
+				firstPostboxSortablesId = firstPostbox.closest( '.meta-box-sortables' ).attr( 'id' ),
+				lastPostboxSortablesId = lastPostbox.closest( '.meta-box-sortables' ).attr( 'id' ),
 				moveUpButtons = $( '.handle-order-higher' ),
 				moveDownButtons = $( '.handle-order-lower' );
 
@@ -366,9 +366,9 @@
 				$handleButtons = $( '.postbox .handlediv' );
 
 			$.extend( this, args || {} );
-			$('.metaboxes-box-sortables').sortable({
+			$('.meta-box-sortables').sortable({
 				placeholder: 'sortable-placeholder',
-				connectWith: '.metaboxes-box-sortables',
+				connectWith: '.meta-box-sortables',
 				items: '.postbox',
 				handle: '.hndle',
 				cursor: 'move',
@@ -395,7 +395,7 @@
 				start: function() {
 					$( 'body' ).addClass( 'is-dragging-metaboxes' );
 					// Refresh the cached positions of all the sortable items so that the min-height set while dragging works.
-					$( '.metaboxes-box-sortables' ).sortable( 'refreshPositions' );
+					$( '.meta-box-sortables' ).sortable( 'refreshPositions' );
 				},
 				stop: function() {
 					var $el = $( this );
@@ -486,13 +486,13 @@
 			var postVars, page_columns = $('.columns-prefs input:checked').val() || 0;
 
 			postVars = {
-				action: 'metaboxes-box-order',
-				_ajax_nonce: $('#metaboxes-box-order-nonce').val(),
+				action: 'meta-box-order',
+				_ajax_nonce: $('#meta-box-order-nonce').val(),
 				page_columns: page_columns,
 				page: page
 			};
 
-			$('.metaboxes-box-sortables').each( function() {
+			$('.meta-box-sortables').each( function() {
 				postVars[ 'order[' + this.id.split( '-' )[0] + ']' ] = $( this ).sortable( 'toArray' ).join( ',' );
 			} );
 
@@ -523,7 +523,7 @@
 		 */
 		_mark_area : function() {
 			var visible = $( 'div.postbox:visible' ).length,
-				visibleSortables = $( '#dashboard-widgets .metaboxes-box-sortables:visible, #post-body .metaboxes-box-sortables:visible' ),
+				visibleSortables = $( '#dashboard-widgets .meta-box-sortables:visible, #post-body .meta-box-sortables:visible' ),
 				areAllVisibleSortablesEmpty = true;
 
 			visibleSortables.each( function() {

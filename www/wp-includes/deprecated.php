@@ -2227,7 +2227,7 @@ function unregister_widget_control($id) {
 }
 
 /**
- * Remove user metaboxes data.
+ * Remove user meta data.
  *
  * @since 2.0.0
  * @deprecated 3.0.0 Use delete_user_meta()
@@ -2326,7 +2326,7 @@ function get_usermeta( $user_id, $meta_key = '' ) {
  * needed. The metadata key can only be a string with underscores. All else will
  * be removed.
  *
- * Will remove the metadata, if the metaboxes value is empty.
+ * Will remove the metadata, if the meta value is empty.
  *
  * @since 2.0.0
  * @deprecated 3.0.0 Use update_user_meta()
@@ -2428,7 +2428,7 @@ function automatic_feed_links( $add = true ) {
  * @deprecated 3.0.0 Use get_the_author_meta()
  * @see get_the_author_meta()
  *
- * @param string    $field User metaboxes field.
+ * @param string    $field User meta field.
  * @param false|int $user  Optional. User ID to retrieve the field for. Default false (current user).
  * @return string The author's field from the current author's DB object.
  */
@@ -3340,6 +3340,8 @@ function gd_edit_image_support($mime_type) {
 				return (imagetypes() & IMG_PNG) != 0;
 			case 'image/gif':
 				return (imagetypes() & IMG_GIF) != 0;
+			case 'image/webp':
+				return (imagetypes() & IMG_WEBP) != 0; // phpcs:ignore PHPCompatibility.Constants.NewConstants.img_webpFound
 		}
 	} else {
 		switch( $mime_type ) {
@@ -3349,6 +3351,8 @@ function gd_edit_image_support($mime_type) {
 				return function_exists('imagecreatefrompng');
 			case 'image/gif':
 				return function_exists('imagecreatefromgif');
+			case 'image/webp':
+				return function_exists('imagecreatefromwebp');
 		}
 	}
 	return false;
@@ -4137,9 +4141,9 @@ function addslashes_strings_only( $value ) {
 }
 
 /**
- * Displays a noindex metaboxes tag if required by the blog configuration.
+ * Displays a noindex meta tag if required by the blog configuration.
  *
- * If a blog is marked as not being public then the noindex metaboxes tag will be
+ * If a blog is marked as not being public then the noindex meta tag will be
  * output to tell web robots not to index the page content. Add this to the
  * {@see 'wp_head'} action.
  *
@@ -4162,9 +4166,9 @@ function noindex() {
 }
 
 /**
- * Display a noindex metaboxes tag.
+ * Display a noindex meta tag.
  *
- * Outputs a noindex metaboxes tag that tells web robots not to index the page content.
+ * Outputs a noindex meta tag that tells web robots not to index the page content.
  * Typical usage is as a {@see 'wp_head'} callback. add_action( 'wp_head', 'wp_no_robots' );
  *
  * @since 3.3.0
@@ -4175,18 +4179,18 @@ function wp_no_robots() {
 	_deprecated_function( __FUNCTION__, '5.7.0', 'wp_robots_no_robots()' );
 
 	if ( get_option( 'blog_public' ) ) {
-		echo "<metaboxes name='robots' content='noindex,follow' />\n";
+		echo "<meta name='robots' content='noindex,follow' />\n";
 		return;
 	}
 
-	echo "<metaboxes name='robots' content='noindex,nofollow' />\n";
+	echo "<meta name='robots' content='noindex,nofollow' />\n";
 }
 
 /**
- * Display a noindex,noarchive metaboxes tag and referrer origin-when-cross-origin metaboxes tag.
+ * Display a noindex,noarchive meta tag and referrer origin-when-cross-origin meta tag.
  *
- * Outputs a noindex,noarchive metaboxes tag that tells web robots not to index or cache the page content.
- * Outputs a referrer origin-when-cross-origin metaboxes tag that tells the browser not to send the full
+ * Outputs a noindex,noarchive meta tag that tells web robots not to index or cache the page content.
+ * Outputs a referrer origin-when-cross-origin meta tag that tells the browser not to send the full
  * url as a referrer to other sites when cross-origin assets are loaded.
  *
  * Typical usage is as a wp_head callback. add_action( 'wp_head', 'wp_sensitive_page_meta' );
@@ -4202,4 +4206,21 @@ function wp_sensitive_page_meta() {
 	<meta name='robots' content='noindex,noarchive' />
 	<?php
 	wp_strict_cross_origin_referrer();
+}
+
+/**
+ * Render inner blocks from the `core/columns` block for generating an excerpt.
+ *
+ * @since 5.2.0
+ * @deprecated 5.8.0
+ *
+ * @access private
+ *
+ * @param array $columns        The parsed columns block.
+ * @param array $allowed_blocks The list of allowed inner blocks.
+ * @return string The rendered inner blocks.
+ */
+function _excerpt_render_inner_columns_blocks( $columns, $allowed_blocks ) {
+	_deprecated_function( __FUNCTION__, '5.8.0', '_excerpt_render_inner_blocks()' );
+	return _excerpt_render_inner_blocks( $columns, $allowed_blocks );
 }

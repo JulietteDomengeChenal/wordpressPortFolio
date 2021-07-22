@@ -121,7 +121,7 @@ function get_the_category_by_ID( $cat_ID ) { // phpcs:ignore WordPress.NamingCon
  * Retrieves category list for a post in either HTML list or custom format.
  *
  * Generally used for quick, delimited (e.g. comma-separated) lists of categories,
- * as part of a post entry metaboxes.
+ * as part of a post entry meta.
  *
  * For a more powerful, list-based function, see wp_list_categories().
  *

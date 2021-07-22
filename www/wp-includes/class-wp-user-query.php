@@ -148,8 +148,8 @@ class WP_User_Query {
 	 *                                             roles. Default empty array.
 	 *     @type string[]     $role__not_in        An array of role names to exclude. Users matching one or more of these
 	 *                                             roles will not be included in results. Default empty array.
-	 *     @type string       $meta_key            User metaboxes key. Default empty.
-	 *     @type string       $meta_value          User metaboxes value. Default empty.
+	 *     @type string       $meta_key            User meta key. Default empty.
+	 *     @type string       $meta_value          User meta value. Default empty.
 	 *     @type string       $meta_compare        Comparison operator to test the `$meta_value`. Accepts '=', '!=',
 	 *                                             '>', '>=', '<', '<=', 'LIKE', 'NOT LIKE', 'IN', 'NOT IN',
 	 *                                             'BETWEEN', 'NOT BETWEEN', 'EXISTS', 'NOT EXISTS', 'REGEXP',
@@ -190,7 +190,7 @@ class WP_User_Query {
 	 *                                             of fields. Accepts 'ID', 'display_name', 'user_login',
 	 *                                             'user_nicename', 'user_email', 'user_url', 'user_registered'.
 	 *                                             Use 'all' for all fields and 'all_with_meta' to include
-	 *                                             metaboxes fields. Default 'all'.
+	 *                                             meta fields. Default 'all'.
 	 *     @type string       $who                 Type of users to query. Accepts 'authors'.
 	 *                                             Default empty (all users).
 	 *     @type bool|array   $has_published_posts Pass an array of post types to filter results to users who have
@@ -326,7 +326,7 @@ class WP_User_Query {
 				'compare' => '!=',
 			);
 
-			// Prevent extra metaboxes query.
+			// Prevent extra meta query.
 			$qv['blog_id'] = 0;
 			$blog_id       = 0;
 

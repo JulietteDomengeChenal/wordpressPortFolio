@@ -10,7 +10,7 @@
  * Maps a capability to the primitive capabilities required of the given user to
  * satisfy the capability being checked.
  *
- * This function also accepts an ID of an object to map against if the capability is a metaboxes capability. Meta
+ * This function also accepts an ID of an object to map against if the capability is a meta capability. Meta
  * capabilities such as `edit_post` and `edit_user` are capabilities used by this function to map to primitive
  * capabilities that a user or role requires, such as `edit_posts` and `edit_others_posts`.
  *
@@ -34,7 +34,7 @@
  *              `edit_app_password`, `delete_app_passwords`, `delete_app_password`,
  *              and `update_https` capabilities.
  *
- * @global array $post_type_meta_caps Used to get post type metaboxes capabilities.
+ * @global array $post_type_meta_caps Used to get post type meta capabilities.
  *
  * @param string $cap     Capability being checked.
  * @param int    $user_id User ID.
@@ -316,16 +316,16 @@ function map_meta_cap( $cap, $user_id, ...$args ) {
 				if ( ! empty( $object_subtype ) && has_filter( "auth_{$object_type}_meta_{$meta_key}_for_{$object_subtype}" ) ) {
 
 					/**
-					 * Filters whether the user is allowed to edit a specific metaboxes key of a specific object type and subtype.
+					 * Filters whether the user is allowed to edit a specific meta key of a specific object type and subtype.
 					 *
 					 * The dynamic portions of the hook name, `$object_type`, `$meta_key`,
 					 * and `$object_subtype`, refer to the metadata object type (comment, post, term or user),
-					 * the metaboxes key value, and the object subtype respectively.
+					 * the meta key value, and the object subtype respectively.
 					 *
 					 * @since 4.9.8
 					 *
-					 * @param bool     $allowed   Whether the user can add the object metaboxes. Default false.
-					 * @param string   $meta_key  The metaboxes key.
+					 * @param bool     $allowed   Whether the user can add the object meta. Default false.
+					 * @param string   $meta_key  The meta key.
 					 * @param int      $object_id Object ID.
 					 * @param int      $user_id   User ID.
 					 * @param string   $cap       Capability name.
@@ -335,18 +335,18 @@ function map_meta_cap( $cap, $user_id, ...$args ) {
 				} else {
 
 					/**
-					 * Filters whether the user is allowed to edit a specific metaboxes key of a specific object type.
+					 * Filters whether the user is allowed to edit a specific meta key of a specific object type.
 					 *
-					 * Return true to have the mapped metaboxes caps from `edit_{$object_type}` apply.
+					 * Return true to have the mapped meta caps from `edit_{$object_type}` apply.
 					 *
 					 * The dynamic portion of the hook name, `$object_type` refers to the object type being filtered.
-					 * The dynamic portion of the hook name, `$meta_key`, refers to the metaboxes key passed to map_meta_cap().
+					 * The dynamic portion of the hook name, `$meta_key`, refers to the meta key passed to map_meta_cap().
 					 *
 					 * @since 3.3.0 As `auth_post_meta_{$meta_key}`.
 					 * @since 4.6.0
 					 *
-					 * @param bool     $allowed   Whether the user can add the object metaboxes. Default false.
-					 * @param string   $meta_key  The metaboxes key.
+					 * @param bool     $allowed   Whether the user can add the object meta. Default false.
+					 * @param string   $meta_key  The meta key.
 					 * @param int      $object_id Object ID.
 					 * @param int      $user_id   User ID.
 					 * @param string   $cap       Capability name.
@@ -358,21 +358,21 @@ function map_meta_cap( $cap, $user_id, ...$args ) {
 				if ( ! empty( $object_subtype ) ) {
 
 					/**
-					 * Filters whether the user is allowed to edit metaboxes for specific object types/subtypes.
+					 * Filters whether the user is allowed to edit meta for specific object types/subtypes.
 					 *
-					 * Return true to have the mapped metaboxes caps from `edit_{$object_type}` apply.
+					 * Return true to have the mapped meta caps from `edit_{$object_type}` apply.
 					 *
 					 * The dynamic portion of the hook name, `$object_type` refers to the object type being filtered.
 					 * The dynamic portion of the hook name, `$object_subtype` refers to the object subtype being filtered.
-					 * The dynamic portion of the hook name, `$meta_key`, refers to the metaboxes key passed to map_meta_cap().
+					 * The dynamic portion of the hook name, `$meta_key`, refers to the meta key passed to map_meta_cap().
 					 *
 					 * @since 4.6.0 As `auth_post_{$post_type}_meta_{$meta_key}`.
 					 * @since 4.7.0 Renamed from `auth_post_{$post_type}_meta_{$meta_key}` to
 					 *              `auth_{$object_type}_{$object_subtype}_meta_{$meta_key}`.
 					 * @deprecated 4.9.8 Use {@see 'auth_{$object_type}_meta_{$meta_key}_for_{$object_subtype}'} instead.
 					 *
-					 * @param bool     $allowed   Whether the user can add the object metaboxes. Default false.
-					 * @param string   $meta_key  The metaboxes key.
+					 * @param bool     $allowed   Whether the user can add the object meta. Default false.
+					 * @param string   $meta_key  The meta key.
 					 * @param int      $object_id Object ID.
 					 * @param int      $user_id   User ID.
 					 * @param string   $cap       Capability name.
@@ -616,7 +616,7 @@ function map_meta_cap( $cap, $user_id, ...$args ) {
 			$caps = map_meta_cap( 'edit_user', $user_id, $args[0] );
 			break;
 		default:
-			// Handle metaboxes capabilities for custom post types.
+			// Handle meta capabilities for custom post types.
 			global $post_type_meta_caps;
 			if ( isset( $post_type_meta_caps[ $cap ] ) ) {
 				return map_meta_cap( $post_type_meta_caps[ $cap ], $user_id, ...$args );
@@ -639,7 +639,7 @@ function map_meta_cap( $cap, $user_id, ...$args ) {
 				$cap = str_replace( '_blocks', '_posts', $cap );
 			}
 
-			// If no metaboxes caps match, return the original cap.
+			// If no meta caps match, return the original cap.
 			$caps[] = $cap;
 	}
 
@@ -661,7 +661,7 @@ function map_meta_cap( $cap, $user_id, ...$args ) {
 /**
  * Returns whether the current user has the specified capability.
  *
- * This function also accepts an ID of an object to check against if the capability is a metaboxes capability. Meta
+ * This function also accepts an ID of an object to check against if the capability is a meta capability. Meta
  * capabilities such as `edit_post` and `edit_user` are capabilities used by the `map_meta_cap()` function to
  * map to primitive capabilities that a user or role has, such as `edit_posts` and `edit_others_posts`.
  *
@@ -679,29 +679,24 @@ function map_meta_cap( $cap, $user_id, ...$args ) {
  * @since 2.0.0
  * @since 5.3.0 Formalized the existing and already documented `...$args` parameter
  *              by adding it to the function signature.
+ * @since 5.8.0 Converted to wrapper for the user_can() function.
  *
  * @see WP_User::has_cap()
  * @see map_meta_cap()
  *
  * @param string $capability Capability name.
  * @param mixed  ...$args    Optional further parameters, typically starting with an object ID.
- * @return bool Whether the current user has the given capability. If `$capability` is a metaboxes cap and `$object_id` is
- *              passed, whether the current user has the given metaboxes capability for the given object.
+ * @return bool Whether the current user has the given capability. If `$capability` is a meta cap and `$object_id` is
+ *              passed, whether the current user has the given meta capability for the given object.
  */
 function current_user_can( $capability, ...$args ) {
-	$current_user = wp_get_current_user();
-
-	if ( empty( $current_user ) ) {
-		return false;
-	}
-
-	return $current_user->has_cap( $capability, ...$args );
+	return user_can( wp_get_current_user(), $capability, ...$args );
 }
 
 /**
  * Returns whether the current user has the specified capability for a given site.
  *
- * This function also accepts an ID of an object to check against if the capability is a metaboxes capability. Meta
+ * This function also accepts an ID of an object to check against if the capability is a meta capability. Meta
  * capabilities such as `edit_post` and `edit_user` are capabilities used by the `map_meta_cap()` function to
  * map to primitive capabilities that a user or role has, such as `edit_posts` and `edit_others_posts`.
  *
@@ -714,6 +709,7 @@ function current_user_can( $capability, ...$args ) {
  * @since 3.0.0
  * @since 5.3.0 Formalized the existing and already documented `...$args` parameter
  *              by adding it to the function signature.
+ * @since 5.8.0 Wraps current_user_can() after switching to blog.
  *
  * @param int    $blog_id    Site ID.
  * @param string $capability Capability name.
@@ -723,16 +719,7 @@ function current_user_can( $capability, ...$args ) {
 function current_user_can_for_blog( $blog_id, $capability, ...$args ) {
 	$switched = is_multisite() ? switch_to_blog( $blog_id ) : false;
 
-	$current_user = wp_get_current_user();
-
-	if ( empty( $current_user ) ) {
-		if ( $switched ) {
-			restore_current_blog();
-		}
-		return false;
-	}
-
-	$can = $current_user->has_cap( $capability, ...$args );
+	$can = current_user_can( $capability, ...$args );
 
 	if ( $switched ) {
 		restore_current_blog();
@@ -744,7 +731,7 @@ function current_user_can_for_blog( $blog_id, $capability, ...$args ) {
 /**
  * Returns whether the author of the supplied post has the specified capability.
  *
- * This function also accepts an ID of an object to check against if the capability is a metaboxes capability. Meta
+ * This function also accepts an ID of an object to check against if the capability is a meta capability. Meta
  * capabilities such as `edit_post` and `edit_user` are capabilities used by the `map_meta_cap()` function to
  * map to primitive capabilities that a user or role has, such as `edit_posts` and `edit_others_posts`.
  *
@@ -781,7 +768,7 @@ function author_can( $post, $capability, ...$args ) {
 /**
  * Returns whether a particular user has the specified capability.
  *
- * This function also accepts an ID of an object to check against if the capability is a metaboxes capability. Meta
+ * This function also accepts an ID of an object to check against if the capability is a meta capability. Meta
  * capabilities such as `edit_post` and `edit_user` are capabilities used by the `map_meta_cap()` function to
  * map to primitive capabilities that a user or role has, such as `edit_posts` and `edit_others_posts`.
  *
@@ -805,8 +792,10 @@ function user_can( $user, $capability, ...$args ) {
 		$user = get_userdata( $user );
 	}
 
-	if ( ! $user || ! $user->exists() ) {
-		return false;
+	if ( empty( $user ) ) {
+		// User is logged out, create anonymous user object.
+		$user = new WP_User( 0 );
+		$user->init( new stdClass );
 	}
 
 	return $user->has_cap( $capability, ...$args );

@@ -69,6 +69,8 @@ class WP_Image_Editor_GD extends WP_Image_Editor {
 				return ( $image_types & IMG_PNG ) != 0;
 			case 'image/gif':
 				return ( $image_types & IMG_GIF ) != 0;
+			case 'image/webp':
+				return ( $image_types & IMG_WEBP ) != 0; // phpcs:ignore PHPCompatibility.Constants.NewConstants.img_webpFound
 		}
 
 		return false;
@@ -99,7 +101,15 @@ class WP_Image_Editor_GD extends WP_Image_Editor {
 			return new WP_Error( 'error_loading_image', __( 'File doesn&#8217;t exist?' ), $this->file );
 		}
 
-		$this->image = @imagecreatefromstring( $file_contents );
+		// WebP may not work with imagecreatefromstring().
+		if (
+			function_exists( 'imagecreatefromwebp' ) &&
+			( 'image/webp' === wp_get_image_mime( $this->file ) )
+		) {
+			$this->image = @imagecreatefromwebp( $this->file );
+		} else {
+			$this->image = @imagecreatefromstring( $file_contents );
+		}
 
 		if ( ! is_gd_image( $this->image ) ) {
 			return new WP_Error( 'invalid_image', __( 'File is not an image.' ), $this->file );
@@ -206,12 +216,12 @@ class WP_Image_Editor_GD extends WP_Image_Editor {
 	/**
 	 * Create multiple smaller images from a single source.
 	 *
-	 * Attempts to create all sub-sizes and returns the metaboxes data at the end. This
+	 * Attempts to create all sub-sizes and returns the meta data at the end. This
 	 * may result in the server running out of resources. When it fails there may be few
-	 * "orphaned" images left over as the metaboxes data is never returned and saved.
+	 * "orphaned" images left over as the meta data is never returned and saved.
 	 *
 	 * As of 5.3.0 the preferred way to do this is with `make_subsize()`. It creates
-	 * the new images one at a time and allows for the metaboxes data to be saved after
+	 * the new images one at a time and allows for the meta data to be saved after
 	 * each new image is created.
 	 *
 	 * @since 3.5.0
@@ -248,7 +258,7 @@ class WP_Image_Editor_GD extends WP_Image_Editor {
 	}
 
 	/**
-	 * Create an image sub-size and return the image metaboxes data value for it.
+	 * Create an image sub-size and return the image meta data value for it.
 	 *
 	 * @since 5.3.0
 	 *
@@ -259,7 +269,7 @@ class WP_Image_Editor_GD extends WP_Image_Editor {
 	 *     @type int  $height The maximum height in pixels.
 	 *     @type bool $crop   Whether to crop the image to exact dimensions.
 	 * }
-	 * @return array|WP_Error The image data array for inclusion in the `sizes` array in the image metaboxes,
+	 * @return array|WP_Error The image data array for inclusion in the `sizes` array in the image meta,
 	 *                        WP_Error object on error.
 	 */
 	public function make_subsize( $size_data ) {
@@ -459,6 +469,10 @@ class WP_Image_Editor_GD extends WP_Image_Editor {
 			if ( ! $this->make_image( $filename, 'imagejpeg', array( $image, $filename, $this->get_quality() ) ) ) {
 				return new WP_Error( 'image_save_error', __( 'Image Editor Save Failed' ) );
 			}
+		} elseif ( 'image/webp' == $mime_type ) {
+			if ( ! function_exists( 'imagewebp' ) || ! $this->make_image( $filename, 'imagewebp', array( $image, $filename, $this->get_quality() ) ) ) {
+				return new WP_Error( 'image_save_error', __( 'Image Editor Save Failed' ) );
+			}
 		} else {
 			return new WP_Error( 'image_save_error', __( 'Image Editor Save Failed' ) );
 		}
@@ -502,6 +516,12 @@ class WP_Image_Editor_GD extends WP_Image_Editor {
 			case 'image/gif':
 				header( 'Content-Type: image/gif' );
 				return imagegif( $this->image );
+			case 'image/webp':
+				if ( function_exists( 'imagewebp' ) ) {
+					header( 'Content-Type: image/webp' );
+					return imagewebp( $this->image, null, $this->get_quality() );
+				}
+				// Fall back to the default if webp isn't supported.
 			default:
 				header( 'Content-Type: image/jpeg' );
 				return imagejpeg( $this->image, null, $this->get_quality() );

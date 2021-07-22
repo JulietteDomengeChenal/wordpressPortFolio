@@ -29,7 +29,7 @@
         add_theme_support('menus');
         register_nav_menu('header', 'En tête du menu');
 
-        add_image_size('card-header', 350, 215, true );
+      //  add_image_size('card-header', 350, 215, true );
     }
 
     function montheme_register_assets(){
@@ -37,7 +37,7 @@
 
         wp_register_script('bootstrap', 'https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.min.js', ['popper', 'jquery'], false, true);
         wp_register_script('popper', 'https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js', [], false, true);
-        wp_deregister_script('jquery');
+//        wp_deregister_script('jquery');
         wp_register_script('jquery', 'https://code.jquery.com/jquery-3.5.1.slim.min.js', [], false, true);
         wp_enqueue_style('bootstrap');
         wp_enqueue_script('bootstrap');
@@ -75,7 +75,27 @@
          echo '</ul>';
          echo '</nav>';
     }
+    function montheme_init(){
+        register_taxonomy('illustrationType', 'post', [
+            'labels' => [
+                'name' => 'Type illustration',
+                'add_new_item' => 'Ajouter un nouveau type'
+            ],
+            'show_in_rest' => true,
+            'hierarchical' => true,
+            'show_admin_column' => true,
+        ]);
+        register_post_type('technique', [
+            'label' => 'technique',
+            'public' => true,
+            'menu_position' => 4,
+            'support' => ['title', 'editor', 'thumbnail'],
+            'show_in_rest' => true,
+            'has_archive' => true,
+        ]);
+    }
 
+    add_action('init', 'montheme_init');
     add_action('after_setup_theme', 'montheme_supports');
 
     add_action('wp_enqueue_scripts', 'montheme_register_assets');
@@ -86,4 +106,7 @@
     add_filter('nav_menu_link_attributes', 'montheme_menu_link_class');
 
     require_once('metaboxes/sponso.php');
+    require_once('options/agence.php');
+
     SponsoMetaBox::register();
+    AgenceMenuPage::register();

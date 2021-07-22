@@ -218,11 +218,11 @@ function get_comment( $comment = null, $output = OBJECT ) {
 	 */
 	$_comment = apply_filters( 'get_comment', $_comment );
 
-	if ( OBJECT == $output ) {
+	if ( OBJECT === $output ) {
 		return $_comment;
-	} elseif ( ARRAY_A == $output ) {
+	} elseif ( ARRAY_A === $output ) {
 		return $_comment->to_array();
-	} elseif ( ARRAY_N == $output ) {
+	} elseif ( ARRAY_N === $output ) {
 		return array_values( $_comment->to_array() );
 	}
 	return $_comment;
@@ -439,11 +439,11 @@ function get_comment_count( $post_id = 0 ) {
 }
 
 //
-// Comment metaboxes functions.
+// Comment meta functions.
 //
 
 /**
- * Add metaboxes data field to a comment.
+ * Add meta data field to a comment.
  *
  * @since 2.9.0
  *
@@ -483,32 +483,34 @@ function delete_comment_meta( $comment_id, $meta_key, $meta_value = '' ) {
 }
 
 /**
- * Retrieve comment metaboxes field for a comment.
+ * Retrieve comment meta field for a comment.
  *
  * @since 2.9.0
  *
  * @link https://developer.wordpress.org/reference/functions/get_comment_meta/
  *
  * @param int    $comment_id Comment ID.
- * @param string $key        Optional. The metaboxes key to retrieve. By default,
+ * @param string $key        Optional. The meta key to retrieve. By default,
  *                           returns data for all keys.
  * @param bool   $single     Optional. Whether to return a single value.
- *                           This parameter has no effect if $key is not specified.
+ *                           This parameter has no effect if `$key` is not specified.
  *                           Default false.
- * @return mixed An array if $single is false. The value of metaboxes data field
- *               if $single is true. False for an invalid $comment_id.
+ * @return mixed An array of values if `$single` is false.
+ *               The value of meta data field if `$single` is true.
+ *               False for an invalid `$comment_id` (non-numeric, zero, or negative value).
+ *               An empty string if a valid but non-existing comment ID is passed.
  */
 function get_comment_meta( $comment_id, $key = '', $single = false ) {
 	return get_metadata( 'comment', $comment_id, $key, $single );
 }
 
 /**
- * Update comment metaboxes field based on comment ID.
+ * Update comment meta field based on comment ID.
  *
- * Use the $prev_value parameter to differentiate between metaboxes fields with the
+ * Use the $prev_value parameter to differentiate between meta fields with the
  * same key and comment ID.
  *
- * If the metaboxes field for the comment does not exist, it will be added.
+ * If the meta field for the comment does not exist, it will be added.
  *
  * @since 2.9.0
  *
@@ -615,9 +617,10 @@ function sanitize_comment_cookies() {
 		 *
 		 * @param string $author_cookie The comment author name cookie.
 		 */
-		$comment_author                            = apply_filters( 'pre_comment_author_name', $_COOKIE[ 'comment_author_' . COOKIEHASH ] );
-		$comment_author                            = wp_unslash( $comment_author );
-		$comment_author                            = esc_attr( $comment_author );
+		$comment_author = apply_filters( 'pre_comment_author_name', $_COOKIE[ 'comment_author_' . COOKIEHASH ] );
+		$comment_author = wp_unslash( $comment_author );
+		$comment_author = esc_attr( $comment_author );
+
 		$_COOKIE[ 'comment_author_' . COOKIEHASH ] = $comment_author;
 	}
 
@@ -632,9 +635,10 @@ function sanitize_comment_cookies() {
 		 *
 		 * @param string $author_email_cookie The comment author email cookie.
 		 */
-		$comment_author_email                            = apply_filters( 'pre_comment_author_email', $_COOKIE[ 'comment_author_email_' . COOKIEHASH ] );
-		$comment_author_email                            = wp_unslash( $comment_author_email );
-		$comment_author_email                            = esc_attr( $comment_author_email );
+		$comment_author_email = apply_filters( 'pre_comment_author_email', $_COOKIE[ 'comment_author_email_' . COOKIEHASH ] );
+		$comment_author_email = wp_unslash( $comment_author_email );
+		$comment_author_email = esc_attr( $comment_author_email );
+
 		$_COOKIE[ 'comment_author_email_' . COOKIEHASH ] = $comment_author_email;
 	}
 
@@ -649,8 +653,9 @@ function sanitize_comment_cookies() {
 		 *
 		 * @param string $author_url_cookie The comment author URL cookie.
 		 */
-		$comment_author_url                            = apply_filters( 'pre_comment_author_url', $_COOKIE[ 'comment_author_url_' . COOKIEHASH ] );
-		$comment_author_url                            = wp_unslash( $comment_author_url );
+		$comment_author_url = apply_filters( 'pre_comment_author_url', $_COOKIE[ 'comment_author_url_' . COOKIEHASH ] );
+		$comment_author_url = wp_unslash( $comment_author_url );
+
 		$_COOKIE[ 'comment_author_url_' . COOKIEHASH ] = $comment_author_url;
 	}
 }
@@ -2427,7 +2432,7 @@ function wp_set_comment_status( $comment_id, $comment_status, $wp_error = false 
  * Filters the comment and makes sure certain fields are valid before updating.
  *
  * @since 2.0.0
- * @since 4.9.0 Add updating comment metaboxes during comment update.
+ * @since 4.9.0 Add updating comment meta during comment update.
  * @since 5.5.0 The `$wp_error` parameter was added.
  * @since 5.5.0 The return values for an invalid comment or post ID
  *              were changed to false instead of 0.
@@ -3249,7 +3254,7 @@ function update_comment_cache( $comments, $update_meta_cache = true ) {
  * @global wpdb $wpdb WordPress database abstraction object.
  *
  * @param int[] $comment_ids       Array of comment IDs.
- * @param bool  $update_meta_cache Optional. Whether to update the metaboxes cache. Default true.
+ * @param bool  $update_meta_cache Optional. Whether to update the meta cache. Default true.
  */
 function _prime_comment_caches( $comment_ids, $update_meta_cache = true ) {
 	global $wpdb;

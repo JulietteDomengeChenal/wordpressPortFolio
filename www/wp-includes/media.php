@@ -217,7 +217,7 @@ function image_downsize( $id, $size = 'medium' ) {
 	$is_intermediate  = false;
 	$img_url_basename = wp_basename( $img_url );
 
-	// If the file isn't an image, attempt to replace its URL with a rendered image from its metaboxes.
+	// If the file isn't an image, attempt to replace its URL with a rendered image from its meta.
 	// Otherwise, a non-image type could be returned.
 	if ( ! $is_image ) {
 		if ( ! empty( $meta['sizes']['full'] ) ) {
@@ -1158,7 +1158,7 @@ function _wp_get_attachment_relative_path( $file ) {
 }
 
 /**
- * Get the image size as array from its metaboxes data.
+ * Get the image size as array from its meta data.
  *
  * Used for responsive images.
  *
@@ -1166,9 +1166,9 @@ function _wp_get_attachment_relative_path( $file ) {
  * @access private
  *
  * @param string $size_name  Image size. Accepts any registered image size name.
- * @param array  $image_meta The image metaboxes data.
+ * @param array  $image_meta The image meta data.
  * @return array|false {
- *     Array of width and height or false if the size isn't present in the metaboxes data.
+ *     Array of width and height or false if the size isn't present in the meta data.
  *
  *     @type int $0 Image width.
  *     @type int $1 Image height.
@@ -1200,7 +1200,7 @@ function _wp_get_image_size_from_meta( $size_name, $image_meta ) {
  * @param int          $attachment_id Image attachment ID.
  * @param string|int[] $size          Optional. Image size. Accepts any registered image size name, or an array of
  *                                    width and height values in pixels (in that order). Default 'medium'.
- * @param array        $image_meta    Optional. The image metaboxes data as returned by 'wp_get_attachment_metadata()'.
+ * @param array        $image_meta    Optional. The image meta data as returned by 'wp_get_attachment_metadata()'.
  *                                    Default null.
  * @return string|false A 'srcset' value string or false.
  */
@@ -1236,17 +1236,17 @@ function wp_get_attachment_image_srcset( $attachment_id, $size = 'medium', $imag
  *     @type int $1 The height in pixels.
  * }
  * @param string $image_src     The 'src' of the image.
- * @param array  $image_meta    The image metaboxes data as returned by 'wp_get_attachment_metadata()'.
+ * @param array  $image_meta    The image meta data as returned by 'wp_get_attachment_metadata()'.
  * @param int    $attachment_id Optional. The image attachment ID. Default 0.
  * @return string|false The 'srcset' attribute value. False on error or when only one source exists.
  */
 function wp_calculate_image_srcset( $size_array, $image_src, $image_meta, $attachment_id = 0 ) {
 	/**
-	 * Let plugins pre-filter the image metaboxes to be able to fix inconsistencies in the stored data.
+	 * Let plugins pre-filter the image meta to be able to fix inconsistencies in the stored data.
 	 *
 	 * @since 4.5.0
 	 *
-	 * @param array  $image_meta    The image metaboxes data as returned by 'wp_get_attachment_metadata()'.
+	 * @param array  $image_meta    The image meta data as returned by 'wp_get_attachment_metadata()'.
 	 * @param int[]  $size_array    {
 	 *     An array of requested width and height values.
 	 *
@@ -1335,7 +1335,7 @@ function wp_calculate_image_srcset( $size_array, $image_src, $image_meta, $attac
 
 	/**
 	 * To make sure the ID matches our image src, we will check to see if any sizes in our attachment
-	 * metaboxes match our $image_src. If no matches are found we don't return a srcset to avoid serving
+	 * meta match our $image_src. If no matches are found we don't return a srcset to avoid serving
 	 * an incorrect image. See #35045.
 	 */
 	$src_matched = false;
@@ -1347,7 +1347,7 @@ function wp_calculate_image_srcset( $size_array, $image_src, $image_meta, $attac
 	foreach ( $image_sizes as $image ) {
 		$is_src = false;
 
-		// Check if image metaboxes isn't corrupted.
+		// Check if image meta isn't corrupted.
 		if ( ! is_array( $image ) ) {
 			continue;
 		}
@@ -1412,7 +1412,7 @@ function wp_calculate_image_srcset( $size_array, $image_src, $image_meta, $attac
 	 *     @type int $1 The height in pixels.
 	 * }
 	 * @param string $image_src     The 'src' of the image.
-	 * @param array  $image_meta    The image metaboxes data as returned by 'wp_get_attachment_metadata()'.
+	 * @param array  $image_meta    The image meta data as returned by 'wp_get_attachment_metadata()'.
 	 * @param int    $attachment_id Image attachment ID or 0.
 	 */
 	$sources = apply_filters( 'wp_calculate_image_srcset', $sources, $size_array, $image_src, $image_meta, $attachment_id );
@@ -1441,7 +1441,7 @@ function wp_calculate_image_srcset( $size_array, $image_src, $image_meta, $attac
  * @param int          $attachment_id Image attachment ID.
  * @param string|int[] $size          Optional. Image size. Accepts any registered image size name, or an array of
  *                                    width and height values in pixels (in that order). Default 'medium'.
- * @param array        $image_meta    Optional. The image metaboxes data as returned by 'wp_get_attachment_metadata()'.
+ * @param array        $image_meta    Optional. The image meta data as returned by 'wp_get_attachment_metadata()'.
  *                                    Default null.
  * @return string|false A valid source size value for use in a 'sizes' attribute or false.
  */
@@ -1473,7 +1473,7 @@ function wp_get_attachment_image_sizes( $attachment_id, $size = 'medium', $image
  * @param string|int[] $size          Image size. Accepts any registered image size name, or an array of
  *                                    width and height values in pixels (in that order).
  * @param string       $image_src     Optional. The URL to the image file. Default null.
- * @param array        $image_meta    Optional. The image metaboxes data as returned by 'wp_get_attachment_metadata()'.
+ * @param array        $image_meta    Optional. The image meta data as returned by 'wp_get_attachment_metadata()'.
  *                                    Default null.
  * @param int          $attachment_id Optional. Image attachment ID. Either `$image_meta` or `$attachment_id`
  *                                    is needed when using the image size name as argument for `$size`. Default 0.
@@ -1513,16 +1513,16 @@ function wp_calculate_image_sizes( $size, $image_src = null, $image_meta = null,
 	 * @param string|int[] $size          Requested image size. Can be any registered image size name, or
 	 *                                    an array of width and height values in pixels (in that order).
 	 * @param string|null  $image_src     The URL to the image file or null.
-	 * @param array|null   $image_meta    The image metaboxes data as returned by wp_get_attachment_metadata() or null.
+	 * @param array|null   $image_meta    The image meta data as returned by wp_get_attachment_metadata() or null.
 	 * @param int          $attachment_id Image attachment ID of the original image or 0.
 	 */
 	return apply_filters( 'wp_calculate_image_sizes', $sizes, $size, $image_src, $image_meta, $attachment_id );
 }
 
 /**
- * Determines if the image metaboxes data is for the image source file.
+ * Determines if the image meta data is for the image source file.
  *
- * The image metaboxes data is retrieved by attachment post ID. In some cases the post IDs may change.
+ * The image meta data is retrieved by attachment post ID. In some cases the post IDs may change.
  * For example when the website is exported and imported at another website. Then the
  * attachment post IDs that are in post_content for the exported website may not match
  * the same attachments at the new website.
@@ -1530,9 +1530,9 @@ function wp_calculate_image_sizes( $size, $image_src = null, $image_meta = null,
  * @since 5.5.0
  *
  * @param string $image_location The full path or URI to the image file.
- * @param array  $image_meta     The attachment metaboxes data as returned by 'wp_get_attachment_metadata()'.
+ * @param array  $image_meta     The attachment meta data as returned by 'wp_get_attachment_metadata()'.
  * @param int    $attachment_id  Optional. The image attachment ID. Default 0.
- * @return bool Whether the image metaboxes is for this image file.
+ * @return bool Whether the image meta is for this image file.
  */
 function wp_image_file_matches_image_meta( $image_location, $image_meta, $attachment_id = 0 ) {
 	$match = false;
@@ -1542,7 +1542,7 @@ function wp_image_file_matches_image_meta( $image_location, $image_meta, $attach
 		// Remove quiery args if image URI.
 		list( $image_location ) = explode( '?', $image_location );
 
-		// Check if the relative image path from the image metaboxes is at the end of $image_location.
+		// Check if the relative image path from the image meta is at the end of $image_location.
 		if ( strrpos( $image_location, $image_meta['file'] ) === strlen( $image_location ) - strlen( $image_meta['file'] ) ) {
 			$match = true;
 		} else {
@@ -1575,14 +1575,14 @@ function wp_image_file_matches_image_meta( $image_location, $image_meta, $attach
 	}
 
 	/**
-	 * Filters whether an image path or URI matches image metaboxes.
+	 * Filters whether an image path or URI matches image meta.
 	 *
 	 * @since 5.5.0
 	 *
-	 * @param bool   $match          Whether the image relative path from the image metaboxes
+	 * @param bool   $match          Whether the image relative path from the image meta
 	 *                               matches the end of the URI or path to the image file.
 	 * @param string $image_location Full path or URI to the tested image file.
-	 * @param array  $image_meta     The image metaboxes data as returned by 'wp_get_attachment_metadata()'.
+	 * @param array  $image_meta     The image meta data as returned by 'wp_get_attachment_metadata()'.
 	 * @param int    $attachment_id  The image attachment ID or 0 if not supplied.
 	 */
 	return apply_filters( 'wp_image_file_matches_image_meta', $match, $image_location, $image_meta, $attachment_id );
@@ -1594,7 +1594,7 @@ function wp_image_file_matches_image_meta( $image_location, $image_meta, $attach
  * @since 5.5.0
  *
  * @param string $image_src     The image source file.
- * @param array  $image_meta    The image metaboxes data as returned by 'wp_get_attachment_metadata()'.
+ * @param array  $image_meta    The image meta data as returned by 'wp_get_attachment_metadata()'.
  * @param int    $attachment_id Optional. The image attachment ID. Default 0.
  * @return array|false Array with first element being the width and second element being the height,
  *                     or false if dimensions cannot be determined.
@@ -1637,7 +1637,7 @@ function wp_image_src_get_dimensions( $image_src, $image_meta, $attachment_id = 
 	 *                                   and second element being the height, or
 	 *                                   false if dimensions could not be determined.
 	 * @param string      $image_src     The image source file.
-	 * @param array       $image_meta    The image metaboxes data as returned by
+	 * @param array       $image_meta    The image meta data as returned by
 	 *                                   'wp_get_attachment_metadata()'.
 	 * @param int         $attachment_id The image attachment ID. Default 0.
 	 */
@@ -1653,12 +1653,12 @@ function wp_image_src_get_dimensions( $image_src, $image_meta, $attachment_id = 
  * @see wp_calculate_image_sizes()
  *
  * @param string $image         An HTML 'img' element to be filtered.
- * @param array  $image_meta    The image metaboxes data as returned by 'wp_get_attachment_metadata()'.
+ * @param array  $image_meta    The image meta data as returned by 'wp_get_attachment_metadata()'.
  * @param int    $attachment_id Image attachment ID.
  * @return string Converted 'img' element with 'srcset' and 'sizes' attributes added.
  */
 function wp_image_add_srcset_and_sizes( $image, $image_meta, $attachment_id ) {
-	// Ensure the image metaboxes exists.
+	// Ensure the image meta exists.
 	if ( empty( $image_meta['sizes'] ) ) {
 		return $image;
 	}
@@ -1814,7 +1814,7 @@ function wp_filter_content_tags( $content, $context = null ) {
 
 	if ( count( $attachment_ids ) > 1 ) {
 		/*
-		 * Warm the object cache with post and metaboxes information for all found
+		 * Warm the object cache with post and meta information for all found
 		 * images to avoid making individual database calls.
 		 */
 		_prime_post_caches( $attachment_ids, false, true );
@@ -2729,13 +2729,13 @@ function wp_playlist_shortcode( $attr ) {
 			'description' => $attachment->post_content,
 		);
 
-		$track['metaboxes'] = array();
+		$track['meta'] = array();
 		$meta          = wp_get_attachment_metadata( $attachment->ID );
 		if ( ! empty( $meta ) ) {
 
 			foreach ( wp_get_attachment_id3_keys( $attachment ) as $key => $label ) {
 				if ( ! empty( $meta[ $key ] ) ) {
-					$track['metaboxes'][ $key ] = $meta[ $key ];
+					$track['meta'][ $key ] = $meta[ $key ];
 				}
 			}
 
@@ -2799,7 +2799,7 @@ function wp_playlist_shortcode( $attr ) {
 <div class="wp-playlist wp-<?php echo $safe_type; ?>-playlist wp-playlist-<?php echo $safe_style; ?>">
 	<?php if ( 'audio' === $atts['type'] ) : ?>
 		<div class="wp-playlist-current-item"></div>
-	<?php endif ?>
+	<?php endif; ?>
 	<<?php echo $safe_type; ?> controls="controls" preload="none" width="<?php echo (int) $theme_width; ?>"
 		<?php
 		if ( 'video' === $safe_type ) {
@@ -3377,18 +3377,48 @@ function wp_video_shortcode( $attr, $content = '' ) {
 add_shortcode( 'video', 'wp_video_shortcode' );
 
 /**
+ * Gets the previous image link that has the same post parent.
+ *
+ * @since 5.8.0
+ *
+ * @see get_adjacent_image_link()
+ *
+ * @param string|int[] $size Optional. Image size. Accepts any registered image size name, or an array
+ *                           of width and height values in pixels (in that order). Default 'thumbnail'.
+ * @param string|false $text Optional. Link text. Default false.
+ * @return string Markup for previous image link.
+ */
+function get_previous_image_link( $size = 'thumbnail', $text = false ) {
+	return get_adjacent_image_link( true, $size, $text );
+}
+
+/**
  * Displays previous image link that has the same post parent.
  *
  * @since 2.5.0
- *
- * @see adjacent_image_link()
  *
  * @param string|int[] $size Optional. Image size. Accepts any registered image size name, or an array
  *                           of width and height values in pixels (in that order). Default 'thumbnail'.
  * @param string|false $text Optional. Link text. Default false.
  */
 function previous_image_link( $size = 'thumbnail', $text = false ) {
-	adjacent_image_link( true, $size, $text );
+	echo get_previous_image_link( $size, $text );
+}
+
+/**
+ * Gets the next image link that has the same post parent.
+ *
+ * @since 5.8.0
+ *
+ * @see get_adjacent_image_link()
+ *
+ * @param string|int[] $size Optional. Image size. Accepts any registered image size name, or an array
+ *                           of width and height values in pixels (in that order). Default 'thumbnail'.
+ * @param string|false $text Optional. Link text. Default false.
+ * @return string Markup for next image link.
+ */
+function get_next_image_link( $size = 'thumbnail', $text = false ) {
+	return get_adjacent_image_link( false, $size, $text );
 }
 
 /**
@@ -3396,29 +3426,28 @@ function previous_image_link( $size = 'thumbnail', $text = false ) {
  *
  * @since 2.5.0
  *
- * @see adjacent_image_link()
- *
  * @param string|int[] $size Optional. Image size. Accepts any registered image size name, or an array
  *                           of width and height values in pixels (in that order). Default 'thumbnail'.
  * @param string|false $text Optional. Link text. Default false.
  */
 function next_image_link( $size = 'thumbnail', $text = false ) {
-	adjacent_image_link( false, $size, $text );
+	echo get_next_image_link( $size, $text );
 }
 
 /**
- * Displays next or previous image link that has the same post parent.
+ * Gets the next or previous image link that has the same post parent.
  *
  * Retrieves the current attachment object from the $post global.
  *
- * @since 2.5.0
+ * @since 5.8.0
  *
  * @param bool         $prev Optional. Whether to display the next (false) or previous (true) link. Default true.
  * @param string|int[] $size Optional. Image size. Accepts any registered image size name, or an array
  *                           of width and height values in pixels (in that order). Default 'thumbnail'.
  * @param bool         $text Optional. Link text. Default false.
+ * @return string Markup for image link.
  */
-function adjacent_image_link( $prev = true, $size = 'thumbnail', $text = false ) {
+function get_adjacent_image_link( $prev = true, $size = 'thumbnail', $text = false ) {
 	$post        = get_post();
 	$attachments = array_values(
 		get_children(
@@ -3460,6 +3489,11 @@ function adjacent_image_link( $prev = true, $size = 'thumbnail', $text = false )
 	 * The dynamic portion of the hook name, `$adjacent`, refers to the type of adjacency,
 	 * either 'next', or 'previous'.
 	 *
+	 * Possible hook names include:
+	 *
+	 *  - `next_image_link`
+	 *  - `previous_image_link`
+	 *
 	 * @since 3.5.0
 	 *
 	 * @param string $output        Adjacent image HTML markup.
@@ -3468,7 +3502,23 @@ function adjacent_image_link( $prev = true, $size = 'thumbnail', $text = false )
 	 *                              an array of width and height values in pixels (in that order).
 	 * @param string $text          Link text.
 	 */
-	echo apply_filters( "{$adjacent}_image_link", $output, $attachment_id, $size, $text );
+	return apply_filters( "{$adjacent}_image_link", $output, $attachment_id, $size, $text );
+}
+
+/**
+ * Displays next or previous image link that has the same post parent.
+ *
+ * Retrieves the current attachment object from the $post global.
+ *
+ * @since 2.5.0
+ *
+ * @param bool         $prev Optional. Whether to display the next (false) or previous (true) link. Default true.
+ * @param string|int[] $size Optional. Image size. Accepts any registered image size name, or an array
+ *                           of width and height values in pixels (in that order). Default 'thumbnail'.
+ * @param bool         $text Optional. Link text. Default false.
+ */
+function adjacent_image_link( $prev = true, $size = 'thumbnail', $text = false ) {
+	echo get_adjacent_image_link( $prev, $size, $text );
 }
 
 /**
@@ -3808,6 +3858,11 @@ function wp_plupload_default_settings() {
 		$defaults['multi_selection'] = false;
 	}
 
+	// Check if WebP images can be edited.
+	if ( ! wp_image_editor_supports( array( 'mime_type' => 'image/webp' ) ) ) {
+		$defaults['webp_upload_error'] = true;
+	}
+
 	/**
 	 * Filters the Plupload default settings.
 	 *
@@ -3866,7 +3921,7 @@ function wp_plupload_default_settings() {
  *     @type string $author                ID of the attachment author, as a string.
  *     @type string $authorName            Name of the attachment author.
  *     @type string $caption               Caption for the attachment.
- *     @type array  $compat                Containing item and metaboxes.
+ *     @type array  $compat                Containing item and meta.
  *     @type string $context               Context, whether it's used as the site icon for example.
  *     @type int    $date                  Uploaded date, timestamp in milliseconds.
  *     @type string $dateFormatted         Formatted date (e.g. June 29, 2018).
@@ -3949,7 +4004,7 @@ function wp_prepare_attachment_for_js( $attachment ) {
 			'edit'   => false,
 		),
 		'editLink'      => false,
-		'metaboxes'          => false,
+		'meta'          => false,
 	);
 
 	$author = new WP_User( $attachment->post_author );
@@ -4094,12 +4149,12 @@ function wp_prepare_attachment_for_js( $attachment ) {
 			$response['fileLengthHumanReadable'] = human_readable_duration( $meta['length_formatted'] );
 		}
 
-		$response['metaboxes'] = array();
+		$response['meta'] = array();
 		foreach ( wp_get_attachment_id3_keys( $attachment, 'js' ) as $key => $label ) {
-			$response['metaboxes'][ $key ] = false;
+			$response['meta'][ $key ] = false;
 
 			if ( ! empty( $meta[ $key ] ) ) {
-				$response['metaboxes'][ $key ] = $meta[ $key ];
+				$response['meta'][ $key ] = $meta[ $key ];
 			}
 		}
 
@@ -4136,7 +4191,7 @@ function wp_prepare_attachment_for_js( $attachment ) {
 	 *
 	 * @param array       $response   Array of prepared attachment data. @see wp_prepare_attachment_for_js().
 	 * @param WP_Post     $attachment Attachment object.
-	 * @param array|false $meta       Array of attachment metaboxes data, or false if there is none.
+	 * @param array|false $meta       Array of attachment meta data, or false if there is none.
 	 */
 	return apply_filters( 'wp_prepare_attachment_for_js', $response, $attachment, $meta );
 }
@@ -4301,29 +4356,39 @@ function wp_enqueue_media( $args = array() ) {
 		);
 	}
 
+	/**
+	 * Filters whether the Media Library grid has infinite scrolling. Default `false`.
+	 *
+	 * @since 5.8.0
+	 *
+	 * @param bool $infinite Whether the Media Library grid has infinite scrolling.
+	 */
+	$infinite_scrolling = apply_filters( 'media_library_infinite_scrolling', false );
+
 	$settings = array(
-		'tabs'             => $tabs,
-		'tabUrl'           => add_query_arg( array( 'chromeless' => true ), admin_url( 'media-upload.php' ) ),
-		'mimeTypes'        => wp_list_pluck( get_post_mime_types(), 0 ),
+		'tabs'              => $tabs,
+		'tabUrl'            => add_query_arg( array( 'chromeless' => true ), admin_url( 'media-upload.php' ) ),
+		'mimeTypes'         => wp_list_pluck( get_post_mime_types(), 0 ),
 		/** This filter is documented in wp-admin/includes/media.php */
-		'captions'         => ! apply_filters( 'disable_captions', '' ),
-		'nonce'            => array(
+		'captions'          => ! apply_filters( 'disable_captions', '' ),
+		'nonce'             => array(
 			'sendToEditor' => wp_create_nonce( 'media-send-to-editor' ),
 		),
-		'post'             => array(
+		'post'              => array(
 			'id' => 0,
 		),
-		'defaultProps'     => $props,
-		'attachmentCounts' => array(
+		'defaultProps'      => $props,
+		'attachmentCounts'  => array(
 			'audio' => ( $show_audio_playlist ) ? 1 : 0,
 			'video' => ( $show_video_playlist ) ? 1 : 0,
 		),
-		'oEmbedProxyUrl'   => rest_url( 'oembed/1.0/proxy' ),
-		'embedExts'        => $exts,
-		'embedMimes'       => $ext_mimes,
-		'contentWidth'     => $content_width,
-		'months'           => $months,
-		'mediaTrash'       => MEDIA_TRASH ? 1 : 0,
+		'oEmbedProxyUrl'    => rest_url( 'oembed/1.0/proxy' ),
+		'embedExts'         => $exts,
+		'embedMimes'        => $ext_mimes,
+		'contentWidth'      => $content_width,
+		'months'            => $months,
+		'mediaTrash'        => MEDIA_TRASH ? 1 : 0,
+		'infiniteScrolling' => ( $infinite_scrolling ) ? 1 : 0,
 	);
 
 	$post = null;
@@ -4407,8 +4472,8 @@ function wp_enqueue_media( $args = array() ) {
 		'searchLabel'                 => __( 'Search' ),
 		'searchMediaLabel'            => __( 'Search media' ),          // Backward compatibility pre-5.3.
 		'searchMediaPlaceholder'      => __( 'Search media items...' ), // Placeholder (no ellipsis), backward compatibility pre-5.3.
+		/* translators: %d: Number of attachments found in a search. */
 		'mediaFound'                  => __( 'Number of media items found: %d' ),
-		'mediaFoundHasMoreResults'    => __( 'Number of media items displayed: %d. Scroll the page for more results.' ),
 		'noMedia'                     => __( 'No media items found.' ),
 		'noMediaTryNewSearch'         => __( 'No media items found. Try a different search.' ),
 
@@ -4975,40 +5040,139 @@ function wp_show_heic_upload_error( $plupload_settings ) {
  * Allows PHP's getimagesize() to be debuggable when necessary.
  *
  * @since 5.7.0
+ * @since 5.8.0 Added support for WebP images.
  *
  * @param string $filename   The file path.
  * @param array  $image_info Optional. Extended image information (passed by reference).
  * @return array|false Array of image information or false on failure.
  */
 function wp_getimagesize( $filename, array &$image_info = null ) {
-	if (
-		// Skip when running unit tests.
-		! defined( 'WP_RUN_CORE_TESTS' )
-		&&
-		// Return without silencing errors when in debug mode.
-		defined( 'WP_DEBUG' ) && WP_DEBUG
+	// Don't silence errors when in debug mode, unless running unit tests.
+	if ( defined( 'WP_DEBUG' ) && WP_DEBUG
+		&& ! defined( 'WP_RUN_CORE_TESTS' )
 	) {
 		if ( 2 === func_num_args() ) {
-			return getimagesize( $filename, $image_info );
+			$info = getimagesize( $filename, $image_info );
 		} else {
-			return getimagesize( $filename );
+			$info = getimagesize( $filename );
+		}
+	} else {
+		/*
+		 * Silencing notice and warning is intentional.
+		 *
+		 * getimagesize() has a tendency to generate errors, such as
+		 * "corrupt JPEG data: 7191 extraneous bytes before marker",
+		 * even when it's able to provide image size information.
+		 *
+		 * See https://core.trac.wordpress.org/ticket/42480
+		 */
+		if ( 2 === func_num_args() ) {
+			// phpcs:ignore WordPress.PHP.NoSilencedErrors
+			$info = @getimagesize( $filename, $image_info );
+		} else {
+			// phpcs:ignore WordPress.PHP.NoSilencedErrors
+			$info = @getimagesize( $filename );
 		}
 	}
 
-	/*
-	 * Silencing notice and warning is intentional.
-	 *
-	 * getimagesize() has a tendency to generate errors, such as
-	 * "corrupt JPEG data: 7191 extraneous bytes before marker",
-	 * even when it's able to provide image size information.
-	 *
-	 * See https://core.trac.wordpress.org/ticket/42480
-	 */
-	if ( 2 === func_num_args() ) {
-		// phpcs:ignore WordPress.PHP.NoSilencedErrors
-		return @getimagesize( $filename, $image_info );
-	} else {
-		// phpcs:ignore WordPress.PHP.NoSilencedErrors
-		return @getimagesize( $filename );
+	if ( false !== $info ) {
+		return $info;
 	}
+
+	// For PHP versions that don't support WebP images,
+	// extract the image size info from the file headers.
+	if ( 'image/webp' === wp_get_image_mime( $filename ) ) {
+		$webp_info = wp_get_webp_info( $filename );
+		$width     = $webp_info['width'];
+		$height    = $webp_info['height'];
+
+		// Mimic the native return format.
+		if ( $width && $height ) {
+			return array(
+				$width,
+				$height,
+				IMAGETYPE_WEBP, // phpcs:ignore PHPCompatibility.Constants.NewConstants.imagetype_webpFound
+				sprintf(
+					'width="%d" height="%d"',
+					$width,
+					$height
+				),
+				'mime' => 'image/webp',
+			);
+		}
+	}
+
+	// The image could not be parsed.
+	return false;
+}
+
+/**
+ * Extracts meta information about a webp file: width, height and type.
+ *
+ * @since 5.8.0
+ *
+ * @param string $filename Path to a WebP file.
+ * @return array $webp_info {
+ *     An array of WebP image information.
+ *
+ *     @type array $size {
+ *         @type int|false    $width  Image width on success, false on failure.
+ *         @type int|false    $height Image height on success, false on failure.
+ *         @type string|false $type   The WebP type: one of 'lossy', 'lossless' or 'animated-alpha'.
+ *                                    False on failure.
+ *     }
+ */
+function wp_get_webp_info( $filename ) {
+	$width  = false;
+	$height = false;
+	$type   = false;
+
+	if ( 'image/webp' !== wp_get_image_mime( $filename ) ) {
+		return compact( 'width', 'height', 'type' );
+	}
+
+	try {
+		$handle = fopen( $filename, 'rb' );
+		if ( $handle ) {
+			$magic = fread( $handle, 40 );
+			fclose( $handle );
+
+			// Make sure we got enough bytes.
+			if ( strlen( $magic ) < 40 ) {
+				return compact( 'width', 'height', 'type' );
+			}
+
+			// The headers are a little different for each of the three formats.
+			// Header values based on WebP docs, see https://developers.google.com/speed/webp/docs/riff_container.
+			switch ( substr( $magic, 12, 4 ) ) {
+				// Lossy WebP.
+				case 'VP8 ':
+					$parts  = unpack( 'v2', substr( $magic, 26, 4 ) );
+					$width  = (int) ( $parts[1] & 0x3FFF );
+					$height = (int) ( $parts[2] & 0x3FFF );
+					$type   = 'lossy';
+					break;
+				// Lossless WebP.
+				case 'VP8L':
+					$parts  = unpack( 'C4', substr( $magic, 21, 4 ) );
+					$width  = (int) ( $parts[1] | ( ( $parts[2] & 0x3F ) << 8 ) ) + 1;
+					$height = (int) ( ( ( $parts[2] & 0xC0 ) >> 6 ) | ( $parts[3] << 2 ) | ( ( $parts[4] & 0x03 ) << 10 ) ) + 1;
+					$type   = 'lossless';
+					break;
+				// Animated/alpha WebP.
+				case 'VP8X':
+					// Pad 24-bit int.
+					$width = unpack( 'V', substr( $magic, 24, 3 ) . "\x00" );
+					$width = (int) ( $width[1] & 0xFFFFFF ) + 1;
+					// Pad 24-bit int.
+					$height = unpack( 'V', substr( $magic, 27, 3 ) . "\x00" );
+					$height = (int) ( $height[1] & 0xFFFFFF ) + 1;
+					$type   = 'animated-alpha';
+					break;
+			}
+		}
+	} catch ( Exception $e ) {
+	}
+
+	return compact( 'width', 'height', 'type' );
 }

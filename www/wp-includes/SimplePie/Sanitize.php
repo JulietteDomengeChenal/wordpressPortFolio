@@ -58,7 +58,7 @@ class SimplePie_Sanitize
 	// Options
 	var $remove_div = true;
 	var $image_handler = '';
-	var $strip_htmltags = array('base', 'blink', 'body', 'doctype', 'embed', 'font', 'form', 'frame', 'frameset', 'html', 'iframe', 'input', 'marquee', 'metaboxes', 'noscript', 'object', 'param', 'script', 'style');
+	var $strip_htmltags = array('base', 'blink', 'body', 'doctype', 'embed', 'font', 'form', 'frame', 'frameset', 'html', 'iframe', 'input', 'marquee', 'meta', 'noscript', 'object', 'param', 'script', 'style');
 	var $encode_instead_of_strip = false;
 	var $strip_attributes = array('bgsound', 'expr', 'id', 'style', 'onclick', 'onerror', 'onfinish', 'onmouseover', 'onmouseout', 'onfocus', 'onblur', 'lowsrc', 'dynsrc');
 	var $add_attributes = array('audio' => array('preload' => 'none'), 'iframe' => array('sandbox' => 'allow-scripts allow-same-origin'), 'video' => array('preload' => 'none'));
@@ -136,7 +136,7 @@ class SimplePie_Sanitize
 		}
 	}
 
-	public function strip_htmltags($tags = array('base', 'blink', 'body', 'doctype', 'embed', 'font', 'form', 'frame', 'frameset', 'html', 'iframe', 'input', 'marquee', 'metaboxes', 'noscript', 'object', 'param', 'script', 'style'))
+	public function strip_htmltags($tags = array('base', 'blink', 'body', 'doctype', 'embed', 'font', 'form', 'frame', 'frameset', 'html', 'iframe', 'input', 'marquee', 'meta', 'noscript', 'object', 'param', 'script', 'style'))
 	{
 		if ($tags)
 		{
@@ -419,7 +419,7 @@ class SimplePie_Sanitize
 		}
 
 		$ret .= '<html><head>';
-		$ret .= '<metaboxes http-equiv="Content-Type" content="' . $content_type . '; charset=utf-8" />';
+		$ret .= '<meta http-equiv="Content-Type" content="' . $content_type . '; charset=utf-8" />';
 		$ret .= '</head><body>' . $html . '</body></html>';
 		return $ret;
 	}

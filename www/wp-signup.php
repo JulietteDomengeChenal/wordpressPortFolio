@@ -229,6 +229,7 @@ function show_blog_form( $blogname = '', $blog_title = '', $errors = '' ) {
  * @since MU (3.0.0)
  *
  * @return array Contains the new site data and error messages.
+ *               See wpmu_validate_blog_signup() for details.
  */
 function validate_blog_form() {
 	$user = '';
@@ -292,6 +293,7 @@ function show_user_form( $user_name = '', $user_email = '', $errors = '' ) {
  * @since MU (3.0.0)
  *
  * @return array Contains username, email, and error messages.
+ *               See wpmu_validate_user_signup() for details.
  */
 function validate_user_form() {
 	return wpmu_validate_user_signup( $_POST['user_name'], $_POST['user_email'] );
@@ -448,24 +450,24 @@ function validate_another_blog_signup() {
 	}
 
 	/**
-	 * Filters the new site metaboxes variables.
+	 * Filters the new site meta variables.
 	 *
 	 * Use the {@see 'add_signup_meta'} filter instead.
 	 *
 	 * @since MU (3.0.0)
 	 * @deprecated 3.0.0 Use the {@see 'add_signup_meta'} filter instead.
 	 *
-	 * @param array $blog_meta_defaults An array of default blog metaboxes variables.
+	 * @param array $blog_meta_defaults An array of default blog meta variables.
 	 */
 	$meta_defaults = apply_filters_deprecated( 'signup_create_blog_meta', array( $blog_meta_defaults ), '3.0.0', 'add_signup_meta' );
 
 	/**
-	 * Filters the new default site metaboxes variables.
+	 * Filters the new default site meta variables.
 	 *
 	 * @since 3.0.0
 	 *
 	 * @param array $meta {
-	 *     An array of default site metaboxes variables.
+	 *     An array of default site meta variables.
 	 *
 	 *     @type int $lang_id     The language ID.
 	 *     @type int $blog_public Whether search engines should be discouraged from indexing the site. 1 for true, 0 for false.
@@ -494,7 +496,7 @@ function validate_another_blog_signup() {
  * @param string $blog_title The site title.
  * @param string $user_name  The username.
  * @param string $user_email The user's email address.
- * @param array  $meta       Any additional metaboxes from the {@see 'add_signup_meta'} filter in validate_blog_signup().
+ * @param array  $meta       Any additional meta from the {@see 'add_signup_meta'} filter in validate_blog_signup().
  * @param int    $blog_id    The site ID.
  */
 function confirm_another_blog_signup( $domain, $path, $blog_title, $user_name, $user_email = '', $meta = array(), $blog_id = 0 ) {
@@ -816,7 +818,7 @@ function validate_blog_signup() {
  * @param string $blog_title The title of the new site.
  * @param string $user_name  The user's username.
  * @param string $user_email The user's email address.
- * @param array  $meta       Any additional metaboxes from the {@see 'add_signup_meta'} filter in validate_blog_signup().
+ * @param array  $meta       Any additional meta from the {@see 'add_signup_meta'} filter in validate_blog_signup().
  */
 function confirm_blog_signup( $domain, $path, $blog_title, $user_name = '', $user_email = '', $meta = array() ) {
 	?>
@@ -861,7 +863,8 @@ function confirm_blog_signup( $domain, $path, $blog_title, $user_name = '', $use
  *
  * @see get_available_languages()
  *
- * @return array List of available languages.
+ * @return string[] Array of available language codes. Language codes are formed by
+ *                  stripping the .mo extension from the language file names.
  */
 function signup_get_available_languages() {
 	/**
@@ -874,7 +877,8 @@ function signup_get_available_languages() {
 	 *
 	 * @since 4.4.0
 	 *
-	 * @param array $available_languages Available languages.
+	 * @param string[] $languages Array of available language codes. Language codes are formed by
+	 *                            stripping the .mo extension from the language file names.
 	 */
 	$languages = (array) apply_filters( 'signup_get_available_languages', get_available_languages() );
 

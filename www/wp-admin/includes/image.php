@@ -67,7 +67,7 @@ function wp_crop_image( $src, $src_x, $src_y, $src_w, $src_h, $dst_w, $dst_h, $s
 }
 
 /**
- * Compare the existing image sub-sizes (as saved in the attachment metaboxes)
+ * Compare the existing image sub-sizes (as saved in the attachment meta)
  * to the currently registered image sub-sizes, and return the difference.
  *
  * Registered sub-sizes that are larger than the image are skipped.
@@ -132,7 +132,7 @@ function wp_get_missing_image_subsizes( $attachment_id ) {
 	 * @since 5.3.0
 	 *
 	 * @param array $missing_sizes Array with the missing image sub-sizes.
-	 * @param array $image_meta    The image metaboxes data.
+	 * @param array $image_meta    The image meta data.
 	 * @param int   $attachment_id The image attachment post ID.
 	 */
 	return apply_filters( 'wp_get_missing_image_subsizes', $missing_sizes, $image_meta, $attachment_id );
@@ -140,13 +140,13 @@ function wp_get_missing_image_subsizes( $attachment_id ) {
 
 /**
  * If any of the currently registered image sub-sizes are missing,
- * create them and update the image metaboxes data.
+ * create them and update the image meta data.
  *
  * @since 5.3.0
  *
  * @param int $attachment_id The image attachment post ID.
- * @return array|WP_Error The updated image metaboxes data array or WP_Error object
- *                        if both the image metaboxes and the attached file are missing.
+ * @return array|WP_Error The updated image meta data array or WP_Error object
+ *                        if both the image meta and the attached file are missing.
  */
 function wp_update_image_subsizes( $attachment_id ) {
 	$image_meta = wp_get_attachment_metadata( $attachment_id );
@@ -154,7 +154,7 @@ function wp_update_image_subsizes( $attachment_id ) {
 
 	if ( empty( $image_meta ) || ! is_array( $image_meta ) ) {
 		// Previously failed upload?
-		// If there is an uploaded file, make all sub-sizes and generate all of the attachment metaboxes.
+		// If there is an uploaded file, make all sub-sizes and generate all of the attachment meta.
 		if ( ! empty( $image_file ) ) {
 			$image_meta = wp_create_image_subsizes( $image_file, $attachment_id );
 		} else {
@@ -167,7 +167,7 @@ function wp_update_image_subsizes( $attachment_id ) {
 			return $image_meta;
 		}
 
-		// This also updates the image metaboxes.
+		// This also updates the image meta.
 		$image_meta = _wp_make_subsizes( $missing_sizes, $image_file, $image_meta, $attachment_id );
 	}
 
@@ -181,21 +181,21 @@ function wp_update_image_subsizes( $attachment_id ) {
 }
 
 /**
- * Updates the attached file and image metaboxes data when the original image was edited.
+ * Updates the attached file and image meta data when the original image was edited.
  *
  * @since 5.3.0
  * @access private
  *
  * @param array  $saved_data    The data returned from WP_Image_Editor after successfully saving an image.
  * @param string $original_file Path to the original file.
- * @param array  $image_meta    The image metaboxes data.
+ * @param array  $image_meta    The image meta data.
  * @param int    $attachment_id The attachment post ID.
- * @return array The updated image metaboxes data.
+ * @return array The updated image meta data.
  */
 function _wp_image_meta_replace_original( $saved_data, $original_file, $image_meta, $attachment_id ) {
 	$new_file = $saved_data['path'];
 
-	// Update the attached file metaboxes.
+	// Update the attached file meta.
 	update_attached_file( $attachment_id, $new_file );
 
 	// Width and height of the new image.
@@ -212,7 +212,7 @@ function _wp_image_meta_replace_original( $saved_data, $original_file, $image_me
 }
 
 /**
- * Creates image sub-sizes, adds the new data to the image metaboxes `sizes` array, and updates the image metadata.
+ * Creates image sub-sizes, adds the new data to the image meta `sizes` array, and updates the image metadata.
  *
  * Intended for use after an image is uploaded. Saves/updates the image metadata after each
  * sub-size is created. If there was an error, it is added to the returned image metadata array.
@@ -221,7 +221,7 @@ function _wp_image_meta_replace_original( $saved_data, $original_file, $image_me
  *
  * @param string $file          Full path to the image file.
  * @param int    $attachment_id Attachment Id to process.
- * @return array The image attachment metaboxes data.
+ * @return array The image attachment meta data.
  */
 function wp_create_image_subsizes( $file, $attachment_id ) {
 	$imagesize = wp_getimagesize( $file );
@@ -231,7 +231,7 @@ function wp_create_image_subsizes( $file, $attachment_id ) {
 		return array();
 	}
 
-	// Default image metaboxes.
+	// Default image meta.
 	$image_meta = array(
 		'width'  => $imagesize[0],
 		'height' => $imagesize[1],
@@ -254,7 +254,7 @@ function wp_create_image_subsizes( $file, $attachment_id ) {
 		 *
 		 * If the original image width or height is above the threshold, it will be scaled down. The threshold is
 		 * used as max width and max height. The scaled down image will be used as the largest available size, including
-		 * the `_wp_attached_file` post metaboxes value.
+		 * the `_wp_attached_file` post meta value.
 		 *
 		 * Returning `false` from the filter callback will disable the scaling.
 		 *
@@ -358,7 +358,7 @@ function wp_create_image_subsizes( $file, $attachment_id ) {
 	 * @since 5.3.0 Added the `$attachment_id` argument.
 	 *
 	 * @param array $new_sizes     Associative array of image sizes to be created.
-	 * @param array $image_meta    The image metaboxes data: width, height, file, sizes, etc.
+	 * @param array $image_meta    The image meta data: width, height, file, sizes, etc.
 	 * @param int   $attachment_id The attachment post ID for the image.
 	 */
 	$new_sizes = apply_filters( 'intermediate_image_sizes_advanced', $new_sizes, $image_meta, $attachment_id );
@@ -369,7 +369,7 @@ function wp_create_image_subsizes( $file, $attachment_id ) {
 /**
  * Low-level function to create image sub-sizes.
  *
- * Updates the image metaboxes after each sub-size is created.
+ * Updates the image meta after each sub-size is created.
  * Errors are stored in the returned image metadata array.
  *
  * @since 5.3.0
@@ -377,9 +377,9 @@ function wp_create_image_subsizes( $file, $attachment_id ) {
  *
  * @param array  $new_sizes     Array defining what sizes to create.
  * @param string $file          Full path to the image file.
- * @param array  $image_meta    The attachment metaboxes data array.
+ * @param array  $image_meta    The attachment meta data array.
  * @param int    $attachment_id Attachment Id to process.
- * @return array The attachment metaboxes data with updated `sizes` array. Includes an array of errors encountered while resizing.
+ * @return array The attachment meta data with updated `sizes` array. Includes an array of errors encountered while resizing.
  */
 function _wp_make_subsizes( $new_sizes, $file, $image_meta, $attachment_id ) {
 	if ( empty( $image_meta ) || ! is_array( $image_meta ) ) {
@@ -393,7 +393,7 @@ function _wp_make_subsizes( $new_sizes, $file, $image_meta, $attachment_id ) {
 			/*
 			 * Only checks "size name" so we don't override existing images even if the dimensions
 			 * don't match the currently defined size with the same name.
-			 * To change the behavior, unset changed/mismatched sizes in the `sizes` array in image metaboxes.
+			 * To change the behavior, unset changed/mismatched sizes in the `sizes` array in image meta.
 			 */
 			if ( array_key_exists( $size_name, $new_sizes ) ) {
 				unset( $new_sizes[ $size_name ] );
@@ -445,7 +445,7 @@ function _wp_make_subsizes( $new_sizes, $file, $image_meta, $attachment_id ) {
 			if ( is_wp_error( $new_size_meta ) ) {
 				// TODO: Log errors.
 			} else {
-				// Save the size metaboxes value.
+				// Save the size meta value.
 				$image_meta['sizes'][ $new_size_name ] = $new_size_meta;
 				wp_update_attachment_metadata( $attachment_id, $image_meta );
 			}
@@ -464,13 +464,13 @@ function _wp_make_subsizes( $new_sizes, $file, $image_meta, $attachment_id ) {
 }
 
 /**
- * Generate attachment metaboxes data and create image sub-sizes for images.
+ * Generate attachment meta data and create image sub-sizes for images.
  *
  * @since 2.1.0
  *
  * @param int    $attachment_id Attachment Id to process.
  * @param string $file          Filepath of the Attached image.
- * @return mixed Metadata for attachment.
+ * @return array Metadata for attachment.
  */
 function wp_generate_attachment_metadata( $attachment_id, $file ) {
 	$attachment = get_post( $attachment_id );
@@ -488,6 +488,15 @@ function wp_generate_attachment_metadata( $attachment_id, $file ) {
 	} elseif ( wp_attachment_is( 'audio', $attachment ) ) {
 		$metadata = wp_read_audio_metadata( $file );
 		$support  = current_theme_supports( 'post-thumbnails', 'attachment:audio' ) || post_type_supports( 'attachment:audio', 'thumbnail' );
+	}
+
+	/*
+	 * wp_read_video_metadata() and wp_read_audio_metadata() return `false`
+	 * if the attachment does not exist in the local filesystem,
+	 * so make sure to convert the value to an array.
+	 */
+	if ( ! is_array( $metadata ) ) {
+		$metadata = array();
 	}
 
 	if ( $support && ! empty( $metadata['image']['data'] ) ) {
@@ -516,6 +525,9 @@ function wp_generate_attachment_metadata( $attachment_id, $file ) {
 					break;
 				case 'image/png':
 					$ext = '.png';
+					break;
+				case 'image/webp':
+					$ext = '.webp';
 					break;
 			}
 			$basename = str_replace( '.', '-', wp_basename( $file ) ) . '-image' . $ext;
@@ -602,10 +614,10 @@ function wp_generate_attachment_metadata( $attachment_id, $file ) {
 						'full' => $uploaded,
 					);
 
-					// Save the metaboxes data before any image post-processing errors could happen.
+					// Save the meta data before any image post-processing errors could happen.
 					wp_update_attachment_metadata( $attachment_id, $metadata );
 
-					// Create sub-sizes saving the image metaboxes after each.
+					// Create sub-sizes saving the image meta after each.
 					$metadata = _wp_make_subsizes( $merged_sizes, $image_file, $metadata, $attachment_id );
 				}
 			}
@@ -613,17 +625,15 @@ function wp_generate_attachment_metadata( $attachment_id, $file ) {
 	}
 
 	// Remove the blob of binary data from the array.
-	if ( $metadata ) {
-		unset( $metadata['image']['data'] );
-	}
+	unset( $metadata['image']['data'] );
 
 	/**
-	 * Filters the generated attachment metaboxes data.
+	 * Filters the generated attachment meta data.
 	 *
 	 * @since 2.1.0
 	 * @since 5.3.0 The `$context` parameter was added.
 	 *
-	 * @param array  $metadata      An array of attachment metaboxes data.
+	 * @param array  $metadata      An array of attachment meta data.
 	 * @param int    $attachment_id Current attachment ID.
 	 * @param string $context       Additional context. Can be 'create' when metadata was initially created for new attachment
 	 *                              or 'update' when the metadata was updated.
@@ -720,12 +730,9 @@ function wp_read_image_metadata( $file ) {
 		wp_getimagesize( $file, $info );
 
 		if ( ! empty( $info['APP13'] ) ) {
-			if (
-				// Skip when running unit tests.
-				! defined( 'WP_RUN_CORE_TESTS' )
-				&&
-				// Process without silencing errors when in debug mode.
-				defined( 'WP_DEBUG' ) && WP_DEBUG
+			// Don't silence errors when in debug mode, unless running unit tests.
+			if ( defined( 'WP_DEBUG' ) && WP_DEBUG
+				&& ! defined( 'WP_RUN_CORE_TESTS' )
 			) {
 				$iptc = iptcparse( $info['APP13'] );
 			} else {
@@ -791,12 +798,9 @@ function wp_read_image_metadata( $file ) {
 	$exif_image_types = apply_filters( 'wp_read_image_metadata_types', array( IMAGETYPE_JPEG, IMAGETYPE_TIFF_II, IMAGETYPE_TIFF_MM ) );
 
 	if ( is_callable( 'exif_read_data' ) && in_array( $image_type, $exif_image_types, true ) ) {
-		if (
-			// Skip when running unit tests.
-			! defined( 'WP_RUN_CORE_TESTS' )
-			&&
-			// Process without silencing errors when in debug mode.
-			defined( 'WP_DEBUG' ) && WP_DEBUG
+		// Don't silence errors when in debug mode, unless running unit tests.
+		if ( defined( 'WP_DEBUG' ) && WP_DEBUG
+			&& ! defined( 'WP_RUN_CORE_TESTS' )
 		) {
 			$exif = exif_read_data( $file );
 		} else {
@@ -875,13 +879,13 @@ function wp_read_image_metadata( $file ) {
 	$meta = wp_kses_post_deep( $meta );
 
 	/**
-	 * Filters the array of metaboxes data read from an image's exif data.
+	 * Filters the array of meta data read from an image's exif data.
 	 *
 	 * @since 2.5.0
 	 * @since 4.4.0 The `$iptc` parameter was added.
 	 * @since 5.0.0 The `$exif` parameter was added.
 	 *
-	 * @param array  $meta       Image metaboxes data.
+	 * @param array  $meta       Image meta data.
 	 * @param string $file       Path to image file.
 	 * @param int    $image_type Type of image, one of the `IMAGETYPE_XXX` constants.
 	 * @param array  $iptc       IPTC data.
@@ -913,7 +917,7 @@ function file_is_valid_image( $path ) {
  * @return bool True if suitable, false if not suitable.
  */
 function file_is_displayable_image( $path ) {
-	$displayable_image_types = array( IMAGETYPE_GIF, IMAGETYPE_JPEG, IMAGETYPE_PNG, IMAGETYPE_BMP, IMAGETYPE_ICO );
+	$displayable_image_types = array( IMAGETYPE_GIF, IMAGETYPE_JPEG, IMAGETYPE_PNG, IMAGETYPE_BMP, IMAGETYPE_ICO, IMAGETYPE_WEBP ); // phpcs:ignore PHPCompatibility.Constants.NewConstants.imagetype_webpFound
 
 	$info = wp_getimagesize( $path );
 	if ( empty( $info ) ) {
@@ -962,6 +966,12 @@ function load_image_to_edit( $attachment_id, $mime_type, $size = 'full' ) {
 			break;
 		case 'image/gif':
 			$image = imagecreatefromgif( $filepath );
+			break;
+		case 'image/webp':
+			$image = false;
+			if ( function_exists( 'imagecreatefromwebp' ) ) {
+				$image = imagecreatefromwebp( $filepath );
+			}
 			break;
 		default:
 			$image = false;

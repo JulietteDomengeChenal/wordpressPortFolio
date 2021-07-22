@@ -876,7 +876,7 @@ function post_password_required( $post = null ) {
 	 *
 	 * @param bool    $required Whether the user needs to supply a password. True if password has not been
 	 *                          provided or is incorrect, false if password has been supplied or is not required.
-	 * @param WP_Post $post     Post data.
+	 * @param WP_Post $post     Post object.
 	 */
 	return apply_filters( 'post_password_required', $required, $post );
 }
@@ -1059,11 +1059,11 @@ function _wp_link_page( $i ) {
 }
 
 //
-// Post-metaboxes: Custom per-post fields.
+// Post-meta: Custom per-post fields.
 //
 
 /**
- * Retrieve post custom metaboxes data field.
+ * Retrieve post custom meta data field.
  *
  * @since 1.5.0
  *
@@ -1104,7 +1104,7 @@ function the_meta() {
 			$value  = implode( ', ', $values );
 
 			$html = sprintf(
-				"<li><span class='post-metaboxes-key'>%s</span> %s</li>\n",
+				"<li><span class='post-meta-key'>%s</span> %s</li>\n",
 				/* translators: %s: Post custom field name. */
 				sprintf( _x( '%s:', 'Post custom field name' ), $key ),
 				$value
@@ -1123,7 +1123,7 @@ function the_meta() {
 		}
 
 		if ( $li_html ) {
-			echo "<ul class='post-metaboxes'>\n{$li_html}</ul>\n";
+			echo "<ul class='post-meta'>\n{$li_html}</ul>\n";
 		}
 	}
 }
@@ -1643,7 +1643,7 @@ function wp_get_attachment_link( $id = 0, $size = 'thumbnail', $permalink = fals
 	 * Filters a retrieved attachment page link.
 	 *
 	 * @since 2.7.0
-	 * @since 5.1.0 Added the $attr parameter.
+	 * @since 5.1.0 Added the `$attr` parameter.
 	 *
 	 * @param string       $link_html The page link HTML output.
 	 * @param int          $id        Post ID.
@@ -1734,10 +1734,12 @@ function get_the_password_form( $post = 0 ) {
 	 * size attribute in the form input.
 	 *
 	 * @since 2.7.0
+	 * @since 5.8.0 Added the `$post` parameter.
 	 *
-	 * @param string $output The password form HTML output.
+	 * @param string  $output The password form HTML output.
+	 * @param WP_Post $post   Post object.
 	 */
-	return apply_filters( 'the_password_form', $output );
+	return apply_filters( 'the_password_form', $output, $post );
 }
 
 /**

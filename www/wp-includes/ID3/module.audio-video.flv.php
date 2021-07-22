@@ -21,7 +21,7 @@
 //  minor modifications by James Heinrich <info@getid3.org>    //
 //                                                             //
 //  * version 0.2 (22 February 2006)                           //
-//  Support for On2 VP6 codec and metaboxes information             //
+//  Support for On2 VP6 codec and meta information             //
 //    by Steve Webster <steve.websterØfeaturecreep*com>        //
 //                                                             //
 //  * version 0.3 (15 June 2006)                               //
@@ -84,7 +84,7 @@ class getid3_flv extends getid3_handler
 
 	/**
 	 * Break out of the loop if too many frames have been scanned; only scan this
-	 * many if metaboxes frame does not contain useful duration.
+	 * many if meta frame does not contain useful duration.
 	 *
 	 * @var int
 	 */
@@ -253,7 +253,7 @@ class getid3_flv extends getid3_handler
 						} elseif ($info['flv']['video']['videoCodec'] ==  GETID3_FLV_VIDEO_VP6FLV_ALPHA) {
 
 							/* contributed by schouwerwouØgmail*com */
-							if (!isset($info['video']['resolution_x'])) { // only when metaboxes data isn't set
+							if (!isset($info['video']['resolution_x'])) { // only when meta data isn't set
 								$PictureSizeEnc['x'] = getid3_lib::BigEndian2Int(substr($FLVvideoHeader, 6, 2));
 								$PictureSizeEnc['y'] = getid3_lib::BigEndian2Int(substr($FLVvideoHeader, 7, 2));
 								$info['video']['resolution_x'] = ($PictureSizeEnc['x'] & 0xFF) << 3;
@@ -277,29 +277,29 @@ class getid3_flv extends getid3_handler
 						$AMFstream = new AMFStream($datachunk);
 						$reader = new AMFReader($AMFstream);
 						$eventName = $reader->readData();
-						$info['flv']['metaboxes'][$eventName] = $reader->readData();
+						$info['flv']['meta'][$eventName] = $reader->readData();
 						unset($reader);
 
 						$copykeys = array('framerate'=>'frame_rate', 'width'=>'resolution_x', 'height'=>'resolution_y', 'audiodatarate'=>'bitrate', 'videodatarate'=>'bitrate');
 						foreach ($copykeys as $sourcekey => $destkey) {
-							if (isset($info['flv']['metaboxes']['onMetaData'][$sourcekey])) {
+							if (isset($info['flv']['meta']['onMetaData'][$sourcekey])) {
 								switch ($sourcekey) {
 									case 'width':
 									case 'height':
-										$info['video'][$destkey] = intval(round($info['flv']['metaboxes']['onMetaData'][$sourcekey]));
+										$info['video'][$destkey] = intval(round($info['flv']['meta']['onMetaData'][$sourcekey]));
 										break;
 									case 'audiodatarate':
-										$info['audio'][$destkey] = getid3_lib::CastAsInt(round($info['flv']['metaboxes']['onMetaData'][$sourcekey] * 1000));
+										$info['audio'][$destkey] = getid3_lib::CastAsInt(round($info['flv']['meta']['onMetaData'][$sourcekey] * 1000));
 										break;
 									case 'videodatarate':
 									case 'frame_rate':
 									default:
-										$info['video'][$destkey] = $info['flv']['metaboxes']['onMetaData'][$sourcekey];
+										$info['video'][$destkey] = $info['flv']['meta']['onMetaData'][$sourcekey];
 										break;
 								}
 							}
 						}
-						if (!empty($info['flv']['metaboxes']['onMetaData']['duration'])) {
+						if (!empty($info['flv']['meta']['onMetaData']['duration'])) {
 							$found_valid_meta_playtime = true;
 						}
 					}
@@ -332,16 +332,16 @@ class getid3_flv extends getid3_handler
 			$info['video']['lossless']   = false;
 		}
 
-		// Set information from metaboxes
-		if (!empty($info['flv']['metaboxes']['onMetaData']['duration'])) {
-			$info['playtime_seconds'] = $info['flv']['metaboxes']['onMetaData']['duration'];
+		// Set information from meta
+		if (!empty($info['flv']['meta']['onMetaData']['duration'])) {
+			$info['playtime_seconds'] = $info['flv']['meta']['onMetaData']['duration'];
 			$info['bitrate'] = (($info['avdataend'] - $info['avdataoffset']) * 8) / $info['playtime_seconds'];
 		}
-		if (isset($info['flv']['metaboxes']['onMetaData']['audiocodecid'])) {
-			$info['audio']['codec'] = self::audioFormatLookup($info['flv']['metaboxes']['onMetaData']['audiocodecid']);
+		if (isset($info['flv']['meta']['onMetaData']['audiocodecid'])) {
+			$info['audio']['codec'] = self::audioFormatLookup($info['flv']['meta']['onMetaData']['audiocodecid']);
 		}
-		if (isset($info['flv']['metaboxes']['onMetaData']['videocodecid'])) {
-			$info['video']['codec'] = self::videoCodecLookup($info['flv']['metaboxes']['onMetaData']['videocodecid']);
+		if (isset($info['flv']['meta']['onMetaData']['videocodecid'])) {
+			$info['video']['codec'] = self::videoCodecLookup($info['flv']['meta']['onMetaData']['videocodecid']);
 		}
 		return true;
 	}

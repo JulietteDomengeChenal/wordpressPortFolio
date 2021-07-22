@@ -97,7 +97,7 @@ USAGE:
                 if(alt) modif +='alt+';
                 if(ctrl) modif+= 'ctrl+';
                 if(shift) modif += 'shift+';
-                if(meta) modif += 'metaboxes+';
+                if(meta) modif += 'meta+';
                 // modifiers + special keys or modifiers + characters or modifiers + shift characters
                 mapPoint = cbMap[modif+special] || cbMap[modif+character] || cbMap[modif+that.shift_nums[character]]
             }

@@ -638,7 +638,7 @@ tinymce.PluginManager.add( 'wordpress', function( editor ) {
 			editor.shortcuts.add( 'access+' + key, '', command );
 		} );
 
-		editor.addShortcut( 'metaboxes+s', '', function() {
+		editor.addShortcut( 'meta+s', '', function() {
 			if ( wp && wp.autosave ) {
 				wp.autosave.server.triggerSave();
 			}

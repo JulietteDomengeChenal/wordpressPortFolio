@@ -115,7 +115,7 @@
 			<div class="wp-embed-meta">
 				<?php
 				/**
-				 * Prints additional metaboxes content in the embed template.
+				 * Prints additional meta content in the embed template.
 				 *
 				 * @since 4.4.0
 				 */

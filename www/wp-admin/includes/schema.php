@@ -306,7 +306,7 @@ CREATE TABLE $wpdb->signups (
 	activated datetime NOT NULL default '0000-00-00 00:00:00',
 	active tinyint(1) NOT NULL default '0',
 	activation_key varchar(50) NOT NULL default '',
-	metaboxes longtext,
+	meta longtext,
 	PRIMARY KEY  (signup_id),
 	KEY activation_key (activation_key),
 	KEY user_email (user_email),
@@ -542,6 +542,9 @@ function populate_options( array $options = array() ) {
 		// Default to enabled for new installs.
 		// See https://core.trac.wordpress.org/ticket/51742.
 		'auto_update_core_major'          => 'enabled',
+
+		// 5.8.0
+		'wp_force_deactivated_plugins'    => array(),
 	);
 
 	// 3.3.0
@@ -1116,15 +1119,15 @@ function populate_network( $network_id = 1, $domain = '', $email = '', $site_nam
 }
 
 /**
- * Creates WordPress network metaboxes and sets the default values.
+ * Creates WordPress network meta and sets the default values.
  *
  * @since 5.1.0
  *
  * @global wpdb $wpdb          WordPress database abstraction object.
  * @global int  $wp_db_version WordPress database version.
  *
- * @param int   $network_id Network ID to populate metaboxes for.
- * @param array $meta       Optional. Custom metaboxes $key => $value pairs to use. Default empty array.
+ * @param int   $network_id Network ID to populate meta for.
+ * @param array $meta       Optional. Custom meta $key => $value pairs to use. Default empty array.
  */
 function populate_network_meta( $network_id, array $meta = array() ) {
 	global $wpdb, $wp_db_version;
@@ -1215,6 +1218,7 @@ We hope you enjoy your new site. Thanks!
 		'jpeg',
 		'png',
 		'gif',
+		'webp',
 		// Video.
 		'mov',
 		'avi',
@@ -1274,11 +1278,11 @@ We hope you enjoy your new site. Thanks!
 	$sitemeta = wp_parse_args( $meta, $sitemeta );
 
 	/**
-	 * Filters metaboxes for a network on creation.
+	 * Filters meta for a network on creation.
 	 *
 	 * @since 3.7.0
 	 *
-	 * @param array $sitemeta   Associative array of network metaboxes keys and values to be inserted.
+	 * @param array $sitemeta   Associative array of network meta keys and values to be inserted.
 	 * @param int   $network_id ID of network to populate.
 	 */
 	$sitemeta = apply_filters( 'populate_network_meta', $sitemeta, $network_id );
@@ -1297,14 +1301,14 @@ We hope you enjoy your new site. Thanks!
 }
 
 /**
- * Creates WordPress site metaboxes and sets the default values.
+ * Creates WordPress site meta and sets the default values.
  *
  * @since 5.1.0
  *
  * @global wpdb $wpdb WordPress database abstraction object.
  *
- * @param int   $site_id Site ID to populate metaboxes for.
- * @param array $meta    Optional. Custom metaboxes $key => $value pairs to use. Default empty array.
+ * @param int   $site_id Site ID to populate meta for.
+ * @param array $meta    Optional. Custom meta $key => $value pairs to use. Default empty array.
  */
 function populate_site_meta( $site_id, array $meta = array() ) {
 	global $wpdb;
@@ -1320,11 +1324,11 @@ function populate_site_meta( $site_id, array $meta = array() ) {
 	}
 
 	/**
-	 * Filters metaboxes for a site on creation.
+	 * Filters meta for a site on creation.
 	 *
 	 * @since 5.2.0
 	 *
-	 * @param array $meta    Associative array of site metaboxes keys and values to be inserted.
+	 * @param array $meta    Associative array of site meta keys and values to be inserted.
 	 * @param int   $site_id ID of site to populate.
 	 */
 	$site_meta = apply_filters( 'populate_site_meta', $meta, $site_id );

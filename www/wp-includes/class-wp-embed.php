@@ -31,6 +31,7 @@ class WP_Embed {
 		// Hack to get the [embed] shortcode to run before wpautop().
 		add_filter( 'the_content', array( $this, 'run_shortcode' ), 8 );
 		add_filter( 'widget_text_content', array( $this, 'run_shortcode' ), 8 );
+		add_filter( 'widget_block_content', array( $this, 'run_shortcode' ), 8 );
 
 		// Shortcode placeholder for strip_shortcodes().
 		add_shortcode( 'embed', '__return_false' );
@@ -38,6 +39,7 @@ class WP_Embed {
 		// Attempts to embed all URLs in a post.
 		add_filter( 'the_content', array( $this, 'autoembed' ), 8 );
 		add_filter( 'widget_text_content', array( $this, 'autoembed' ), 8 );
+		add_filter( 'widget_block_content', array( $this, 'autoembed' ), 8 );
 
 		// After a post is saved, cache oEmbed items via Ajax.
 		add_action( 'edit_form_advanced', array( $this, 'maybe_run_ajax_cache' ) );
@@ -84,11 +86,10 @@ class WP_Embed {
 		if ( ! $post || empty( $_GET['message'] ) ) {
 			return;
 		}
-
 		?>
 <script type="text/javascript">
 	jQuery(document).ready(function($){
-		$.get("<?php echo admin_url( 'admin-ajax.php?action=oembed-cache&post=' . $post->ID, 'relative' ); ?>");
+		$.get("<?php echo esc_url( admin_url( 'admin-ajax.php', 'relative' ) ) . '?action=oembed-cache&post=' . $post->ID; ?>");
 	});
 </script>
 		<?php
@@ -227,7 +228,7 @@ class WP_Embed {
 			$post_ID = $this->post_ID;
 		}
 
-		// Check for a cached result (stored as custom post or in the post metaboxes).
+		// Check for a cached result (stored as custom post or in the post meta).
 		$key_suffix    = md5( $url . serialize( $attr ) );
 		$cachekey      = '_oembed_' . $key_suffix;
 		$cachekey_time = '_oembed_time_' . $key_suffix;
@@ -279,7 +280,7 @@ class WP_Embed {
 				 *
 				 * @see WP_Embed::shortcode()
 				 *
-				 * @param string|false $cache   The cached HTML result, stored in post metaboxes.
+				 * @param string|false $cache   The cached HTML result, stored in post meta.
 				 * @param string       $url     The attempted embed URL.
 				 * @param array        $attr    An array of shortcode attributes.
 				 * @param int          $post_ID Post ID.

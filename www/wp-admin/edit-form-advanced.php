@@ -78,7 +78,7 @@ $post_ID = isset( $post_ID ) ? (int) $post_ID : 0;
 $user_ID = isset( $user_ID ) ? (int) $user_ID : 0;
 $action  = isset( $action ) ? $action : '';
 
-if ( (int) get_option( 'page_for_posts' ) === $post_ID && empty( $post->post_content ) ) {
+if ( (int) get_option( 'page_for_posts' ) === $post->ID && empty( $post->post_content ) ) {
 	add_action( 'edit_form_after_title', '_wp_posts_page_notice' );
 	remove_post_type_support( $post_type, 'editor' );
 }
@@ -94,7 +94,7 @@ if ( ! $thumbnail_support && 'attachment' === $post_type && $post->post_mime_typ
 
 if ( $thumbnail_support ) {
 	add_thickbox();
-	wp_enqueue_media( array( 'post' => $post_ID ) );
+	wp_enqueue_media( array( 'post' => $post->ID ) );
 }
 
 // Add the local autosave notice HTML.
@@ -103,7 +103,7 @@ add_action( 'admin_footer', '_local_storage_notice' );
 /*
  * @todo Document the $messages array(s).
  */
-$permalink = get_permalink( $post_ID );
+$permalink = get_permalink( $post->ID );
 if ( ! $permalink ) {
 	$permalink = '';
 }
@@ -237,12 +237,12 @@ if ( 'auto-draft' === $post->post_status ) {
 	$autosave    = false;
 	$form_extra .= "<input type='hidden' id='auto_draft' name='auto_draft' value='1' />";
 } else {
-	$autosave = wp_get_post_autosave( $post_ID );
+	$autosave = wp_get_post_autosave( $post->ID );
 }
 
 $form_action  = 'editpost';
-$nonce_action = 'update-post_' . $post_ID;
-$form_extra  .= "<input type='hidden' id='post_ID' name='post_ID' value='" . esc_attr( $post_ID ) . "' />";
+$nonce_action = 'update-post_' . $post->ID;
+$form_extra  .= "<input type='hidden' id='post_ID' name='post_ID' value='" . esc_attr( $post->ID ) . "' />";
 
 // Detect if there exists an autosave newer than the post and if that autosave is different than the post.
 if ( $autosave && mysql2date( 'U', $autosave->post_modified_gmt, false ) > mysql2date( 'U', $post->post_modified_gmt, false ) ) {
@@ -265,7 +265,7 @@ if ( $autosave && mysql2date( 'U', $autosave->post_modified_gmt, false ) > mysql
 
 $post_type_object = get_post_type_object( $post_type );
 
-// All metaboxes boxes should be defined and added before the first do_meta_boxes() call (or potentially during the do_meta_boxes action).
+// All meta boxes should be defined and added before the first do_meta_boxes() call (or potentially during the do_meta_boxes action).
 require_once ABSPATH . 'wp-admin/includes/meta-boxes.php';
 
 register_and_do_post_meta_boxes( $post );
@@ -483,7 +483,7 @@ if ( 'draft' !== get_post_status( $post ) ) {
 
 echo $form_extra;
 
-wp_nonce_field( 'metaboxes-box-order', 'metaboxes-box-order-nonce', false );
+wp_nonce_field( 'meta-box-order', 'meta-box-order-nonce', false );
 wp_nonce_field( 'closedpostboxes', 'closedpostboxesnonce', false );
 ?>
 
@@ -621,7 +621,7 @@ if ( post_type_supports( $post_type, 'editor' ) ) {
 	<?php
 	if ( 'auto-draft' !== $post->post_status ) {
 		echo '<span id="last-edit">';
-		$last_user = get_userdata( get_post_meta( $post_ID, '_edit_last', true ) );
+		$last_user = get_userdata( get_post_meta( $post->ID, '_edit_last', true ) );
 		if ( $last_user ) {
 			/* translators: 1: Name of most recent post author, 2: Post edited date, 3: Post edited time. */
 			printf( __( 'Last edited by %1$s on %2$s at %3$s' ), esc_html( $last_user->display_name ), mysql2date( __( 'F j, Y' ), $post->post_modified ), mysql2date( __( 'g:i a' ), $post->post_modified ) );
@@ -655,9 +655,9 @@ do_action( 'edit_form_after_editor', $post );
 
 if ( 'page' === $post_type ) {
 	/**
-	 * Fires before metaboxes boxes with 'side' context are output for the 'page' post type.
+	 * Fires before meta boxes with 'side' context are output for the 'page' post type.
 	 *
-	 * The submitpage box is a metaboxes box with 'side' context, so this hook fires just before it is output.
+	 * The submitpage box is a meta box with 'side' context, so this hook fires just before it is output.
 	 *
 	 * @since 2.5.0
 	 *
@@ -666,9 +666,9 @@ if ( 'page' === $post_type ) {
 	do_action( 'submitpage_box', $post );
 } else {
 	/**
-	 * Fires before metaboxes boxes with 'side' context are output for all post types other than 'page'.
+	 * Fires before meta boxes with 'side' context are output for all post types other than 'page'.
 	 *
-	 * The submitpost box is a metaboxes box with 'side' context, so this hook fires just before it is output.
+	 * The submitpost box is a meta box with 'side' context, so this hook fires just before it is output.
 	 *
 	 * @since 2.5.0
 	 *
@@ -689,7 +689,7 @@ do_meta_boxes( null, 'normal', $post );
 
 if ( 'page' === $post_type ) {
 	/**
-	 * Fires after 'normal' context metaboxes boxes have been output for the 'page' post type.
+	 * Fires after 'normal' context meta boxes have been output for the 'page' post type.
 	 *
 	 * @since 1.5.0
 	 *
@@ -698,7 +698,7 @@ if ( 'page' === $post_type ) {
 	do_action( 'edit_page_form', $post );
 } else {
 	/**
-	 * Fires after 'normal' context metaboxes boxes have been output for all post types other than 'page'.
+	 * Fires after 'normal' context meta boxes have been output for all post types other than 'page'.
 	 *
 	 * @since 1.5.0
 	 *
@@ -714,7 +714,7 @@ do_meta_boxes( null, 'advanced', $post );
 </div>
 <?php
 /**
- * Fires after all metaboxes box sections have been output, before the closing #post-body div.
+ * Fires after all meta box sections have been output, before the closing #post-body div.
  *
  * @since 2.1.0
  *

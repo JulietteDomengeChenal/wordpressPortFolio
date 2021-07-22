@@ -123,7 +123,7 @@ window.wp = window.wp || {};
 	window.WPSetThumbnailID = function(id){
 		var field = $('input[value="_thumbnail_id"]', '#list-table');
 		if ( field.length > 0 ) {
-			$('#metaboxes\\[' + field.attr('id').match(/[0-9]+/) + '\\]\\[value\\]').text(id);
+			$('#meta\\[' + field.attr('id').match(/[0-9]+/) + '\\]\\[value\\]').text(id);
 		}
 	};
 
@@ -260,7 +260,9 @@ window.wp = window.wp || {};
 		timeout = window.setTimeout( function(){ check = true; }, 300000 );
 	}
 
-	$(document).on( 'heartbeat-send.wp-refresh-nonces', function( e, data ) {
+	$( function() {
+		schedule();
+	}).on( 'heartbeat-send.wp-refresh-nonces', function( e, data ) {
 		var post_id,
 			$authCheck = $('#wp-auth-check-wrap');
 
@@ -286,15 +288,13 @@ window.wp = window.wp || {};
 			if ( nonces.heartbeatNonce )
 				window.heartbeatSettings.nonce = nonces.heartbeatNonce;
 		}
-	}).ready( function() {
-		schedule();
 	});
 }(jQuery));
 
 /**
  * All post and postbox controls and functionality.
  */
-jQuery(document).ready( function($) {
+jQuery( function($) {
 	var stamp, visibility, $submitButtons, updateVisibility, updateText,
 		$textarea = $('#content'),
 		$document = $(document),
@@ -556,7 +556,7 @@ jQuery(document).ready( function($) {
 	if ( $('#tagsdiv-post_tag').length ) {
 		window.tagBox && window.tagBox.init();
 	} else {
-		$('.metaboxes-box-sortables').children('div.postbox').each(function(){
+		$('.meta-box-sortables').children('div.postbox').each(function(){
 			if ( this.id.indexOf('tagsdiv-') === 0 ) {
 				window.tagBox && window.tagBox.init();
 				return false;
@@ -661,7 +661,7 @@ jQuery(document).ready( function($) {
 		$('#' + taxonomy + '-add-toggle').on( 'click', function( e ) {
 			e.preventDefault();
 			$('#' + taxonomy + '-adder').toggleClass( 'wp-hidden-children' );
-			$('a[href="#' + taxonomy + '-all"]', '#' + taxonomy + '-tabs').click();
+			$('a[href="#' + taxonomy + '-all"]', '#' + taxonomy + '-tabs').trigger( 'click' );
 			$('#new'+taxonomy).trigger( 'focus' );
 		});
 

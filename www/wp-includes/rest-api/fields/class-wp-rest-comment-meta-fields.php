@@ -8,7 +8,7 @@
  */
 
 /**
- * Core class to manage comment metaboxes via the REST API.
+ * Core class to manage comment meta via the REST API.
  *
  * @since 4.7.0
  *
@@ -17,18 +17,18 @@
 class WP_REST_Comment_Meta_Fields extends WP_REST_Meta_Fields {
 
 	/**
-	 * Retrieves the object type for comment metaboxes.
+	 * Retrieves the comment type for comment meta.
 	 *
 	 * @since 4.7.0
 	 *
-	 * @return string The metaboxes type.
+	 * @return string The meta type.
 	 */
 	protected function get_meta_type() {
 		return 'comment';
 	}
 
 	/**
-	 * Retrieves the object metaboxes subtype.
+	 * Retrieves the comment meta subtype.
 	 *
 	 * @since 4.9.8
 	 *

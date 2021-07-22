@@ -374,7 +374,7 @@ function wp_ajax_get_community_events() {
 		 * The location is stored network-wide, so that the user doesn't have to set it on each site.
 		 */
 		if ( $ip_changed || $search ) {
-			update_user_option( $user_id, 'community-events-location', $events['location'], true );
+			update_user_meta( $user_id, 'community-events-location', $events['location'] );
 		}
 
 		wp_send_json_success( $events );
@@ -804,7 +804,7 @@ function wp_ajax_delete_link() {
 }
 
 /**
- * Ajax handler for deleting metaboxes.
+ * Ajax handler for deleting meta.
  *
  * @since 3.1.0
  */
@@ -1532,12 +1532,12 @@ function wp_ajax_add_menu_item() {
 }
 
 /**
- * Ajax handler for adding metaboxes.
+ * Ajax handler for adding meta.
  *
  * @since 3.1.0
  */
 function wp_ajax_add_meta() {
-	check_ajax_referer( 'add-metaboxes', '_ajax_nonce-add-metaboxes' );
+	check_ajax_referer( 'add-meta', '_ajax_nonce-add-meta' );
 	$c    = 0;
 	$pid  = (int) $_POST['post_id'];
 	$post = get_post( $pid );
@@ -1551,7 +1551,7 @@ function wp_ajax_add_meta() {
 			wp_die( 1 );
 		}
 
-		// If the post is an autodraft, save the post as a draft and then attempt to save the metaboxes.
+		// If the post is an autodraft, save the post as a draft and then attempt to save the meta.
 		if ( 'auto-draft' === $post->post_status ) {
 			$post_data                = array();
 			$post_data['action']      = 'draft'; // Warning fix.
@@ -1568,7 +1568,7 @@ function wp_ajax_add_meta() {
 				if ( is_wp_error( $pid ) ) {
 					$x = new WP_Ajax_Response(
 						array(
-							'what' => 'metaboxes',
+							'what' => 'meta',
 							'data' => $pid,
 						)
 					);
@@ -1595,7 +1595,7 @@ function wp_ajax_add_meta() {
 
 		$x = new WP_Ajax_Response(
 			array(
-				'what'         => 'metaboxes',
+				'what'         => 'meta',
 				'id'           => $mid,
 				'data'         => _list_meta_row( $meta, $c ),
 				'position'     => 1,
@@ -1603,9 +1603,9 @@ function wp_ajax_add_meta() {
 			)
 		);
 	} else { // Update?
-		$mid   = (int) key( $_POST['metaboxes'] );
-		$key   = wp_unslash( $_POST['metaboxes'][ $mid ]['key'] );
-		$value = wp_unslash( $_POST['metaboxes'][ $mid ]['value'] );
+		$mid   = (int) key( $_POST['meta'] );
+		$key   = wp_unslash( $_POST['meta'][ $mid ]['key'] );
+		$value = wp_unslash( $_POST['meta'][ $mid ]['value'] );
 
 		if ( '' === trim( $key ) ) {
 			wp_die( __( 'Please provide a custom field name.' ) );
@@ -1614,7 +1614,7 @@ function wp_ajax_add_meta() {
 		$meta = get_metadata_by_mid( 'post', $mid );
 
 		if ( ! $meta ) {
-			wp_die( 0 ); // If metaboxes doesn't exist.
+			wp_die( 0 ); // If meta doesn't exist.
 		}
 
 		if (
@@ -1628,13 +1628,13 @@ function wp_ajax_add_meta() {
 		if ( $meta->meta_value != $value || $meta->meta_key != $key ) {
 			$u = update_metadata_by_mid( 'post', $mid, $value, $key );
 			if ( ! $u ) {
-				wp_die( 0 ); // We know metaboxes exists; we also know it's unchanged (or DB error, in which case there are bigger problems).
+				wp_die( 0 ); // We know meta exists; we also know it's unchanged (or DB error, in which case there are bigger problems).
 			}
 		}
 
 		$x = new WP_Ajax_Response(
 			array(
-				'what'         => 'metaboxes',
+				'what'         => 'meta',
 				'id'           => $mid,
 				'old_id'       => $mid,
 				'data'         => _list_meta_row(
@@ -1733,13 +1733,13 @@ function wp_ajax_closed_postboxes() {
 	}
 
 	if ( is_array( $closed ) ) {
-		update_user_option( $user->ID, "closedpostboxes_$page", $closed, true );
+		update_user_meta( $user->ID, "closedpostboxes_$page", $closed );
 	}
 
 	if ( is_array( $hidden ) ) {
 		// Postboxes that are always shown.
 		$hidden = array_diff( $hidden, array( 'submitdiv', 'linksubmitdiv', 'manage-menu', 'create-menu' ) );
-		update_user_option( $user->ID, "metaboxhidden_$page", $hidden, true );
+		update_user_meta( $user->ID, "metaboxhidden_$page", $hidden );
 	}
 
 	wp_die( 1 );
@@ -1764,7 +1764,7 @@ function wp_ajax_hidden_columns() {
 	}
 
 	$hidden = ! empty( $_POST['hidden'] ) ? explode( ',', $_POST['hidden'] ) : array();
-	update_user_option( $user->ID, "manage{$page}columnshidden", $hidden, true );
+	update_user_meta( $user->ID, "manage{$page}columnshidden", $hidden );
 
 	wp_die( 1 );
 }
@@ -1787,7 +1787,7 @@ function wp_ajax_update_welcome_panel() {
 }
 
 /**
- * Ajax handler for retrieving menu metaboxes boxes.
+ * Ajax handler for retrieving menu meta boxes.
  *
  * @since 3.1.0
  */
@@ -1894,12 +1894,12 @@ function wp_ajax_menu_locations_save() {
 }
 
 /**
- * Ajax handler for saving the metaboxes box order.
+ * Ajax handler for saving the meta box order.
  *
  * @since 3.1.0
  */
 function wp_ajax_meta_box_order() {
-	check_ajax_referer( 'metaboxes-box-order' );
+	check_ajax_referer( 'meta-box-order' );
 	$order        = isset( $_POST['order'] ) ? (array) $_POST['order'] : false;
 	$page_columns = isset( $_POST['page_columns'] ) ? $_POST['page_columns'] : 'auto';
 
@@ -1919,11 +1919,11 @@ function wp_ajax_meta_box_order() {
 	}
 
 	if ( $order ) {
-		update_user_option( $user->ID, "metaboxes-box-order_$page", $order, true );
+		update_user_meta( $user->ID, "meta-box-order_$page", $order );
 	}
 
 	if ( $page_columns ) {
-		update_user_option( $user->ID, "screen_layout_$page", $page_columns, true );
+		update_user_meta( $user->ID, "screen_layout_$page", $page_columns );
 	}
 
 	wp_send_json_success();
@@ -2987,11 +2987,26 @@ function wp_ajax_query_attachments() {
 	 *
 	 * @param array $query An array of query variables.
 	 */
-	$query = apply_filters( 'ajax_query_attachments_args', $query );
-	$query = new WP_Query( $query );
+	$query             = apply_filters( 'ajax_query_attachments_args', $query );
+	$attachments_query = new WP_Query( $query );
 
-	$posts = array_map( 'wp_prepare_attachment_for_js', $query->posts );
-	$posts = array_filter( $posts );
+	$posts       = array_map( 'wp_prepare_attachment_for_js', $attachments_query->posts );
+	$posts       = array_filter( $posts );
+	$total_posts = $attachments_query->found_posts;
+
+	if ( $total_posts < 1 ) {
+		// Out-of-bounds, run the query again without LIMIT for total count.
+		unset( $query['paged'] );
+
+		$count_query = new WP_Query();
+		$count_query->query( $query );
+		$total_posts = $count_query->found_posts;
+	}
+
+	$max_pages = ceil( $total_posts / (int) $attachments_query->query['posts_per_page'] );
+
+	header( 'X-WP-Total: ' . (int) $total_posts );
+	header( 'X-WP-TotalPages: ' . (int) $max_pages );
 
 	wp_send_json_success( $posts );
 }
@@ -3654,7 +3669,7 @@ function wp_ajax_parse_embed() {
 		/*
 		 * Refresh oEmbeds cached outside of posts that are past their TTL.
 		 * Posts are excluded because they have separate logic for refreshing
-		 * their post metaboxes caches. See WP_Embed::cache_oembed().
+		 * their post meta caches. See WP_Embed::cache_oembed().
 		 */
 		$wp_embed->usecache = false;
 	}
@@ -3698,7 +3713,7 @@ function wp_ajax_parse_embed() {
 		$mce_styles = wpview_media_sandbox_styles();
 
 		foreach ( $mce_styles as $style ) {
-			$styles .= sprintf( '<link rel="stylesheet" href="%s"/>', $style );
+			$styles .= sprintf( '<link rel="stylesheet" href="%s" />', $style );
 		}
 
 		$html = do_shortcode( $parsed );

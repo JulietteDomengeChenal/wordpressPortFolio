@@ -497,7 +497,7 @@ class WP_User_Search {
 
 		$this->search_term = wp_unslash( $search_term );
 		$this->raw_page = ( '' == $page ) ? false : (int) $page;
-		$this->page = (int) ( '' == $page ) ? 1 : $page;
+		$this->page = ( '' == $page ) ? 1 : (int) $page;
 		$this->role = $role;
 
 		$this->prepare_query();
@@ -1133,7 +1133,7 @@ function wp_create_thumbnail( $file, $max_side, $deprecated = '' ) {
 }
 
 /**
- * This was once used to display a metaboxes box for the nav menu theme locations.
+ * This was once used to display a meta box for the nav menu theme locations.
  *
  * Deprecated in favor of a 'Manage Locations' tab added to nav menus management screen.
  *

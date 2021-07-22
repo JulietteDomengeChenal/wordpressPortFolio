@@ -383,8 +383,8 @@ msgstr "Publication suivante"
 
 #. translators: %s: Parent post link.
 #: single.php:25
-msgid "<span class=\"metaboxes-nav\">Published in</span><span class=\"post-title\">%s</span>"
-msgstr "<span class=\"metaboxes-nav\">Publié dans</span><span class=\"post-title\">%s</span>"
+msgid "<span class=\"meta-nav\">Published in</span><span class=\"post-title\">%s</span>"
+msgstr "<span class=\"meta-nav\">Publié dans</span><span class=\"post-title\">%s</span>"
 
 #: searchform.php:26
 msgctxt "submit button"

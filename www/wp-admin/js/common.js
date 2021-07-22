@@ -483,7 +483,7 @@ window.columns = {
 	}
 };
 
-$document.ready(function(){columns.init();});
+$( function() { columns.init(); } );
 
 /**
  * Validates that the required form fields are not empty.
@@ -544,7 +544,7 @@ window.showNotice = {
 };
 
 /**
- * Represents the functions for the metaboxes screen options panel.
+ * Represents the functions for the meta screen options panel.
  *
  * @since 3.2.0
  *
@@ -555,27 +555,27 @@ window.showNotice = {
  * @return {void}
  */
 window.screenMeta = {
-	element: null, // #screen-metaboxes
-	toggles: null, // .screen-metaboxes-toggle
+	element: null, // #screen-meta
+	toggles: null, // .screen-meta-toggle
 	page:    null, // #wpcontent
 
 	/**
-	 * Initializes the screen metaboxes options panel.
+	 * Initializes the screen meta options panel.
 	 *
 	 * @since 3.2.0
 	 *
 	 * @return {void}
 	 */
 	init: function() {
-		this.element = $('#screen-metaboxes');
-		this.toggles = $( '#screen-metaboxes-links' ).find( '.show-settings' );
+		this.element = $('#screen-meta');
+		this.toggles = $( '#screen-meta-links' ).find( '.show-settings' );
 		this.page    = $('#wpcontent');
 
 		this.toggles.on( 'click', this.toggleEvent );
 	},
 
 	/**
-	 * Toggles the screen metaboxes options panel.
+	 * Toggles the screen meta options panel.
 	 *
 	 * @since 3.2.0
 	 *
@@ -594,23 +594,23 @@ window.screenMeta = {
 	},
 
 	/**
-	 * Opens the screen metaboxes options panel.
+	 * Opens the screen meta options panel.
 	 *
 	 * @since 3.2.0
 	 *
-	 * @param {jQuery} panel  The screen metaboxes options panel div.
+	 * @param {jQuery} panel  The screen meta options panel div.
 	 * @param {jQuery} button The toggle button.
 	 *
 	 * @return {void}
 	 */
 	open: function( panel, button ) {
 
-		$( '#screen-metaboxes-links' ).find( '.screen-metaboxes-toggle' ).not( button.parent() ).css( 'visibility', 'hidden' );
+		$( '#screen-meta-links' ).find( '.screen-meta-toggle' ).not( button.parent() ).css( 'visibility', 'hidden' );
 
 		panel.parent().show();
 
 		/**
-		 * Sets the focus to the metaboxes options panel and adds the necessary CSS classes.
+		 * Sets the focus to the meta options panel and adds the necessary CSS classes.
 		 *
 		 * @since 3.2.0
 		 *
@@ -618,33 +618,33 @@ window.screenMeta = {
 		 */
 		panel.slideDown( 'fast', function() {
 			panel.trigger( 'focus' );
-			button.addClass( 'screen-metaboxes-active' ).attr( 'aria-expanded', true );
+			button.addClass( 'screen-meta-active' ).attr( 'aria-expanded', true );
 		});
 
 		$document.trigger( 'screen:options:open' );
 	},
 
 	/**
-	 * Closes the screen metaboxes options panel.
+	 * Closes the screen meta options panel.
 	 *
 	 * @since 3.2.0
 	 *
-	 * @param {jQuery} panel  The screen metaboxes options panel div.
+	 * @param {jQuery} panel  The screen meta options panel div.
 	 * @param {jQuery} button The toggle button.
 	 *
 	 * @return {void}
 	 */
 	close: function( panel, button ) {
 		/**
-		 * Hides the screen metaboxes options panel.
+		 * Hides the screen meta options panel.
 		 *
 		 * @since 3.2.0
 		 *
 		 * @return {void}
 		 */
 		panel.slideUp( 'fast', function() {
-			button.removeClass( 'screen-metaboxes-active' ).attr( 'aria-expanded', false );
-			$('.screen-metaboxes-toggle').css('visibility', '');
+			button.removeClass( 'screen-meta-active' ).attr( 'aria-expanded', false );
+			$('.screen-meta-toggle').css('visibility', '');
 			panel.parent().hide();
 		});
 
@@ -802,7 +802,7 @@ $availableStructureTags.on( 'click', function() {
 	}
 } );
 
-$document.ready( function() {
+$( function() {
 	var checks, first, last, checked, sliced, mobileEvent, transitionTimeout, focusedRowActions,
 		lastClicked = false,
 		pageInput = $('input.current-page'),
@@ -815,7 +815,7 @@ $document.ready( function() {
 		$overlay = $( '#wp-responsive-overlay' ),
 		$toolbar = $( '#wp-toolbar' ),
 		$toolbarPopups = $toolbar.find( 'a[aria-haspopup="true"]' ),
-		$sortables = $('.metaboxes-box-sortables'),
+		$sortables = $('.meta-box-sortables'),
 		wpResponsiveActive = false,
 		$adminbar = $( '#wpadminbar' ),
 		lastScrollPosition = 0,
@@ -1115,7 +1115,7 @@ $document.ready( function() {
 
 	$document.on( 'wp-updates-notice-added wp-plugin-install-error wp-plugin-update-error wp-plugin-delete-error wp-theme-install-error wp-theme-delete-error', makeNoticesDismissible );
 
-	// Init screen metaboxes.
+	// Init screen meta.
 	screenMeta.init();
 
 	/**
@@ -1706,7 +1706,7 @@ $document.ready( function() {
 			});
 
 			self.trigger();
-			$document.on( 'wp-window-resized.wp-responsive', $.proxy( this.trigger, this ) );
+			$document.on( 'wp-window-resized.wp-responsive', this.trigger.bind( this ) );
 
 			// This needs to run later as UI Sortable may be initialized later on $(document).ready().
 			$window.on( 'load.wp-responsive', this.maybeDisableSortables );
@@ -1889,7 +1889,7 @@ $document.ready( function() {
 		$( '.aria-button-if-js' ).attr( 'role', 'button' );
 	}
 
-	$( document ).ajaxComplete( function() {
+	$( document ).on( 'ajaxComplete', function() {
 		aria_button_if_js();
 	});
 
@@ -2008,7 +2008,7 @@ $document.ready( function() {
  *
  * @since 5.5.0
  */
-$document.ready( function( $ ) {
+$( function( $ ) {
 	var $overwrite, $warning;
 
 	if ( ! $body.hasClass( 'update-php' ) ) {

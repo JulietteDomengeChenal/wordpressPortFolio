@@ -1014,17 +1014,17 @@ function wp_color_scheme_settings() {
 }
 
 /**
- * Displays the viewport metaboxes in the admin.
+ * Displays the viewport meta in the admin.
  *
  * @since 5.5.0
  */
 function wp_admin_viewport_meta() {
 	/**
-	 * Filters the viewport metaboxes in the admin.
+	 * Filters the viewport meta in the admin.
 	 *
 	 * @since 5.5.0
 	 *
-	 * @param string $viewport_meta The viewport metaboxes.
+	 * @param string $viewport_meta The viewport meta.
 	 */
 	$viewport_meta = apply_filters( 'admin_viewport_meta', 'width=device-width,initial-scale=1.0' );
 
@@ -1032,18 +1032,18 @@ function wp_admin_viewport_meta() {
 		return;
 	}
 
-	echo '<metaboxes name="viewport" content="' . esc_attr( $viewport_meta ) . '">';
+	echo '<meta name="viewport" content="' . esc_attr( $viewport_meta ) . '">';
 }
 
 /**
- * Adds viewport metaboxes for mobile in Customizer.
+ * Adds viewport meta for mobile in Customizer.
  *
  * Hooked to the {@see 'admin_viewport_meta'} filter.
  *
  * @since 5.5.0
  *
- * @param string $viewport_meta The viewport metaboxes.
- * @return string Filtered viewport metaboxes.
+ * @param string $viewport_meta The viewport meta.
+ * @return string Filtered viewport meta.
  */
 function _customizer_mobile_viewport_meta( $viewport_meta ) {
 	return trim( $viewport_meta, ',' ) . ',minimum-scale=0.5,maximum-scale=1.2';

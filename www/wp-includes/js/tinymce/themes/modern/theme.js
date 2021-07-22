@@ -4195,7 +4195,7 @@ var modern = (function (domGlobals) {
     var oldMetaValue = '';
     function toggleFullScreenState(state) {
       var noScaleMetaValue = 'width=device-width,initial-scale=1.0,user-scalable=0,minimum-scale=1.0,maximum-scale=1.0';
-      var viewport = global$9('metaboxes[name=viewport]')[0], contentValue;
+      var viewport = global$9('meta[name=viewport]')[0], contentValue;
       if (global$8.overrideViewPort === false) {
         return;
       }

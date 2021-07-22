@@ -29,7 +29,7 @@ class WP_Term_Query {
 	 * Metadata query container.
 	 *
 	 * @since 4.6.0
-	 * @var WP_Meta_Query A metaboxes query instance.
+	 * @var WP_Meta_Query A meta query instance.
 	 */
 	public $meta_query = false;
 
@@ -97,16 +97,16 @@ class WP_Term_Query {
 	 *     @type int|int[]    $object_ids             Optional. Object ID, or array of object IDs. Results will be
 	 *                                                limited to terms associated with these objects.
 	 *     @type string       $orderby                Field(s) to order terms by. Accepts:
-	 *                                                - term fields ('name', 'slug', 'term_group', 'term_id', 'id',
+	 *                                                * term fields ('name', 'slug', 'term_group', 'term_id', 'id',
 	 *                                                  'description', 'parent', 'term_order'). Unless `$object_ids`
 	 *                                                  is not empty, 'term_order' is treated the same as 'term_id'.
-	 *                                                - 'count' to use the number of objects associated with the term.
-	 *                                                - 'include' to match the 'order' of the $include param.
-	 *                                                - 'slug__in' to match the 'order' of the $slug param.
-	 *                                                - 'meta_value', 'meta_value_num'.
-	 *                                                - the value of `$meta_key`.
-	 *                                                - the array keys of `$meta_query`.
-	 *                                                - 'none' to omit the ORDER BY clause.
+	 *                                                * 'count' to use the number of objects associated with the term.
+	 *                                                * 'include' to match the 'order' of the $include param.
+	 *                                                * 'slug__in' to match the 'order' of the $slug param.
+	 *                                                * 'meta_value', 'meta_value_num'.
+	 *                                                  the value of `$meta_key`.
+	 *                                                  the array keys of `$meta_query`.
+	 *                                                * 'none' to omit the ORDER BY clause.
 	 *                                                Defaults to 'name'.
 	 *     @type string       $order                  Whether to order terms in ascending or descending order.
 	 *                                                Accepts 'ASC' (ascending) or 'DESC' (descending).
@@ -127,20 +127,20 @@ class WP_Term_Query {
 	 *                                                See #41796 for details.
 	 *     @type int          $offset                 The number by which to offset the terms query. Default empty.
 	 *     @type string       $fields                 Term fields to query for. Accepts:
-	 *                                                - 'all' Returns an array of complete term objects (`WP_Term[]`).
-	 *                                                - 'all_with_object_id' Returns an array of term objects
+	 *                                                * 'all' Returns an array of complete term objects (`WP_Term[]`).
+	 *                                                * 'all_with_object_id' Returns an array of term objects
 	 *                                                  with the 'object_id' param (`WP_Term[]`). Works only
 	 *                                                  when the `$object_ids` parameter is populated.
-	 *                                                - 'ids' Returns an array of term IDs (`int[]`).
-	 *                                                - 'tt_ids' Returns an array of term taxonomy IDs (`int[]`).
-	 *                                                - 'names' Returns an array of term names (`string[]`).
-	 *                                                - 'slugs' Returns an array of term slugs (`string[]`).
-	 *                                                - 'count' Returns the number of matching terms (`int`).
-	 *                                                - 'id=>parent' Returns an associative array of parent term IDs,
+	 *                                                * 'ids' Returns an array of term IDs (`int[]`).
+	 *                                                * 'tt_ids' Returns an array of term taxonomy IDs (`int[]`).
+	 *                                                * 'names' Returns an array of term names (`string[]`).
+	 *                                                * 'slugs' Returns an array of term slugs (`string[]`).
+	 *                                                * 'count' Returns the number of matching terms (`int`).
+	 *                                                * 'id=>parent' Returns an associative array of parent term IDs,
 	 *                                                   keyed by term ID (`int[]`).
-	 *                                                - 'id=>name' Returns an associative array of term names,
+	 *                                                * 'id=>name' Returns an associative array of term names,
 	 *                                                   keyed by term ID (`string[]`).
-	 *                                                - 'id=>slug' Returns an associative array of term slugs,
+	 *                                                * 'id=>slug' Returns an associative array of term slugs,
 	 *                                                   keyed by term ID (`string[]`).
 	 *                                                Default 'all'.
 	 *     @type bool         $count                  Whether to return a term count. If true, will take precedence
@@ -174,7 +174,7 @@ class WP_Term_Query {
 	 *                                                Default false.
 	 *     @type string       $cache_domain           Unique cache key to be produced when this query is stored in
 	 *                                                an object cache. Default is 'core'.
-	 *     @type bool         $update_term_meta_cache Whether to prime metaboxes caches for matched terms. Default true.
+	 *     @type bool         $update_term_meta_cache Whether to prime meta caches for matched terms. Default true.
 	 *     @type array        $meta_query             Optional. Meta query clauses to limit retrieved terms by.
 	 *                                                See `WP_Meta_Query`. Default empty.
 	 *     @type string       $meta_key               Limit terms to those matching a specific metadata key.
@@ -917,7 +917,7 @@ class WP_Term_Query {
 		} else {
 			$orderby = 't.name';
 
-			// This may be a value of orderby related to metaboxes.
+			// This may be a value of orderby related to meta.
 			$maybe_orderby_meta = true;
 		}
 
@@ -944,7 +944,7 @@ class WP_Term_Query {
 	}
 
 	/**
-	 * Generate the ORDER BY clause for an 'orderby' param that is potentially related to a metaboxes query.
+	 * Generate the ORDER BY clause for an 'orderby' param that is potentially related to a meta query.
 	 *
 	 * @since 4.6.0
 	 *
@@ -954,7 +954,7 @@ class WP_Term_Query {
 	protected function parse_orderby_meta( $orderby_raw ) {
 		$orderby = '';
 
-		// Tell the metaboxes query to generate its SQL, so we have access to table aliases.
+		// Tell the meta query to generate its SQL, so we have access to table aliases.
 		$this->meta_query->get_sql( 'term', 't', 'term_id' );
 		$meta_clauses = $this->meta_query->get_clauses();
 		if ( ! $meta_clauses || ! $orderby_raw ) {

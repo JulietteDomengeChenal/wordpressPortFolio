@@ -14,7 +14,7 @@
 class WP_Application_Passwords {
 
 	/**
-	 * The application passwords user metaboxes key.
+	 * The application passwords user meta key.
 	 *
 	 * @since 5.6.0
 	 *

@@ -526,8 +526,8 @@ var inlite = (function (domGlobals) {
       editor.shortcuts.add('Alt+F10,F10', '', panel.focus);
     };
     var overrideLinkShortcut = function (editor, panel) {
-      editor.shortcuts.remove('metaboxes+k');
-      editor.shortcuts.add('metaboxes+k', '', function () {
+      editor.shortcuts.remove('meta+k');
+      editor.shortcuts.add('meta+k', '', function () {
         var toolbars = getToolbars(editor);
         var result = Matcher.match(editor, [SelectionMatcher.textSelection('quicklink')]);
         if (result) {
@@ -3664,7 +3664,7 @@ var inlite = (function (domGlobals) {
     var oldMetaValue = '';
     function toggleFullScreenState(state) {
       var noScaleMetaValue = 'width=device-width,initial-scale=1.0,user-scalable=0,minimum-scale=1.0,maximum-scale=1.0';
-      var viewport = global$7('metaboxes[name=viewport]')[0], contentValue;
+      var viewport = global$7('meta[name=viewport]')[0], contentValue;
       if (global$1.overrideViewPort === false) {
         return;
       }

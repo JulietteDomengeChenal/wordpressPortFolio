@@ -899,10 +899,8 @@ function validate_current_theme() {
  * Uses the information from `Requires at least` and `Requires PHP` headers
  * defined in the theme's `style.css` file.
  *
- * If the headers are not present in the theme's stylesheet file,
- * `readme.txt` is also checked as a fallback.
- *
  * @since 5.5.0
+ * @since 5.8.0 Removed support for using `readme.txt` as a fallback.
  *
  * @param string $stylesheet Directory name for the theme.
  * @return true|WP_Error True if requirements are met, WP_Error on failure.
@@ -910,25 +908,24 @@ function validate_current_theme() {
 function validate_theme_requirements( $stylesheet ) {
 	$theme = wp_get_theme( $stylesheet );
 
+	// If the theme is a Full Site Editing theme, check for the presence of the Gutenberg plugin.
+	$theme_tags = $theme->get( 'Tags' );
+
+	if ( ! empty( $theme_tags ) && in_array( 'full-site-editing', $theme_tags, true ) && ! function_exists( 'gutenberg_is_fse_theme' ) ) {
+		return new WP_Error(
+			'theme_requires_gutenberg_plugin',
+			sprintf(
+					/* translators: %s: Theme name. */
+				_x( '<strong>Error:</strong> This theme (%s) uses Full Site Editing, which requires the Gutenberg plugin to be activated.', 'theme' ),
+				$theme->display( 'Name' )
+			)
+		);
+	}
+
 	$requirements = array(
 		'requires'     => ! empty( $theme->get( 'RequiresWP' ) ) ? $theme->get( 'RequiresWP' ) : '',
 		'requires_php' => ! empty( $theme->get( 'RequiresPHP' ) ) ? $theme->get( 'RequiresPHP' ) : '',
 	);
-
-	$readme_file = $theme->theme_root . '/' . $stylesheet . '/readme.txt';
-
-	if ( file_exists( $readme_file ) ) {
-		$readme_headers = get_file_data(
-			$readme_file,
-			array(
-				'requires'     => 'Requires at least',
-				'requires_php' => 'Requires PHP',
-			),
-			'theme'
-		);
-
-		$requirements = array_merge( $readme_headers, $requirements );
-	}
 
 	$compatible_wp  = is_wp_version_compatible( $requirements['requires'] );
 	$compatible_php = is_php_version_compatible( $requirements['requires_php'] );
@@ -2195,8 +2192,8 @@ function get_theme_starter_content() {
 					'title' => _x( 'Categories', 'Theme starter content' ),
 				),
 			),
-			'metaboxes'               => array(
-				'metaboxes',
+			'meta'               => array(
+				'meta',
 				array(
 					'title' => _x( 'Meta', 'Theme starter content' ),
 				),
@@ -2482,6 +2479,7 @@ function get_theme_starter_content() {
  * @since 5.5.0 The `core-block-patterns` feature was added and is enabled by default.
  * @since 5.5.0 The `custom-logo` feature now also accepts 'unlink-homepage-logo'.
  * @since 5.6.0 The `post-formats` feature warns if no array is passed.
+ * @since 5.8.0 The `widgets-block-editor` feature enables the Widgets block editor.
  *
  * @global array $_wp_theme_features
  *
@@ -2514,6 +2512,7 @@ function get_theme_starter_content() {
  *                          - 'title-tag'
  *                          - 'wp-block-styles'
  *                          - 'widgets'
+ *                          - 'widgets-block-editor'
  * @param mixed  ...$args Optional extra arguments to pass along with certain features.
  * @return void|false Void on success, false on failure.
  */
@@ -3682,7 +3681,7 @@ function _wp_keep_alive_customize_changeset_dependent_auto_drafts( $new_status, 
 		 * it is now a persistent changeset, a long-lived draft, and so any
 		 * associated auto-draft posts should likewise transition into having a draft
 		 * status. These drafts will be treated differently than regular drafts in
-		 * that they will be tied to the given changeset. The publish metaboxes box is
+		 * that they will be tied to the given changeset. The publish meta box is
 		 * replaced with a notice about how the post is part of a set of customized changes
 		 * which will be published when the changeset is published.
 		 */

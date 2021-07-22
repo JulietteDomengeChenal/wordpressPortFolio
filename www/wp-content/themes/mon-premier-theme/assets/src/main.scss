@@ -6,18 +6,55 @@ $midGrey: #3D3C3C;
 $lightGrey: #AFAFAF;
 $coldGreen: #99D1B6;
 
+//----------------DIV------------------
+html {
+  height: 100%;
+}
 body{
   background-color: $darkGrey;
-  color : white;
+  height: 100%;
   font-family: 'Roboto', sans-serif;
   font-weight: 300;
+}
+.container{
+  box-sizing: border-box;
+  max-width: 100%;
+  height: 100%;
+  display: flex;
+  margin: 0;
+  padding: 0;
+}
+.containerDark{
+  padding: 150px 50px 50px 150px;
+  background: radial-gradient(circle, rgba(70,70,70,1) 0%, rgba(33,33,33,1) 100%);
+  color : white;
+}
+.containerLight{
+  padding: 150px 150px 50px 50px;
+  color: $darkGrey;
+  background-color : white;
+}
+li{
+  display: block;
+}
+
+//---------------NAV-------------------
+.navMenu{
+  background: none;
+}
+.nav-link {
+  display: block;
+  color: white;
+}
+.nav-link:hover {
+  color: $coldGreen;
+  text-decoration: none;
 }
 
 //---------------TEXTS-----------------
 h1{
   font-family: 'Abril Fatface', cursive;
 }
-
 p{
   font-weight: 300;
   font-size: 0.9rem;
@@ -56,4 +93,25 @@ a:hover {
   color: $midGrey;
   background-color: $coldGreen;
   border-color: $darkGrey;
+}
+
+//-------------IMAGES-----------------
+img {
+  width: 100%;
+  height: auto;
+}
+.imgAccueil{
+  box-sizing: border-box;
+  display: block;
+  width: auto;
+}
+
+
+//--------------------------------MEDIA QUERIES------------------------------
+@media (min-width: 992px) {
+  .navbar-expand-lg .navbar-nav {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+  }
 }

@@ -169,7 +169,7 @@ function export_wp( $args = array() ) {
 
 		// Put categories in order with no child going before its parent.
 		while ( $cat = array_shift( $categories ) ) {
-			if ( 0 == $cat->parent || isset( $cats[ $cat->parent ] ) ) {
+			if ( ! $cat->parent || isset( $cats[ $cat->parent ] ) ) {
 				$cats[ $cat->term_id ] = $cat;
 			} else {
 				$categories[] = $cat;
@@ -178,7 +178,7 @@ function export_wp( $args = array() ) {
 
 		// Put terms in order with no child going before its parent.
 		while ( $t = array_shift( $custom_terms ) ) {
-			if ( 0 == $t->parent || isset( $terms[ $t->parent ] ) ) {
+			if ( ! $t->parent || isset( $terms[ $t->parent ] ) ) {
 				$terms[ $t->term_id ] = $t;
 			} else {
 				$custom_terms[] = $t;
@@ -314,7 +314,7 @@ function export_wp( $args = array() ) {
 	}
 
 	/**
-	 * Output term metaboxes XML tags for a given term object.
+	 * Output term meta XML tags for a given term object.
 	 *
 	 * @since 4.6.0
 	 *
@@ -327,16 +327,16 @@ function export_wp( $args = array() ) {
 
 		foreach ( $termmeta as $meta ) {
 			/**
-			 * Filters whether to selectively skip term metaboxes used for WXR exports.
+			 * Filters whether to selectively skip term meta used for WXR exports.
 			 *
-			 * Returning a truthy value from the filter will skip the current metaboxes
+			 * Returning a truthy value from the filter will skip the current meta
 			 * object from being exported.
 			 *
 			 * @since 4.6.0
 			 *
-			 * @param bool   $skip     Whether to skip the current piece of term metaboxes. Default false.
-			 * @param string $meta_key Current metaboxes key.
-			 * @param object $meta     Current metaboxes object.
+			 * @param bool   $skip     Whether to skip the current piece of term meta. Default false.
+			 * @param string $meta_key Current meta key.
+			 * @param object $meta     Current meta object.
 			 */
 			if ( ! apply_filters( 'wxr_export_skip_termmeta', false, $meta->meta_key, $meta ) ) {
 				printf( "\t\t<wp:termmeta>\n\t\t\t<wp:meta_key>%s</wp:meta_key>\n\t\t\t<wp:meta_value>%s</wp:meta_value>\n\t\t</wp:termmeta>\n", wxr_cdata( $meta->meta_key ), wxr_cdata( $meta->meta_value ) );
@@ -602,16 +602,16 @@ function export_wp( $args = array() ) {
 				$postmeta = $wpdb->get_results( $wpdb->prepare( "SELECT * FROM $wpdb->postmeta WHERE post_id = %d", $post->ID ) );
 				foreach ( $postmeta as $meta ) :
 					/**
-					 * Filters whether to selectively skip post metaboxes used for WXR exports.
+					 * Filters whether to selectively skip post meta used for WXR exports.
 					 *
-					 * Returning a truthy value from the filter will skip the current metaboxes
+					 * Returning a truthy value from the filter will skip the current meta
 					 * object from being exported.
 					 *
 					 * @since 3.3.0
 					 *
-					 * @param bool   $skip     Whether to skip the current post metaboxes. Default false.
-					 * @param string $meta_key Current metaboxes key.
-					 * @param object $meta     Current metaboxes object.
+					 * @param bool   $skip     Whether to skip the current post meta. Default false.
+					 * @param string $meta_key Current meta key.
+					 * @param object $meta     Current meta object.
 					 */
 					if ( apply_filters( 'wxr_export_skip_postmeta', false, $meta->meta_key, $meta ) ) {
 						continue;
@@ -645,16 +645,16 @@ function export_wp( $args = array() ) {
 					$c_meta = $wpdb->get_results( $wpdb->prepare( "SELECT * FROM $wpdb->commentmeta WHERE comment_id = %d", $c->comment_ID ) );
 					foreach ( $c_meta as $meta ) :
 						/**
-						 * Filters whether to selectively skip comment metaboxes used for WXR exports.
+						 * Filters whether to selectively skip comment meta used for WXR exports.
 						 *
-						 * Returning a truthy value from the filter will skip the current metaboxes
+						 * Returning a truthy value from the filter will skip the current meta
 						 * object from being exported.
 						 *
 						 * @since 4.0.0
 						 *
-						 * @param bool   $skip     Whether to skip the current comment metaboxes. Default false.
-						 * @param string $meta_key Current metaboxes key.
-						 * @param object $meta     Current metaboxes object.
+						 * @param bool   $skip     Whether to skip the current comment meta. Default false.
+						 * @param string $meta_key Current meta key.
+						 * @param object $meta     Current meta object.
 						 */
 						if ( apply_filters( 'wxr_export_skip_commentmeta', false, $meta->meta_key, $meta ) ) {
 							continue;

@@ -5603,7 +5603,7 @@ define("moxie/image/Image", [
 	"moxie/core/utils/Encode"
 ], function(Basic, Dom, x, FileReaderSync, XMLHttpRequest, Runtime, RuntimeClient, Transporter, Env, EventTarget, Blob, File, Encode) {
 	/**
-	Image preloading and manipulation utility. Additionally it provides access to image metaboxes info (Exif, GPS) and raw binary data.
+	Image preloading and manipulation utility. Additionally it provides access to image meta info (Exif, GPS) and raw binary data.
 
 	@class Image
 	@constructor
@@ -5707,7 +5707,7 @@ define("moxie/image/Image", [
 			type: "",
 
 			/**
-			Holds metaboxes info (Exif, GPS). Is populated only for image/jpeg. Actual value is set only after image is preloaded.
+			Holds meta info (Exif, GPS). Is populated only for image/jpeg. Actual value is set only after image is preloaded.
 
 			@property meta
 			@type {Object}
@@ -5765,7 +5765,7 @@ define("moxie/image/Image", [
 				@param {Number} opts.width Resulting width
 				@param {Number} [opts.height=width] Resulting height (optional, if not supplied will default to width)
 				@param {Boolean} [opts.crop=false] Whether to crop the image to exact dimensions
-				@param {Boolean} [opts.preserveHeaders=true] Whether to preserve metaboxes headers (on JPEGs after resize)
+				@param {Boolean} [opts.preserveHeaders=true] Whether to preserve meta headers (on JPEGs after resize)
 				@param {String} [opts.resample=false] Resampling algorithm to use for resizing
 			*/
 			downsize: function(opts) {
@@ -5814,7 +5814,7 @@ define("moxie/image/Image", [
 			@method crop
 			@param {Number} width Resulting width
 			@param {Number} [height=width] Resulting height (optional, if not supplied will default to width)
-			@param {Boolean} [preserveHeaders=true] Whether to preserve metaboxes headers (on JPEGs after resize)
+			@param {Boolean} [preserveHeaders=true] Whether to preserve meta headers (on JPEGs after resize)
 			*/
 			crop: function(width, height, preserveHeaders) {
 				this.downsize(width, height, true, preserveHeaders);

@@ -77,7 +77,7 @@ function render_block_core_latest_comments( $attributes = array() ) {
 			}
 
 			$list_items_markup .= '<article>';
-			$list_items_markup .= '<footer class="wp-block-latest-comments__comment-metaboxes">';
+			$list_items_markup .= '<footer class="wp-block-latest-comments__comment-meta">';
 			$author_url         = get_comment_author_url( $comment );
 			if ( empty( $author_url ) && ! empty( $comment->user_id ) ) {
 				$author_url = get_author_posts_url( $comment->user_id );

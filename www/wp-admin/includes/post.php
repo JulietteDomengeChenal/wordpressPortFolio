@@ -169,24 +169,27 @@ function _wp_translate_postdata( $update = false, $post_data = null ) {
 	}
 
 	if ( ! empty( $post_data['edit_date'] ) ) {
-		$aa                     = $post_data['aa'];
-		$mm                     = $post_data['mm'];
-		$jj                     = $post_data['jj'];
-		$hh                     = $post_data['hh'];
-		$mn                     = $post_data['mn'];
-		$ss                     = $post_data['ss'];
-		$aa                     = ( $aa <= 0 ) ? gmdate( 'Y' ) : $aa;
-		$mm                     = ( $mm <= 0 ) ? gmdate( 'n' ) : $mm;
-		$jj                     = ( $jj > 31 ) ? 31 : $jj;
-		$jj                     = ( $jj <= 0 ) ? gmdate( 'j' ) : $jj;
-		$hh                     = ( $hh > 23 ) ? $hh - 24 : $hh;
-		$mn                     = ( $mn > 59 ) ? $mn - 60 : $mn;
-		$ss                     = ( $ss > 59 ) ? $ss - 60 : $ss;
+		$aa = $post_data['aa'];
+		$mm = $post_data['mm'];
+		$jj = $post_data['jj'];
+		$hh = $post_data['hh'];
+		$mn = $post_data['mn'];
+		$ss = $post_data['ss'];
+		$aa = ( $aa <= 0 ) ? gmdate( 'Y' ) : $aa;
+		$mm = ( $mm <= 0 ) ? gmdate( 'n' ) : $mm;
+		$jj = ( $jj > 31 ) ? 31 : $jj;
+		$jj = ( $jj <= 0 ) ? gmdate( 'j' ) : $jj;
+		$hh = ( $hh > 23 ) ? $hh - 24 : $hh;
+		$mn = ( $mn > 59 ) ? $mn - 60 : $mn;
+		$ss = ( $ss > 59 ) ? $ss - 60 : $ss;
+
 		$post_data['post_date'] = sprintf( '%04d-%02d-%02d %02d:%02d:%02d', $aa, $mm, $jj, $hh, $mn, $ss );
-		$valid_date             = wp_checkdate( $mm, $jj, $aa, $post_data['post_date'] );
+
+		$valid_date = wp_checkdate( $mm, $jj, $aa, $post_data['post_date'] );
 		if ( ! $valid_date ) {
 			return new WP_Error( 'invalid_date', __( 'Invalid date.' ) );
 		}
+
 		$post_data['post_date_gmt'] = get_gmt_from_date( $post_data['post_date'] );
 	}
 
@@ -246,8 +249,9 @@ function edit_post( $post_data = null ) {
 	// Clear out any data in internal vars.
 	unset( $post_data['filter'] );
 
-	$post_ID                     = (int) $post_data['post_ID'];
-	$post                        = get_post( $post_ID );
+	$post_ID = (int) $post_data['post_ID'];
+	$post    = get_post( $post_ID );
+
 	$post_data['post_type']      = $post->post_type;
 	$post_data['post_mime_type'] = $post->post_mime_type;
 
@@ -347,8 +351,8 @@ function edit_post( $post_data = null ) {
 	}
 
 	// Meta stuff.
-	if ( isset( $post_data['metaboxes'] ) && $post_data['metaboxes'] ) {
-		foreach ( $post_data['metaboxes'] as $key => $value ) {
+	if ( isset( $post_data['meta'] ) && $post_data['meta'] ) {
+		foreach ( $post_data['meta'] as $key => $value ) {
 			$meta = get_post_meta_by_id( $key );
 			if ( ! $meta ) {
 				continue;
@@ -759,6 +763,7 @@ function get_default_post_to_edit( $post_type = 'post', $create_in_db = false ) 
  *
  * @since 2.0.0
  * @since 5.2.0 Added the `$type` parameter.
+ * @since 5.8.0 Added the `$status` parameter.
  *
  * @global wpdb $wpdb WordPress database abstraction object.
  *
@@ -766,15 +771,17 @@ function get_default_post_to_edit( $post_type = 'post', $create_in_db = false ) 
  * @param string $content Optional post content.
  * @param string $date    Optional post date.
  * @param string $type    Optional post type.
+ * @param string $status  Optional post status.
  * @return int Post ID if post exists, 0 otherwise.
  */
-function post_exists( $title, $content = '', $date = '', $type = '' ) {
+function post_exists( $title, $content = '', $date = '', $type = '', $status = '' ) {
 	global $wpdb;
 
 	$post_title   = wp_unslash( sanitize_post_field( 'post_title', $title, 0, 'db' ) );
 	$post_content = wp_unslash( sanitize_post_field( 'post_content', $content, 0, 'db' ) );
 	$post_date    = wp_unslash( sanitize_post_field( 'post_date', $date, 0, 'db' ) );
 	$post_type    = wp_unslash( sanitize_post_field( 'post_type', $type, 0, 'db' ) );
+	$post_status  = wp_unslash( sanitize_post_field( 'post_status', $status, 0, 'db' ) );
 
 	$query = "SELECT ID FROM $wpdb->posts WHERE 1=1";
 	$args  = array();
@@ -797,6 +804,11 @@ function post_exists( $title, $content = '', $date = '', $type = '' ) {
 	if ( ! empty( $type ) ) {
 		$query .= ' AND post_type = %s';
 		$args[] = $post_type;
+	}
+
+	if ( ! empty( $status ) ) {
+		$query .= ' AND post_status = %s';
+		$args[] = $post_status;
 	}
 
 	if ( ! empty( $args ) ) {
@@ -905,7 +917,7 @@ function write_post() {
 //
 
 /**
- * Add post metaboxes data defined in $_POST superglobal for post with given ID.
+ * Add post meta data defined in $_POST superglobal for post with given ID.
  *
  * @since 1.2.0
  *
@@ -948,7 +960,7 @@ function add_meta( $post_ID ) {
 }
 
 /**
- * Delete post metaboxes data by metaboxes ID.
+ * Delete post meta data by meta ID.
  *
  * @since 1.2.0
  *
@@ -983,7 +995,7 @@ function get_meta_keys() {
 }
 
 /**
- * Get post metaboxes data by metaboxes ID.
+ * Get post meta data by meta ID.
  *
  * @since 2.1.0
  *
@@ -995,7 +1007,7 @@ function get_post_meta_by_id( $mid ) {
 }
 
 /**
- * Get metaboxes data for the given post ID.
+ * Get meta data for the given post ID.
  *
  * @since 1.2.0
  *
@@ -1019,7 +1031,7 @@ function has_meta( $postid ) {
 }
 
 /**
- * Update post metaboxes data by metaboxes ID.
+ * Update post meta data by meta ID.
  *
  * @since 1.2.0
  *
@@ -1168,8 +1180,11 @@ function wp_edit_posts_query( $q = false ) {
 	 *
 	 * The dynamic portion of the hook name, `$post_type`, refers to the post type.
 	 *
-	 * Some examples of filter hooks generated here include: 'edit_attachment_per_page',
-	 * 'edit_post_per_page', 'edit_page_per_page', etc.
+	 * Possible hook names include:
+	 *
+	 *  - `edit_post_per_page`
+	 *  - `edit_page_per_page`
+	 *  - `edit_attachment_per_page`
 	 *
 	 * @since 3.0.0
 	 *
@@ -1294,12 +1309,12 @@ function wp_edit_attachments_query( $q = false ) {
 }
 
 /**
- * Returns the list of classes to be used by a metaboxes box.
+ * Returns the list of classes to be used by a meta box.
  *
  * @since 2.5.0
  *
- * @param string $box_id    Meta box ID (used in the 'id' attribute for the metaboxes box).
- * @param string $screen_id The screen on which the metaboxes box is shown.
+ * @param string $box_id    Meta box ID (used in the 'id' attribute for the meta box).
+ * @param string $screen_id The screen on which the meta box is shown.
  * @return string Space-separated string of class names.
  */
 function postbox_classes( $box_id, $screen_id ) {
@@ -1320,7 +1335,7 @@ function postbox_classes( $box_id, $screen_id ) {
 	 * Filters the postbox classes for a specific screen and box ID combo.
 	 *
 	 * The dynamic portions of the hook name, `$screen_id` and `$box_id`, refer to
-	 * the screen ID and metaboxes box ID, respectively.
+	 * the screen ID and meta box ID, respectively.
 	 *
 	 * @since 3.2.0
 	 *
@@ -1508,7 +1523,7 @@ function get_sample_permalink_html( $id, $new_title = null, $new_slug = null ) {
 }
 
 /**
- * Returns HTML for the post thumbnail metaboxes box.
+ * Returns HTML for the post thumbnail meta box.
  *
  * @since 2.9.0
  *
@@ -1535,7 +1550,7 @@ function _wp_post_thumbnail_html( $thumbnail_id = null, $post = null ) {
 		$size = isset( $_wp_additional_image_sizes['post-thumbnail'] ) ? 'post-thumbnail' : array( 266, 266 );
 
 		/**
-		 * Filters the size used to display the post thumbnail image in the 'Featured image' metaboxes box.
+		 * Filters the size used to display the post thumbnail image in the 'Featured image' meta box.
 		 *
 		 * Note: When a theme adds 'post-thumbnail' support, a special 'post-thumbnail'
 		 * image size is registered, which differs from the 'thumbnail' image size
@@ -2113,14 +2128,9 @@ function use_block_editor_for_post( $post ) {
 		return false;
 	}
 
-	// We're in the metaboxes box loader, so don't use the block editor.
-	if ( isset( $_GET['metaboxes-box-loader'] ) ) {
-		check_admin_referer( 'metaboxes-box-loader', 'metaboxes-box-loader-nonce' );
-		return false;
-	}
-
-	// The posts page can't be edited in the block editor.
-	if ( absint( get_option( 'page_for_posts' ) ) === $post->ID && empty( $post->post_content ) ) {
+	// We're in the meta box loader, so don't use the block editor.
+	if ( isset( $_GET['meta-box-loader'] ) ) {
+		check_admin_referer( 'meta-box-loader', 'meta-box-loader-nonce' );
 		return false;
 	}
 
@@ -2174,59 +2184,6 @@ function use_block_editor_for_post_type( $post_type ) {
 }
 
 /**
- * Returns all the block categories that will be shown in the block editor.
- *
- * @since 5.0.0
- *
- * @param WP_Post $post Post object.
- * @return array[] Array of block categories.
- */
-function get_block_categories( $post ) {
-	$default_categories = array(
-		array(
-			'slug'  => 'text',
-			'title' => _x( 'Text', 'block category' ),
-			'icon'  => null,
-		),
-		array(
-			'slug'  => 'media',
-			'title' => _x( 'Media', 'block category' ),
-			'icon'  => null,
-		),
-		array(
-			'slug'  => 'design',
-			'title' => _x( 'Design', 'block category' ),
-			'icon'  => null,
-		),
-		array(
-			'slug'  => 'widgets',
-			'title' => _x( 'Widgets', 'block category' ),
-			'icon'  => null,
-		),
-		array(
-			'slug'  => 'embed',
-			'title' => _x( 'Embeds', 'block category' ),
-			'icon'  => null,
-		),
-		array(
-			'slug'  => 'reusable',
-			'title' => _x( 'Reusable Blocks', 'block category' ),
-			'icon'  => null,
-		),
-	);
-
-	/**
-	 * Filters the default array of block categories.
-	 *
-	 * @since 5.0.0
-	 *
-	 * @param array[] $default_categories Array of block categories.
-	 * @param WP_Post $post               Post being loaded.
-	 */
-	return apply_filters( 'block_categories', $default_categories, $post );
-}
-
-/**
  * Prepares server-registered blocks for the block editor.
  *
  * Returns an associative array of registered block data keyed by block name. Data includes properties
@@ -2254,6 +2211,7 @@ function get_block_editor_server_block_settings() {
 		'parent'           => 'parent',
 		'keywords'         => 'keywords',
 		'example'          => 'example',
+		'variations'       => 'variations',
 	);
 
 	foreach ( $block_registry->get_all_registered() as $block_name => $block_type ) {
@@ -2274,36 +2232,36 @@ function get_block_editor_server_block_settings() {
 }
 
 /**
- * Renders the metaboxes boxes forms.
+ * Renders the meta boxes forms.
  *
  * @since 5.0.0
  */
 function the_block_editor_meta_boxes() {
 	global $post, $current_screen, $wp_meta_boxes;
 
-	// Handle metaboxes box state.
+	// Handle meta box state.
 	$_original_meta_boxes = $wp_meta_boxes;
 
 	/**
-	 * Fires right before the metaboxes boxes are rendered.
+	 * Fires right before the meta boxes are rendered.
 	 *
-	 * This allows for the filtering of metaboxes box data, that should already be
-	 * present by this point. Do not use as a means of adding metaboxes box data.
+	 * This allows for the filtering of meta box data, that should already be
+	 * present by this point. Do not use as a means of adding meta box data.
 	 *
 	 * @since 5.0.0
 	 *
-	 * @param array $wp_meta_boxes Global metaboxes box state.
+	 * @param array $wp_meta_boxes Global meta box state.
 	 */
 	$wp_meta_boxes = apply_filters( 'filter_block_editor_meta_boxes', $wp_meta_boxes );
 	$locations     = array( 'side', 'normal', 'advanced' );
 	$priorities    = array( 'high', 'sorted', 'core', 'default', 'low' );
 
-	// Render metaboxes boxes.
+	// Render meta boxes.
 	?>
 	<form class="metabox-base-form">
 	<?php the_block_editor_meta_box_post_form_hidden_fields( $post ); ?>
 	</form>
-	<form id="toggle-custom-fields-form" method="post" action="<?php echo esc_attr( admin_url( 'post.php' ) ); ?>">
+	<form id="toggle-custom-fields-form" method="post" action="<?php echo esc_url( admin_url( 'post.php' ) ); ?>">
 		<?php wp_nonce_field( 'toggle-custom-fields', 'toggle-custom-fields-nonce' ); ?>
 		<input type="hidden" name="action" value="toggle-custom-fields" />
 	</form>
@@ -2343,7 +2301,7 @@ function the_block_editor_meta_boxes() {
 					continue;
 				}
 
-				// If a metaboxes box is just here for back compat, don't show it in the block editor.
+				// If a meta box is just here for back compat, don't show it in the block editor.
 				if ( isset( $meta_box['args']['__back_compat_meta_box'] ) && $meta_box['args']['__back_compat_meta_box'] ) {
 					continue;
 				}
@@ -2359,7 +2317,7 @@ function the_block_editor_meta_boxes() {
 	/**
 	 * Sadly we probably can not add this data directly into editor settings.
 	 *
-	 * Some metaboxes boxes need admin_head to fire for metaboxes box registry.
+	 * Some meta boxes need admin_head to fire for meta box registry.
 	 * admin_head fires after admin_enqueue_scripts, which is where we create our
 	 * editor instance.
 	 */
@@ -2371,14 +2329,14 @@ function the_block_editor_meta_boxes() {
 
 	/**
 	 * When `wp-edit-post` is output in the `<head>`, the inline script needs to be manually printed. Otherwise,
-	 * metaboxes boxes will not display because inline scripts for `wp-edit-post` will not be printed again after this point.
+	 * meta boxes will not display because inline scripts for `wp-edit-post` will not be printed again after this point.
 	 */
 	if ( wp_script_is( 'wp-edit-post', 'done' ) ) {
 		printf( "<script type='text/javascript'>\n%s\n</script>\n", trim( $script ) );
 	}
 
 	/**
-	 * If the 'postcustom' metaboxes box is enabled, then we need to perform some
+	 * If the 'postcustom' meta box is enabled, then we need to perform some
 	 * extra initialization on it.
 	 */
 	$enable_custom_fields = (bool) get_user_meta( get_current_user_id(), 'enable_custom_fields', true );
@@ -2400,12 +2358,12 @@ function the_block_editor_meta_boxes() {
 		wp_add_inline_script( 'wp-lists', $script );
 	}
 
-	// Reset metaboxes box data.
+	// Reset meta box data.
 	$wp_meta_boxes = $_original_meta_boxes;
 }
 
 /**
- * Renders the hidden form required for the metaboxes boxes form.
+ * Renders the hidden form required for the meta boxes form.
  *
  * @since 5.0.0
  *
@@ -2425,7 +2383,7 @@ function the_block_editor_meta_box_post_form_hidden_fields( $post ) {
 	wp_nonce_field( $nonce_action );
 
 	/*
-	 * Some metaboxes boxes hook into these actions to add hidden input fields in the classic post form. For backwards
+	 * Some meta boxes hook into these actions to add hidden input fields in the classic post form. For backwards
 	 * compatibility, we can capture the output from these actions, and extract the hidden input fields.
 	 */
 	ob_start();
@@ -2459,16 +2417,16 @@ function the_block_editor_meta_box_post_form_hidden_fields( $post ) {
 		wp_original_referer_field( true, 'previous' );
 	}
 	echo $form_extra;
-	wp_nonce_field( 'metaboxes-box-order', 'metaboxes-box-order-nonce', false );
+	wp_nonce_field( 'meta-box-order', 'meta-box-order-nonce', false );
 	wp_nonce_field( 'closedpostboxes', 'closedpostboxesnonce', false );
 	// Permalink title nonce.
 	wp_nonce_field( 'samplepermalink', 'samplepermalinknonce', false );
 
 	/**
-	 * Add hidden input fields to the metaboxes box save form.
+	 * Add hidden input fields to the meta box save form.
 	 *
 	 * Hook into this action to print `<input type="hidden" ... />` fields, which will be POSTed back to
-	 * the server when metaboxes boxes are saved.
+	 * the server when meta boxes are saved.
 	 *
 	 * @since 5.0.0
 	 *

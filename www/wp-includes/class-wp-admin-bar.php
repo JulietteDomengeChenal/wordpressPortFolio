@@ -107,7 +107,7 @@ class WP_Admin_Bar {
 	 * Adds a node to the menu.
 	 *
 	 * @since 3.1.0
-	 * @since 4.5.0 Added the ability to pass 'lang' and 'dir' metaboxes data.
+	 * @since 4.5.0 Added the ability to pass 'lang' and 'dir' meta data.
 	 *
 	 * @param array $args {
 	 *     Arguments for adding a node.
@@ -117,7 +117,7 @@ class WP_Admin_Bar {
 	 *     @type string $parent Optional. ID of the parent node.
 	 *     @type string $href   Optional. Link for the item.
 	 *     @type bool   $group  Optional. Whether or not the node is a group. Default false.
-	 *     @type array  $metaboxes   Meta data including the following keys: 'html', 'class', 'rel', 'lang', 'dir',
+	 *     @type array  $meta   Meta data including the following keys: 'html', 'class', 'rel', 'lang', 'dir',
 	 *                          'onclick', 'target', 'title', 'tabindex'. Default empty.
 	 * }
 	 */
@@ -148,7 +148,7 @@ class WP_Admin_Bar {
 			'parent' => false,
 			'href'   => false,
 			'group'  => false,
-			'metaboxes'   => array(),
+			'meta'   => array(),
 		);
 
 		// If the node already exists, keep any data that isn't provided.
@@ -157,9 +157,9 @@ class WP_Admin_Bar {
 			$defaults = get_object_vars( $maybe_defaults );
 		}
 
-		// Do the same for 'metaboxes' items.
-		if ( ! empty( $defaults['metaboxes'] ) && ! empty( $args['metaboxes'] ) ) {
-			$args['metaboxes'] = wp_parse_args( $args['metaboxes'], $defaults['metaboxes'] );
+		// Do the same for 'meta' items.
+		if ( ! empty( $defaults['meta'] ) && ! empty( $args['meta'] ) ) {
+			$args['meta'] = wp_parse_args( $args['meta'], $defaults['meta'] );
 		}
 
 		$args = wp_parse_args( $args, $defaults );
@@ -357,7 +357,7 @@ class WP_Admin_Bar {
 							'parent'   => $parent->id,
 							'type'     => 'group',
 							'children' => array(),
-							'metaboxes'     => array(
+							'meta'     => array(
 								'class' => $group_class,
 							),
 							'title'    => false,
@@ -387,7 +387,7 @@ class WP_Admin_Bar {
 							'parent'   => false,
 							'title'    => false,
 							'href'     => false,
-							'metaboxes'     => array(),
+							'meta'     => array(),
 						)
 					);
 

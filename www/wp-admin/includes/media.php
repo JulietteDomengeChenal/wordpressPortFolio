@@ -533,7 +533,7 @@ function wp_iframe( $content_func, ...$args ) {
 
 	?>
 	<script type="text/javascript">
-	addLoadEvent = function(func){if(typeof jQuery!="undefined")jQuery(document).ready(func);else if(typeof wpOnload!='function'){wpOnload=func;}else{var oldonload=wpOnload;wpOnload=function(){oldonload();func();}}};
+	addLoadEvent = function(func){if(typeof jQuery!=='undefined')jQuery(document).ready(func);else if(typeof wpOnload!=='function'){wpOnload=func;}else{var oldonload=wpOnload;wpOnload=function(){oldonload();func();}}};
 	var ajaxurl = '<?php echo esc_js( admin_url( 'admin-ajax.php', 'relative' ) ); ?>', pagenow = 'media-upload-popup', adminpage = 'media-upload-popup',
 	isRtl = <?php echo (int) is_rtl(); ?>;
 	</script>
@@ -607,7 +607,7 @@ function wp_iframe( $content_func, ...$args ) {
 	do_action( 'admin_print_footer_scripts' );
 
 	?>
-	<script type="text/javascript">if(typeof wpOnload=='function')wpOnload();</script>
+	<script type="text/javascript">if(typeof wpOnload==='function')wpOnload();</script>
 	</body>
 	</html>
 	<?php
@@ -696,9 +696,14 @@ function get_upload_iframe_src( $type = null, $post_id = null, $tab = null ) {
 	 * The dynamic portion of the hook name, `$type`, refers to the type
 	 * of media uploaded.
 	 *
+	 * Possible hook names include:
+	 *
+	 *  - `image_upload_iframe_src`
+	 *  - `media_upload_iframe_src`
+	 *
 	 * @since 3.0.0
 	 *
-	 * @param string $upload_iframe_src The upload iframe source URL by type.
+	 * @param string $upload_iframe_src The upload iframe source URL.
 	 */
 	$upload_iframe_src = apply_filters( "{$type}_upload_iframe_src", $upload_iframe_src );
 
@@ -893,6 +898,12 @@ function wp_media_upload_handler() {
 			 * The dynamic portion of the hook name, `$type`, refers to the type
 			 * of media being sent.
 			 *
+			 * Possible hook names include:
+			 *
+			 *  - `audio_send_to_editor_url`
+			 *  - `file_send_to_editor_url`
+			 *  - `video_send_to_editor_url`
+			 *
 			 * @since 3.3.0
 			 *
 			 * @param string $html  HTML markup sent to the editor.
@@ -969,7 +980,7 @@ function wp_media_upload_handler() {
  * @since 4.8.0 Introduced the 'id' option for the `$return` parameter.
  * @since 5.3.0 The `$post_id` parameter was made optional.
  * @since 5.4.0 The original URL of the attachment is stored in the `_source_url`
- *              post metaboxes value.
+ *              post meta value.
  *
  * @param string $file    The URL of the image to download.
  * @param int    $post_id Optional. The post ID the media is to be associated with.
@@ -982,7 +993,7 @@ function wp_media_upload_handler() {
 function media_sideload_image( $file, $post_id = 0, $desc = null, $return = 'html' ) {
 	if ( ! empty( $file ) ) {
 
-		$allowed_extensions = array( 'jpg', 'jpeg', 'jpe', 'png', 'gif' );
+		$allowed_extensions = array( 'jpg', 'jpeg', 'jpe', 'png', 'gif', 'webp' );
 
 		/**
 		 * Filters the list of allowed file extensions when sideloading an image from a URL.
@@ -1030,7 +1041,7 @@ function media_sideload_image( $file, $post_id = 0, $desc = null, $return = 'htm
 			return $id;
 		}
 
-		// Store the original attachment source in metaboxes.
+		// Store the original attachment source in meta.
 		add_post_meta( $id, '_source_url', $file );
 
 		// If attachment ID was requested, return it.
@@ -2049,7 +2060,7 @@ function get_compat_media_markup( $attachment_id, $args = null ) {
 
 	return array(
 		'item' => $item,
-		'metaboxes' => $media_meta,
+		'meta' => $media_meta,
 	);
 }
 
@@ -2185,6 +2196,11 @@ function media_upload_form( $errors = null ) {
 		strpos( $_SERVER['HTTP_USER_AGENT'], 'like Mac OS X' ) !== false
 	) {
 		$plupload_init['multi_selection'] = false;
+	}
+
+	// Check if WebP images can be edited.
+	if ( ! wp_image_editor_supports( array( 'mime_type' => 'image/webp' ) ) ) {
+		$plupload_init['webp_upload_error'] = true;
 	}
 
 	/**
@@ -3268,7 +3284,7 @@ function edit_form_image_editor( $post ) {
 }
 
 /**
- * Displays non-editable attachment metadata in the publish metaboxes box.
+ * Displays non-editable attachment metadata in the publish meta box.
  *
  * @since 3.5.0
  */
@@ -3384,7 +3400,7 @@ function attachment_submitbox_metadata() {
 		);
 
 		/**
-		 * Filters the audio and video metadata fields to be shown in the publish metaboxes box.
+		 * Filters the audio and video metadata fields to be shown in the publish meta box.
 		 *
 		 * The key for each item in the array should correspond to an attachment
 		 * metadata key, and the value should be the desired label.
@@ -3432,7 +3448,7 @@ function attachment_submitbox_metadata() {
 		);
 
 		/**
-		 * Filters the audio attachment metadata fields to be shown in the publish metaboxes box.
+		 * Filters the audio attachment metadata fields to be shown in the publish meta box.
 		 *
 		 * The key for each item in the array should correspond to an attachment
 		 * metadata key, and the value should be the desired label.

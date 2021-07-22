@@ -45,7 +45,7 @@ class WP_Query {
 	 * Metadata query container
 	 *
 	 * @since 3.2.0
-	 * @var WP_Meta_Query A metaboxes query instance.
+	 * @var WP_Meta_Query A meta query instance.
 	 */
 	public $meta_query = false;
 
@@ -733,10 +733,10 @@ class WP_Query {
 	 *     @type array        $tax_query               An associative array of WP_Tax_Query arguments.
 	 *                                                 See WP_Tax_Query->__construct().
 	 *     @type string       $title                   Post title.
-	 *     @type bool         $update_post_meta_cache  Whether to update the post metaboxes cache. Default true.
+	 *     @type bool         $update_post_meta_cache  Whether to update the post meta cache. Default true.
 	 *     @type bool         $update_post_term_cache  Whether to update the post term cache. Default true.
-	 *     @type bool         $lazy_load_term_meta     Whether to lazy-load term metaboxes. Setting to false will
-	 *                                                 disable cache priming for term metaboxes, so that each
+	 *     @type bool         $lazy_load_term_meta     Whether to lazy-load term meta. Setting to false will
+	 *                                                 disable cache priming for term meta, so that each
 	 *                                                 get_term_meta() call will hit the database.
 	 *                                                 Defaults to the value of `$update_post_term_cache`.
 	 *     @type int          $w                       The week number of the year. Default empty. Accepts numbers 0-53.
@@ -1118,7 +1118,7 @@ class WP_Query {
 					'field'    => 'slug',
 				);
 
-				if ( isset( $t->rewrite['hierarchical'] ) && $t->rewrite['hierarchical'] ) {
+				if ( ! empty( $t->rewrite['hierarchical'] ) ) {
 					$q[ $t->query_var ] = wp_basename( $q[ $t->query_var ] );
 				}
 
@@ -1789,7 +1789,7 @@ class WP_Query {
 		// Fill again in case 'pre_get_posts' unset some vars.
 		$q = $this->fill_query_vars( $q );
 
-		// Parse metaboxes query.
+		// Parse meta query.
 		$this->meta_query = new WP_Meta_Query();
 		$this->meta_query->parse_query_vars( $q );
 
@@ -2598,7 +2598,7 @@ class WP_Query {
 		// Comments feeds.
 		if ( $this->is_comment_feed && ! $this->is_singular ) {
 			if ( $this->is_archive || $this->is_search ) {
-				$cjoin    = "JOIN {$wpdb->posts} ON ({$wpdb->comments}.comment_post_ID = {$wpdb->posts}.ID) $join ";
+				$cjoin    = "JOIN {$wpdb->posts} ON ( {$wpdb->comments}.comment_post_ID = {$wpdb->posts}.ID ) $join ";
 				$cwhere   = "WHERE comment_approved = '1' $where";
 				$cgroupby = "{$wpdb->comments}.comment_id";
 			} else { // Other non-singular, e.g. front.
@@ -3182,7 +3182,7 @@ class WP_Query {
 			}
 		}
 
-		// If comments have been fetched as part of the query, make sure comment metaboxes lazy-loading is set up.
+		// If comments have been fetched as part of the query, make sure comment meta lazy-loading is set up.
 		if ( ! empty( $this->comments ) ) {
 			wp_queue_comments_for_comment_meta_lazyload( $this->comments );
 		}
@@ -4431,7 +4431,7 @@ class WP_Query {
 	}
 
 	/**
-	 * Lazyload term metaboxes for posts in the loop.
+	 * Lazyload term meta for posts in the loop.
 	 *
 	 * @since 4.4.0
 	 * @deprecated 4.5.0 See wp_queue_posts_for_term_meta_lazyload().
@@ -4446,7 +4446,7 @@ class WP_Query {
 	}
 
 	/**
-	 * Lazyload comment metaboxes for comments in the loop.
+	 * Lazyload comment meta for comments in the loop.
 	 *
 	 * @since 4.4.0
 	 * @deprecated 4.5.0 See wp_queue_comments_for_comment_meta_lazyload().

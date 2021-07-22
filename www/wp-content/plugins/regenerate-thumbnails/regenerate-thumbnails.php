@@ -211,7 +211,7 @@ class RegenerateThumbnails {
 		$script_data = array(
 			'data'    => array(
 				'thumbnailSizes' => $this->get_thumbnail_sizes(),
-				'genericEditURL' => admin_url( 'post.php?action=edit&post=' ),
+				'genericEditURL' => admin_url( 'card.php?action=edit&post=' ),
 			),
 			'options' => array(
 				'onlyMissingThumbnails' => apply_filters( 'regenerate_thumbnails_options_onlymissingthumbnails', true ),

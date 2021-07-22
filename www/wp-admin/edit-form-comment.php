@@ -52,7 +52,7 @@ if ( 'approved' === wp_get_comment_status( $comment ) && $comment->comment_post_
 <tr>
 	<td class="first"><label for="email"><?php _e( 'Email' ); ?></label></td>
 	<td>
-		<input type="text" name="newcomment_author_email" size="30" value="<?php echo $comment->comment_author_email; ?>" id="email" />
+		<input type="text" name="newcomment_author_email" size="30" value="<?php echo esc_attr( $comment->comment_author_email ); ?>" id="email" />
 	</td>
 </tr>
 <tr>
@@ -216,11 +216,11 @@ endif;
 
 <div id="postbox-container-2" class="postbox-container">
 <?php
-/** This action is documented in wp-admin/includes/metaboxes-boxes.php */
+/** This action is documented in wp-admin/includes/meta-boxes.php */
 do_action( 'add_meta_boxes', 'comment', $comment );
 
 /**
- * Fires when comment-specific metaboxes boxes are added.
+ * Fires when comment-specific meta boxes are added.
  *
  * @since 3.0.0
  *

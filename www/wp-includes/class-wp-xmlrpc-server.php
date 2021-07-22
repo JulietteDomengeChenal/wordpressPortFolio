@@ -14,7 +14,7 @@
  * options, etc.
  *
  * As of WordPress 3.5.0, XML-RPC is enabled by default. It can be disabled
- * via the {@see 'xmlrpc_enabled'} filter found in wp_xmlrpc_server::login().
+ * via the {@see 'xmlrpc_enabled'} filter found in wp_xmlrpc_server::set_is_enabled().
  *
  * @since 1.5.0
  *
@@ -48,6 +48,13 @@ class wp_xmlrpc_server extends IXR_Server {
 	 * @var bool
 	 */
 	protected $auth_failed = false;
+
+	/**
+	 * Flags that XML-RPC is enabled
+	 *
+	 * @var bool
+	 */
+	private $is_enabled;
 
 	/**
 	 * Registers all of the XMLRPC methods that XMLRPC server understands.
@@ -164,6 +171,51 @@ class wp_xmlrpc_server extends IXR_Server {
 		 * @param string[] $methods An array of XML-RPC methods, keyed by their methodName.
 		 */
 		$this->methods = apply_filters( 'xmlrpc_methods', $this->methods );
+
+		$this->set_is_enabled();
+	}
+
+	/**
+	 * Set wp_xmlrpc_server::$is_enabled property.
+	 *
+	 * Determine whether the xmlrpc server is enabled on this WordPress install
+	 * and set the is_enabled property accordingly.
+	 *
+	 * @since 5.7.3
+	 */
+	private function set_is_enabled() {
+		/*
+		 * Respect old get_option() filters left for back-compat when the 'enable_xmlrpc'
+		 * option was deprecated in 3.5.0. Use the 'xmlrpc_enabled' hook instead.
+		 */
+		$is_enabled = apply_filters( 'pre_option_enable_xmlrpc', false );
+		if ( false === $is_enabled ) {
+			$is_enabled = apply_filters( 'option_enable_xmlrpc', true );
+		}
+
+		/**
+		 * Filters whether XML-RPC methods requiring authentication are enabled.
+		 *
+		 * Contrary to the way it's named, this filter does not control whether XML-RPC is *fully*
+		 * enabled, rather, it only controls whether XML-RPC methods requiring authentication - such
+		 * as for publishing purposes - are enabled.
+		 *
+		 * Further, the filter does not control whether pingbacks or other custom endpoints that don't
+		 * require authentication are enabled. This behavior is expected, and due to how parity was matched
+		 * with the `enable_xmlrpc` UI option the filter replaced when it was introduced in 3.5.
+		 *
+		 * To disable XML-RPC methods that require authentication, use:
+		 *
+		 *     add_filter( 'xmlrpc_enabled', '__return_false' );
+		 *
+		 * For more granular control over all XML-RPC methods and requests, see the {@see 'xmlrpc_methods'}
+		 * and {@see 'xmlrpc_element_limit'} hooks.
+		 *
+		 * @since 3.5.0
+		 *
+		 * @param bool $is_enabled Whether XML-RPC is enabled. Default true.
+		 */
+		$this->is_enabled = apply_filters( 'xmlrpc_enabled', $is_enabled );
 	}
 
 	/**
@@ -231,40 +283,7 @@ class wp_xmlrpc_server extends IXR_Server {
 	 * @return WP_User|false WP_User object if authentication passed, false otherwise
 	 */
 	public function login( $username, $password ) {
-		/*
-		 * Respect old get_option() filters left for back-compat when the 'enable_xmlrpc'
-		 * option was deprecated in 3.5.0. Use the 'xmlrpc_enabled' hook instead.
-		 */
-		$enabled = apply_filters( 'pre_option_enable_xmlrpc', false );
-		if ( false === $enabled ) {
-			$enabled = apply_filters( 'option_enable_xmlrpc', true );
-		}
-
-		/**
-		 * Filters whether XML-RPC methods requiring authentication are enabled.
-		 *
-		 * Contrary to the way it's named, this filter does not control whether XML-RPC is *fully*
-		 * enabled, rather, it only controls whether XML-RPC methods requiring authentication - such
-		 * as for publishing purposes - are enabled.
-		 *
-		 * Further, the filter does not control whether pingbacks or other custom endpoints that don't
-		 * require authentication are enabled. This behavior is expected, and due to how parity was matched
-		 * with the `enable_xmlrpc` UI option the filter replaced when it was introduced in 3.5.
-		 *
-		 * To disable XML-RPC methods that require authentication, use:
-		 *
-		 *     add_filter( 'xmlrpc_enabled', '__return_false' );
-		 *
-		 * For more granular control over all XML-RPC methods and requests, see the {@see 'xmlrpc_methods'}
-		 * and {@see 'xmlrpc_element_limit'} hooks.
-		 *
-		 * @since 3.5.0
-		 *
-		 * @param bool $enabled Whether XML-RPC is enabled. Default true.
-		 */
-		$enabled = apply_filters( 'xmlrpc_enabled', $enabled );
-
-		if ( ! $enabled ) {
+		if ( ! $this->is_enabled ) {
 			$this->error = new IXR_Error( 405, sprintf( __( 'XML-RPC services are disabled on this site.' ) ) );
 			return false;
 		}
@@ -333,6 +352,30 @@ class wp_xmlrpc_server extends IXR_Server {
 				$v = wp_slash( $v );
 			}
 		}
+	}
+
+	/**
+	 * Send error response to client.
+	 *
+	 * Send an XML error response to the client. If the endpoint is enabled
+	 * an HTTP 200 response is always sent per the XML-RPC specification.
+	 *
+	 * @since 5.7.3
+	 *
+	 * @param IXR_Error|string $error   Error code or an error object.
+	 * @param false            $message Error message. Optional.
+	 */
+	public function error( $error, $message = false ) {
+		// Accepts either an error object or an error code and message
+		if ( $message && ! is_object( $error ) ) {
+			$error = new IXR_Error( $error, $message );
+		}
+
+		if ( ! $this->is_enabled ) {
+			status_header( $error->code );
+		}
+
+		$this->output( $error->getXml() );
 	}
 
 	/**
@@ -809,7 +852,7 @@ class wp_xmlrpc_server extends IXR_Server {
 		// Count we are happy to return as an integer because people really shouldn't use terms that much.
 		$_term['count'] = (int) $_term['count'];
 
-		// Get term metaboxes.
+		// Get term meta.
 		$_term['custom_fields'] = $this->get_term_custom_fields( $_term['term_id'] );
 
 		/**
@@ -1247,13 +1290,13 @@ class wp_xmlrpc_server extends IXR_Server {
 	 *         @type bool   $sticky         Whether the post should be sticky. Automatically false if
 	 *                                      `$post_status` is 'private'.
 	 *         @type int    $post_thumbnail ID of an image to use as the post thumbnail/featured image.
-	 *         @type array  $custom_fields  Array of metaboxes key/value pairs to add to the post.
+	 *         @type array  $custom_fields  Array of meta key/value pairs to add to the post.
 	 *         @type array  $terms          Associative array with taxonomy names as keys and arrays
 	 *                                      of term IDs as values.
 	 *         @type array  $terms_names    Associative array with taxonomy names as keys and arrays
 	 *                                      of term names as values.
 	 *         @type array  $enclosure      {
-	 *             Array of feed enclosure data to add to post metaboxes.
+	 *             Array of feed enclosure data to add to post meta.
 	 *
 	 *             @type string $url    URL for the feed enclosure.
 	 *             @type int    $length Size in bytes of the enclosure.
@@ -2092,7 +2135,7 @@ class wp_xmlrpc_server extends IXR_Server {
 			return new IXR_Error( 500, __( 'Sorry, the term could not be created.' ) );
 		}
 
-		// Add term metaboxes.
+		// Add term meta.
 		if ( isset( $content_struct['custom_fields'] ) ) {
 			$this->set_term_custom_fields( $term['term_id'], $content_struct['custom_fields'] );
 		}
@@ -2210,7 +2253,7 @@ class wp_xmlrpc_server extends IXR_Server {
 			return new IXR_Error( 500, __( 'Sorry, editing the term failed.' ) );
 		}
 
-		// Update term metaboxes.
+		// Update term meta.
 		if ( isset( $content_struct['custom_fields'] ) ) {
 			$this->set_term_custom_fields( $term_id, $content_struct['custom_fields'] );
 		}

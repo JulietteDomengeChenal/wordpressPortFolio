@@ -289,7 +289,7 @@
 					collection.focusContainer.focus();
 				}
 			} else if ( collection.previousActiveElement ) {
-				$( collection.previousActiveElement ).focus();
+				$( collection.previousActiveElement ).trigger( 'focus' );
 				collection.previousActiveElement = null;
 			}
 
@@ -1525,7 +1525,7 @@
 			// This is very similar to what is found for api.Panel.attachEvents().
 			section.container.find( '.customize-section-title .customize-help-toggle' ).on( 'click', function() {
 
-				meta = section.container.find( '.section-metaboxes' );
+				meta = section.container.find( '.section-meta' );
 				if ( meta.hasClass( 'cannot-expand' ) ) {
 					return;
 				}
@@ -1592,7 +1592,7 @@
 				if ( args.unchanged ) {
 					expand = args.completeCallback;
 				} else {
-					expand = $.proxy( function() {
+					expand = function() {
 						section._animateChangeExpanded( function() {
 							sectionTitle.attr( 'tabindex', '-1' );
 							backBtn.attr( 'tabindex', '0' );
@@ -1609,7 +1609,7 @@
 						content.addClass( 'open' );
 						overlay.addClass( 'section-open' );
 						api.state( 'expandedSection' ).set( section );
-					}, this );
+					}.bind( this );
 				}
 
 				if ( ! args.allowMultiple ) {
@@ -2696,12 +2696,12 @@
 				if ( args.unchanged ) {
 					expand = args.completeCallback;
 				} else {
-					expand = $.proxy( function() {
+					expand = function() {
 						section._animateChangeExpanded( function() {
 							sectionTitle.attr( 'tabindex', '-1' );
 							backBtn.attr( 'tabindex', '0' );
 
-							backBtn.focus();
+							backBtn.trigger( 'focus' );
 							content.css( 'top', '' );
 							container.scrollTop( 0 );
 
@@ -2711,7 +2711,7 @@
 						} );
 
 						content.addClass( 'open' );
-					}, this );
+					}.bind( this );
 				}
 
 				if ( section.panel() ) {
@@ -2845,7 +2845,7 @@
 				}
 			});
 
-			meta = panel.container.find( '.panel-metaboxes:first' );
+			meta = panel.container.find( '.panel-meta:first' );
 
 			meta.find( '> .accordion-section-title .customize-help-toggle' ).on( 'click', function() {
 				if ( meta.hasClass( 'cannot-expand' ) ) {
@@ -2956,7 +2956,7 @@
 						topPanel.attr( 'tabindex', '-1' );
 						backBtn.attr( 'tabindex', '0' );
 
-						backBtn.focus();
+						backBtn.trigger( 'focus' );
 						accordionSection.css( 'top', '' );
 						container.scrollTop( 0 );
 
@@ -3874,9 +3874,9 @@
 
 			control.container.toggleClass( 'has-notifications', 0 !== notifications.length );
 			control.container.toggleClass( 'has-error', hasError );
-			container.empty().append( $.trim(
-				control.notificationsTemplate( { notifications: notifications, altNotice: Boolean( control.altNotice ) } )
-			) );
+			container.empty().append(
+				control.notificationsTemplate( { notifications: notifications, altNotice: Boolean( control.altNotice ) } ).trim()
+			);
 		},
 
 		/**
@@ -8540,7 +8540,7 @@
 					}
 				}
 
-				headerElement = newInstance.contentContainer.find( '.customize-section-title, .panel-metaboxes' ).first();
+				headerElement = newInstance.contentContainer.find( '.customize-section-title, .panel-meta' ).first();
 				if ( headerElement.length ) {
 					activeHeader = {
 						instance: newInstance,
@@ -9121,7 +9121,7 @@
 
 				// Close the section description when clicking the close button.
 				section.container.find( '.section-description-buttons .section-description-close' ).on( 'click', function() {
-					section.container.find( '.section-metaboxes .customize-section-description:first' )
+					section.container.find( '.section-meta .customize-section-description:first' )
 						.removeClass( 'open' )
 						.slideUp();
 
@@ -9132,7 +9132,7 @@
 
 				// Reveal help text if setting is empty.
 				if ( control && ! control.setting.get() ) {
-					section.container.find( '.section-metaboxes .customize-section-description:first' )
+					section.container.find( '.section-meta .customize-section-description:first' )
 						.addClass( 'open' )
 						.show()
 						.trigger( 'toggled' );

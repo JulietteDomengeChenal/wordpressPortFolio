@@ -157,13 +157,13 @@ msgstr "Bleu"
 
 #. translators: %s: Parent post link.
 #: single.php:31
-msgid "<span class=\"metaboxes-nav\">Published in</span><span class=\"post-title\">%s</span>"
-msgstr "<span class=\"metaboxes-nav\">Publié dans</span><span class=\"post-title\">%s</span>"
+msgid "<span class=\"meta-nav\">Published in</span><span class=\"post-title\">%s</span>"
+msgstr "<span class=\"meta-nav\">Publié dans</span><span class=\"post-title\">%s</span>"
 
 #: image.php:87
 msgctxt "Parent post link"
-msgid "<span class=\"metaboxes-nav\">Published in</span><br><span class=\"post-title\">%title</span>"
-msgstr "<span class=\"metaboxes-nav\">Publié dans</span><br><span class=\"post-title\">%title</span>"
+msgid "<span class=\"meta-nav\">Published in</span><br><span class=\"post-title\">%title</span>"
+msgstr "<span class=\"meta-nav\">Publié dans</span><br><span class=\"post-title\">%title</span>"
 
 #: template-parts/content/content.php:18
 #: template-parts/content/content-excerpt.php:18
