@@ -50,6 +50,11 @@
         $classes[] = 'nav-items';
         return $classes;
     }
+//    function montheme_submenu_class($menu){
+//        $menu = preg_replace('/ class="sub-menu"/', '/ class="sub-menu dropdown-menu" /', $menu);
+//        return $menu;
+//    }
+
     function montheme_menu_link_class($attrs){
         $attrs['class'] = 'nav-link';
         return $attrs;
@@ -76,14 +81,19 @@
          echo '</nav>';
     }
     function montheme_init(){
-        register_taxonomy('illustrationType', 'post', [
+        register_taxonomy('illustrationstyle', 'post', [
             'labels' => [
-                'name' => 'Type illustration',
-                'add_new_item' => 'Ajouter un nouveau type'
+                'name' => "styles",
+                'add_new_item'      => 'Ajouter un nouveau style',
+                'singular_name'     => 'style',
+                'all_items'         => 'styles',
+                'edit_item'         => 'Modifier un style',
+                'menu_name'         => 'style',
             ],
-            'public' => true,
-            'show_in_rest' => true,
-            'hierarchical' => true,
+            'public'            => true,
+            'show_in_rest'      => true,
+            'hierarchical'      => true,
+            'show_ui'           => true,
             'show_admin_column' => true,
             'show_in_nav_menus' => true,
         ]);
@@ -105,6 +115,7 @@
 
     add_filter('document_title_separator', 'montheme_title_separator');
     add_filter('nav_menu_css_class', 'montheme_menu_class');
+//    add_filter('wp_nav_menu','montheme_submenu_class');
     add_filter('nav_menu_link_attributes', 'montheme_menu_link_class');
 
     require_once('metaboxes/sponso.php');

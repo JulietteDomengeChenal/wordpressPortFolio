@@ -1,5 +1,6 @@
 @import url('https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&display=swap');
 @import url('https://fonts.googleapis.com/css2?family=Abril+Fatface&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;0,600;0,700;0,800;0,900;1,400;1,500;1,600;1,700;1,800;1,900&display=swap');
 
 $darkGrey: #212121;
 $midGrey: #3D3C3C;
@@ -32,7 +33,7 @@ body{
   margin-top: 20px;
 }
 .containerLight{
-  padding: 150px 150px 50px 50px;
+  //padding: 100px 150px 50px 50px;
   color: $darkGrey;
   background-color : white;
 }
@@ -65,19 +66,65 @@ li{
   }
 }
 
+#menu-item-98 {
+  position: relative;
+  display: inline-block;
+
+  a {
+    &:hover, &:focus {
+      //background-color: #2980B9;
+    }
+  }
+  .sub-menu {
+    display: none;
+    position: absolute;
+    background-color: $midGrey;
+    min-width: 210px;
+    overflow: auto;
+    z-index: 1;
+    padding-left: 0;
+
+    li {
+      a {
+        display: block;
+        padding-left: 20px;
+
+        &:hover {
+          background-color: $darkGrey;
+        }
+      }
+    }
+  }
+  &:hover{
+    .sub-menu{
+      display: block;
+    }
+  }
+
+}
+
 //---------------TEXTS-----------------
 h1{
-  font-family: 'Abril Fatface', cursive;
+  font-family: 'Playfair Display', cursive;
 
   &.titrePage{
+    text-transform: uppercase;
+    font-size: 5rem;
+    font-weight: 400;
     margin: 100px 0;
     text-align: center;
+    padding: 0 50px;
   }
 }
 p{
   font-weight: 300;
   font-size: 0.9rem;
 }
+.textPropos{
+  text-align: justify;
+  padding: 0 100px 50px 100px;
+}
+
 
 //--------------BUTTONS----------------
 a {
@@ -131,13 +178,18 @@ a {
 img {
   width: 100%;
   height: auto;
+}
+.imgDiv{
+  justify-content: center;
+  display: flex;
+  margin: 150px 0 50px 0;
 
-  &.imgAccueil{
+  .imgAccueil {
     box-sizing: border-box;
-    display: block;
-    width: auto;
+    width: 35%;
   }
 }
+
 
 //--------------ARTICLES--------------
 .card {

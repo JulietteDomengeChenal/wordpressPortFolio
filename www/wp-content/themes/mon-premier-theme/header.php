@@ -8,7 +8,7 @@
     <title>Document</title>
     <?php wp_head(); ?>
 </head>
-<body>
+<body <?php body_class() ?>>
 <div class="container">
 
     <div class="containerDark col-md-8">
@@ -26,7 +26,7 @@
                     <?php wp_nav_menu([
                         'theme_location' => 'header',
                         'container' => false,
-                        'menu_class' => 'navbar-nav me-auto'
+                        'menu_class' => 'navbar-nav me-auto',
                     ]) ?>
                     <!--
                     <ul class="navbar-nav me-auto mb-2 mb-lg-0">
@@ -66,5 +66,13 @@
                     $("ul.navbar-nav > li").removeClass("active");
                     $(this).addClass("active");
                 });
+
+                // $("li.menu-item-98").addClass("dropdown");
+                // $("ul.sub-menu").addClass("dropdown-menu");
+                // $("li.dropdown a").addClass("dropdown-toggle").attr('role', 'button').attr('data-toggle', 'dropdown').attr('aria-expanded', 'false');
+                // $("ul.sub-menu li a").removeClass("dropdown-toggle");
+                // $('.navbar .dropdown-toggle').append('');
+                // $('ul.dropdown-menu ul').addClass("dropdown-item");
             });
+
         </script>
