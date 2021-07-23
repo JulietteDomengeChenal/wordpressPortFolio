@@ -81,9 +81,11 @@
                 'name' => 'Type illustration',
                 'add_new_item' => 'Ajouter un nouveau type'
             ],
+            'public' => true,
             'show_in_rest' => true,
             'hierarchical' => true,
             'show_admin_column' => true,
+            'show_in_nav_menus' => true,
         ]);
         register_post_type('technique', [
             'label' => 'technique',

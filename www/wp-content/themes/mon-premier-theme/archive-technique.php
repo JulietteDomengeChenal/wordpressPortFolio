@@ -1,6 +1,6 @@
 <?php get_header(); ?>
 
-<h1>Voir toutes les techniques</h1>
+<h1 class="titrePage">Voir toutes les techniques</h1>
 
 <!------------------Boucle pour lister les articles------------------>
 <?php if (have_posts()): ?>

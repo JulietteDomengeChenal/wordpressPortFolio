@@ -11,7 +11,7 @@
 <body>
 <div class="container">
 
-    <div class="containerDark col-md-5">
+    <div class="containerDark col-md-8">
 
         <nav class="navbar navbar-expand-lg navMenu">
 <!--            <div class="container-fluid">-->
@@ -55,7 +55,16 @@
                         </li>
                     </ul>
                      -->
-<!--                    --><?//= get_search_form() ?>
+                    <?= get_search_form() ?>
 <!--                </div>-->
             </div>
         </nav>
+
+        <script>
+            $(document).ready(function () {
+                $("ul.navbar-nav > li").click(function (e) {
+                    $("ul.navbar-nav > li").removeClass("active");
+                    $(this).addClass("active");
+                });
+            });
+        </script>

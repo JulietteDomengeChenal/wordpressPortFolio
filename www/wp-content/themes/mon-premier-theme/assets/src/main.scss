@@ -15,19 +15,21 @@ body{
   height: 100%;
   font-family: 'Roboto', sans-serif;
   font-weight: 300;
+  color : white;
 }
 .container{
   box-sizing: border-box;
   max-width: 100%;
   height: 100%;
   display: flex;
+  flex-direction: column;
+  align-items: center;
   margin: 0;
   padding: 0;
+  background: radial-gradient(circle, rgba(70,70,70,1) 0%, rgba(33,33,33,1) 100%);
 }
 .containerDark{
-  padding: 150px 50px 50px 150px;
-  background: radial-gradient(circle, rgba(70,70,70,1) 0%, rgba(33,33,33,1) 100%);
-  color : white;
+  margin-top: 20px;
 }
 .containerLight{
   padding: 150px 150px 50px 50px;
@@ -42,18 +44,35 @@ li{
 .navMenu{
   background: none;
 }
-.nav-link {
-  display: block;
-  color: white;
-}
-.nav-link:hover {
-  color: $coldGreen;
-  text-decoration: none;
+.menu-item {
+
+  .nav-link {
+    display: block;
+    color: white;
+
+    &:hover {
+      color: $coldGreen;
+      text-decoration: none;
+    }
+
+    &:active {
+      text-decoration: $coldGreen;
+    }
+  }
+  &.current-menu-item .nav-link {
+    text-decoration: underline $coldGreen!important;
+    text-underline-offset: 8px;
+  }
 }
 
 //---------------TEXTS-----------------
 h1{
   font-family: 'Abril Fatface', cursive;
+
+  &.titrePage{
+    margin: 100px 0;
+    text-align: center;
+  }
 }
 p{
   font-weight: 300;
@@ -64,18 +83,30 @@ p{
 a {
   color: $coldGreen;
   text-decoration: none;
+
+  &:hover {
+    color: $coldGreen;
+    text-decoration: underline;
+  }
 }
-a:hover {
-  color: $coldGreen;
-  text-decoration: underline;
-}
+
 .buttonGreen{
   background-color: $coldGreen;
+  border-radius: 0;
 }
 .buttonNGreen{
+  text-transform: uppercase;
+  font-size: 0.9rem;
+  min-width: 140px;
   background-color: $darkGrey;
-  color: $coldGreen;
-  border: 1px solid $coldGreen;
+  color: white;
+  border: 1px solid white;
+  border-radius: 0;
+
+  &:hover {
+    color: $coldGreen;
+    border: 1px solid $coldGreen;
+  }
 }
 
 //------------PAGINATION---------------
@@ -83,11 +114,12 @@ a:hover {
   color: $lightGrey;
   background-color: $midGrey;
   border: 1px solid $darkGrey;
-}
-.page-link:hover {
-  color: $coldGreen;
-  background-color: $darkGrey;
-  border: 1px solid $midGrey;
+
+  &:hover {
+    color: $coldGreen;
+    background-color: $darkGrey;
+    border: 1px solid $midGrey;
+  }
 }
 .page-item.active .page-link {
   color: $midGrey;
@@ -99,19 +131,106 @@ a:hover {
 img {
   width: 100%;
   height: auto;
-}
-.imgAccueil{
-  box-sizing: border-box;
-  display: block;
-  width: auto;
+
+  &.imgAccueil{
+    box-sizing: border-box;
+    display: block;
+    width: auto;
+  }
 }
 
+//--------------ARTICLES--------------
+.card {
+  background-color: #fff;
+  border: none;
+  border-radius: 0;
+}
+.titreArticle{
+  text-transform: uppercase !important;
+  font-weight: 600;
+  font-size: 1.3rem;
+  color: $midGrey;
+}
+.typeIllustration{
+  text-transform: uppercase !important;
+  font-weight: 600;
+  font-size: 1.1rem;
+  color: $lightGrey !important;
+}
+.text-muted {
+  color: $lightGrey!important;
+}
+
+//--------------SEARCH---------------
+.searchBar{
+  color: white;
+  background-color: $darkGrey;
+  border: 1px solid $midGrey;
+
+  &:focus{
+    color: white;
+    background-color: $darkGrey;
+    border: 1px solid $midGrey;
+    box-shadow: inset 0 1px 1px rgba(0,0,0,.075),0 0 8px rgba(153,209,182,.6);
+  }
+}
+
+//---------------FORM----------------
+#wpforms-form-42{
+
+  .wpforms-field {
+    padding: 10px 0 30px 0 !important;
+  }
+
+  label {
+    font-family: 'Roboto', sans-serif !important;
+    font-weight: 300 !important;
+    font-style: italic !important;
+    color: white !important;
+  }
+
+  input {
+    background: 0 0 !important;
+    border: none !important;
+    border-bottom: 1px solid #fff !important;
+    color: #fff !important;
+  }
+
+  textarea {
+    border: 0 !important;
+    border-radius: 0 !important;
+    color: #fff !important;
+    background: rgba(255, 255, 255, 0.2) !important;
+  }
+
+  .wpforms-submit-container {
+    display: flex;
+    justify-content: center;
+  }
+
+  button.wpforms-submit {
+    color: $darkGrey !important;
+    background-color: white !important;
+    min-width: 140px !important;
+    padding: 15px 20px !important;
+    text-transform: uppercase !important;
+    font-size: 0.9rem !important;
+
+    &:hover {
+      color: $coldGreen !important;
+    }
+  }
+
+  .wpforms-field-sublabel, label.wpforms-error, .wpforms-required-label {
+    color: $coldGreen !important;
+  }
+}
 
 //--------------------------------MEDIA QUERIES------------------------------
 @media (min-width: 992px) {
-  .navbar-expand-lg .navbar-nav {
-    display: flex;
-    flex-direction: row;
-    justify-content: space-between;
+  .navbar-expand-lg .navbar-nav .nav-link {
+    padding-right: 4rem;
+    padding-left: 0;
   }
+
 }

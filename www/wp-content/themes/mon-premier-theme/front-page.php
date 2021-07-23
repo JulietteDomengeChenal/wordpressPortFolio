@@ -16,7 +16,7 @@
 
     <?php endwhile; endif; ?>
 </div>
-<div class="containerLight col-md-7">
+<div class="containerLight col-md-8">
     <h1>Hello</h1>
 </div>
 

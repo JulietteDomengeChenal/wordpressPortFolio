@@ -1,7 +1,7 @@
 
 <?php get_header(); ?>
 
-<h1> <?= get_queried_object()->name ?> </h1>
+<h1 class="titrePage"> <?= get_queried_object()->name ?> </h1>
 
 <!------------------Boucle pour lister les articles------------------>
 <?php if (have_posts()): ?>
