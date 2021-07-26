@@ -19,7 +19,7 @@
                 <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
                         data-bs-target="#navbarSupportedContent"
                         aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-                    <span class="navbar-toggler-icon"></span>
+                    ☰
                 </button>
                 <div class="collapse navbar-collapse" id="navbarSupportedContent">
 
@@ -66,13 +66,6 @@
                     $("ul.navbar-nav > li").removeClass("active");
                     $(this).addClass("active");
                 });
-
-                // $("li.menu-item-98").addClass("dropdown");
-                // $("ul.sub-menu").addClass("dropdown-menu");
-                // $("li.dropdown a").addClass("dropdown-toggle").attr('role', 'button').attr('data-toggle', 'dropdown').attr('aria-expanded', 'false');
-                // $("ul.sub-menu li a").removeClass("dropdown-toggle");
-                // $('.navbar .dropdown-toggle').append('');
-                // $('ul.dropdown-menu ul').addClass("dropdown-item");
             });
 
         </script>

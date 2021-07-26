@@ -1,14 +1,14 @@
 <?php get_header(); ?>
 
-    <div class="imgDiv">
-        <?php the_post_thumbnail('full', ['class' => 'img-responsive responsive--full imgAccueil']); ?>
+    <div class="imgDiv marginTopM ">
+        <?php the_post_thumbnail('full', ['class' => 'img-responsive responsive--full']); ?>
     </div>
 </div>
 
 
-<div class="containerLight col-md-8">
+<div class="containerLight marginTopS mb-5 col-md-8">
 <!--    <h1> --><?//= get_queried_object()->name ?><!-- </h1>-->
-    <h1 class="titrePage">Styles d'illustration</h1>
+    <h1 class="titrePage">Styles</h1>
     <div class="textPropos">
 
         <?php
