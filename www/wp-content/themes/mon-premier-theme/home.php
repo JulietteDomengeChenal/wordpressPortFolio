@@ -27,8 +27,9 @@
         <?php echo do_shortcode('[metaslider id="47"]'); ?>
     </div>
 
-    <div class="colorBlend parallax-window" data-parallax="scroll">
+</div>
+<div class="colorBlend">
 
-    </div>
+</div>
 
-    <?php get_footer(); ?>
+<?php get_footer(); ?>

@@ -48,14 +48,25 @@ body{
 li{
   display: block;
 }
+
 .colorBlend{
   width: 90%;
   height: 35%;
+  //height:500px;
   position: absolute;
   top: 25%; right: 10%;
   background-color: $coldGreen;
   mix-blend-mode: multiply;
   //border: 10px solid #ec2f8a;
+}
+.contourBlend{
+  width: 80%;
+  height: 45%;
+  position: absolute;
+  top: 35%;
+  right: 10%;
+  mix-blend-mode: multiply;
+  border: 20px solid $coldGreen;
 }
 
 //-------------IMAGES-----------------
@@ -98,14 +109,6 @@ h1{
   }
 }
 h2{
-  //&.sousTitre{
-  //  font-family: 'Roboto', sans-serif;
-  //  font-weight: 600;
-  //  font-size: 1.8rem;
-  //  text-transform: uppercase;
-  //  text-align: center;
-  //  padding: 50px 50px;
-  //}
   &.sousTitre{
     font-family: 'Playfair Display', cursive;
     font-size: 1.8rem;
@@ -220,11 +223,11 @@ a {
 }
 .metaslider.ms-theme-jenga .flexslider ol.flex-control-nav:not(.flex-control-thumbs) li a {
   background: $lightGrey !important;
-  border: 2px solid $lightGrey !important;
+  border: 1px solid $lightGrey !important;
 }
 .metaslider.ms-theme-jenga .flexslider ol.flex-control-nav li a.flex-active{
   background: $darkGrey !important;
-  border: 2px solid $darkGrey !important;
+  border: 1px solid $darkGrey !important;
 }
 .metaslider.ms-theme-jenga .flexslider ul.flex-direction-nav li a {
   background-blend-mode: difference !important;
@@ -338,18 +341,30 @@ div.wpforms-container-full .wpforms-form textarea.wpforms-field-large {
 @media (max-width: 991.98px) {
 
   .containerDark{
-    margin-top: 0;
+    margin-top: 10px;
+    flex: 0 0 auto;
+    width: 95%;
   }
   .containerLight{
     color: $darkGrey;
     background-color : white;
     margin-top: 70px;
+    flex: 0 0 auto;
+    width: 95%;
+  }
+  .card{
+    margin-bottom: 12px;
   }
 
   //---------------TEXTS-----------------
   h1{
     &.titrePage{
       font-size: 3rem;
+    }
+  }
+  h2{
+    &.sousTitre{
+      font-size: 1.4rem;
     }
   }
   p{

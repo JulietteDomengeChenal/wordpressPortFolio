@@ -35,11 +35,12 @@
     function montheme_register_assets(){
         wp_register_style('bootstrap', 'https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css');
 
-        wp_register_script('bootstrap', 'https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.min.js', ['popper', 'jquery', 'parallax'], false, true);
+        wp_register_script('bootstrap', 'https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.min.js', ['popper', 'jquery', 'jquery2', 'parallax'], false, true);
         wp_register_script('popper', 'https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js', [], false, true);
 //        wp_deregister_script('jquery');
         wp_register_script('jquery', 'https://code.jquery.com/jquery-3.5.1.slim.min.js', [], false, true);
-        wp_register_script('parallax', 'https://ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js', [], false, true);
+        wp_register_script('jquery2', 'https://ajax.googleapis.com/ajax/libs/jquery/1/jquery.min.js', [], false, true);
+        wp_register_script('parallax', 'script/jquery.parallax-1.1.js', [], false, true);
         wp_enqueue_style('bootstrap');
         wp_enqueue_script('bootstrap');
     }

@@ -7,7 +7,6 @@
 
 
 <div class="containerLight marginTopS mb-5 col-md-8">
-<!--    <h1> --><?//= get_queried_object()->name ?><!-- </h1>-->
     <h1 class="titrePage">Styles</h1>
     <div class="textPropos">
 
@@ -30,5 +29,8 @@
 
         <?php the_content(); ?>
     </div>
+</div>
+<div class="contourBlend">
+
 </div>
 <?php get_footer(); ?>
